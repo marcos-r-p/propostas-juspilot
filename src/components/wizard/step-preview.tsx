@@ -26,7 +26,7 @@ export function StepPreview() {
         </Card>
 
         <Card>
-          <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Escritorio</div>
+          <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Escritório</div>
           <div className="mt-2 text-sm">
             <div className="font-medium text-[#09090b]">{formData.escritorio_nome}</div>
             <div className="text-[#71717a]">

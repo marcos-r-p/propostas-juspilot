@@ -13,8 +13,8 @@ export function StepEscritorio() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Dados do Escritorio</h2>
-      <p className="mb-6 text-sm text-[#a1a1aa]">Informacoes basicas sobre o escritorio do lead.</p>
+      <h2 className="text-lg font-semibold text-[#09090b]">Dados do Escritório</h2>
+      <p className="mb-6 text-sm text-[#a1a1aa]">Informações básicas sobre o escritório do lead.</p>
 
       <div className="space-y-5">
         <Input
@@ -64,6 +64,8 @@ export function StepEscritorio() {
             <Input
               id="escritorio_valor_hora"
               type="number"
+              min={50}
+              max={2000}
               value={formData.escritorio_valor_hora}
               onChange={(e) => updateField('escritorio_valor_hora', Number(e.target.value))}
               className="w-24"

@@ -11,7 +11,7 @@ export function StepMaturidade() {
   return (
     <div>
       <h2 className="text-lg font-semibold text-[#09090b]">Maturidade</h2>
-      <p className="mb-6 text-sm text-[#a1a1aa]">Nivel de organizacao e experiencia com IA.</p>
+      <p className="mb-6 text-sm text-[#a1a1aa]">Nível de organização e experiência com IA.</p>
 
       <div className="mb-8">
         <label className="mb-3 block text-sm font-medium text-[#09090b]">Maturidade de processos</label>

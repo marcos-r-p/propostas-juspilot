@@ -14,6 +14,7 @@ import { StepDores } from './step-dores';
 import { StepPrecos } from './step-precos';
 import { StepPreview } from './step-preview';
 import { toast } from '@/hooks/use-toast';
+import { propostaSchema } from '@/lib/validations/proposta';
 
 const STEPS = [
   { id: 1, component: StepLead },
@@ -59,6 +60,13 @@ export function WizardContainer() {
   }
 
   async function handleSubmit() {
+    const result = propostaSchema.safeParse(formData);
+    if (!result.success) {
+      const firstIssue = result.error.issues[0];
+      toast({ title: 'Dados incompletos', description: firstIssue.message, variant: 'destructive' });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/propostas', {

@@ -6,7 +6,7 @@ import { useWizardStore } from '@/stores/wizard-store';
 
 const STEPS = [
   { id: 1, label: 'Lead', subtitle: 'Dados do contato' },
-  { id: 2, label: 'Escritorio', subtitle: 'Dados basicos' },
+  { id: 2, label: 'Escritório', subtitle: 'Dados básicos' },
   { id: 3, label: 'Perfil', subtitle: 'Areas e tipo' },
   { id: 4, label: 'Maturidade', subtitle: 'Processos e IA' },
   { id: 5, label: 'Dores', subtitle: 'Desafios atuais' },

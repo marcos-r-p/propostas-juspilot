@@ -12,11 +12,11 @@ export function StepPerfil() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Perfil do Escritorio</h2>
-      <p className="mb-6 text-sm text-[#a1a1aa]">Areas de atuacao e tipo de operacao.</p>
+      <h2 className="text-lg font-semibold text-[#09090b]">Perfil do Escritório</h2>
+      <p className="mb-6 text-sm text-[#a1a1aa]">Áreas de atuação e tipo de operação.</p>
 
       <div className="mb-8">
-        <label className="mb-3 block text-sm font-medium text-[#09090b]">Areas de atuacao</label>
+        <label className="mb-3 block text-sm font-medium text-[#09090b]">Áreas de atuação</label>
         <div className="grid grid-cols-2 gap-2">
           {AREAS_ATUACAO.map((area) => (
             <Checkbox

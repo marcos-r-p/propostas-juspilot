@@ -10,27 +10,31 @@ import { getPrecoSugerido } from '@/lib/utils/roi';
 import { formatCurrency } from '@/lib/utils/format';
 
 export function StepPrecos() {
-  const { formData, roi, updateField } = useWizardStore();
+  const { formData, roi, updateField, updateFields } = useWizardStore();
   const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados);
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Precificacao</h2>
+      <h2 className="text-lg font-semibold text-[#09090b]">Precificação</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Configure os valores da proposta.</p>
 
       <div className="mb-6">
         <Checkbox
           checked={formData.usar_preco_sugerido}
           onChange={(v) => {
-            updateField('usar_preco_sugerido', v);
             if (v) {
-              updateField('preco_setup', sugerido.setup);
-              updateField('preco_mensalidade', sugerido.mensalidade);
-              updateField('preco_usuarios_inclusos', sugerido.usuarios);
+              updateFields({
+                usar_preco_sugerido: true,
+                preco_setup: sugerido.setup,
+                preco_mensalidade: sugerido.mensalidade,
+                preco_usuarios_inclusos: sugerido.usuarios,
+              });
+            } else {
+              updateField('usar_preco_sugerido', false);
             }
           }}
-          label="Usar preco sugerido"
-          description={`Setup ${formatCurrency(sugerido.setup)} + ${formatCurrency(sugerido.mensalidade)}/mes para ${formData.escritorio_qtd_advogados} advogados`}
+          label="Usar preço sugerido"
+          description={`Setup ${formatCurrency(sugerido.setup)} + ${formatCurrency(sugerido.mensalidade)}/mês para ${formData.escritorio_qtd_advogados} advogados`}
         />
       </div>
 
