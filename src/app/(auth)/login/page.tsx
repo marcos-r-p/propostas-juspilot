@@ -45,6 +45,11 @@ export default function LoginPage() {
         </div>
         <Button type="submit" className="w-full" loading={loading}>Entrar</Button>
       </form>
+
+      <p className="mt-6 text-center text-sm text-[#71717a]">
+        Não tem conta?{' '}
+        <Link href="/signup" className="text-[#09090b] underline underline-offset-2 hover:text-[#3b82f6]">Criar conta</Link>
+      </p>
     </div>
   );
 }

@@ -15,12 +15,12 @@ function AnimatedCounter({ target, prefix, suffix }: { target: number; prefix?: 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          const duration = 1500;
+          const duration = 2000;
           const start = performance.now();
           function animate(now: number) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 4);
             setValue(Math.round(target * eased));
             if (progress < 1) requestAnimationFrame(animate);
           }
@@ -36,34 +36,68 @@ function AnimatedCounter({ target, prefix, suffix }: { target: number; prefix?: 
   }, [target]);
 
   return (
-    <div ref={ref} className="text-4xl font-bold tabular-nums text-white">
-      {prefix}{value.toLocaleString('pt-BR')}{suffix}
+    <div ref={ref} className="font-display text-5xl font-medium tabular-nums tracking-tight text-[#f1f5f9] md:text-6xl">
+      {prefix}<span className="gradient-text">{value.toLocaleString('pt-BR')}</span>{suffix}
     </div>
   );
 }
 
 export function ROISection({ proposta }: ROISectionProps) {
-  return (
-    <section className="reveal px-8 py-16">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="mb-2 text-2xl font-bold text-white">Retorno do Investimento</h2>
-        <p className="mb-10 text-[#a1a1aa]">Estimativa baseada no perfil do escritório.</p>
+  const stats = [
+    {
+      target: proposta.roi_horas_economizadas_total || 0,
+      suffix: 'h',
+      label: 'Horas economizadas por mês',
+      sublabel: `${proposta.roi_horas_economizadas_por_adv || 0}h por advogado`,
+    },
+    {
+      target: proposta.roi_valor_gerado || 0,
+      prefix: 'R$ ',
+      label: 'Valor gerado por mês',
+      sublabel: 'em horas liberadas para atividades estratégicas',
+    },
+    {
+      target: Number(proposta.roi_multiplo) || 0,
+      suffix: 'x',
+      label: 'Retorno sobre investimento',
+      sublabel: `${proposta.roi_percentual || 0}% de ROI mensal`,
+    },
+  ];
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-lg border border-[#27272a] bg-[#18181b] p-6 text-center">
-            <AnimatedCounter target={proposta.roi_horas_economizadas_total || 0} suffix="h" />
-            <div className="mt-2 text-sm text-[#a1a1aa]">Horas economizadas/mês</div>
-          </div>
-          <div className="rounded-lg border border-[#27272a] bg-[#18181b] p-6 text-center">
-            <AnimatedCounter target={proposta.roi_valor_gerado || 0} prefix="R$ " />
-            <div className="mt-2 text-sm text-[#a1a1aa]">Valor gerado/mês</div>
-          </div>
-          <div className="rounded-lg border border-[#27272a] bg-[#18181b] p-6 text-center">
-            <div className="text-4xl font-bold text-white">{proposta.roi_multiplo}x</div>
-            <div className="mt-2 text-sm text-[#a1a1aa]">ROI sobre investimento</div>
-          </div>
+  return (
+    <section className="relative overflow-hidden px-8 py-24">
+      {/* Background accent */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
+      <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2">
+        <div className="h-[300px] w-[300px] rounded-full bg-[#c9a96e] opacity-[0.03] blur-[100px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="reveal mb-16 text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Projeção</span>
+          <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[#f1f5f9] md:text-4xl">
+            Retorno do investimento
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-[#8b95a5]">
+            Estimativa conservadora baseada no perfil do seu escritório.
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`reveal reveal-delay-${i + 1} gold-glow rounded-2xl border border-[#1e293b] bg-[#141c2e]/80 p-10 text-center backdrop-blur-sm`}
+            >
+              <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
+              <div className="mt-4 text-sm font-medium text-[#f1f5f9]">{stat.label}</div>
+              <div className="mt-1 text-xs text-[#4a5568]">{stat.sublabel}</div>
+            </div>
+          ))}
         </div>
       </div>
+
+      <div className="section-divider relative mx-auto mt-24 max-w-6xl" />
     </section>
   );
 }

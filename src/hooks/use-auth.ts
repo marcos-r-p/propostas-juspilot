@@ -36,7 +36,7 @@ export function useAuth() {
   async function resetPassword(email: string) {
     setLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login`,
+      redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
     });
     setLoading(false);
     if (error) {
@@ -47,11 +47,39 @@ export function useAuth() {
     return true;
   }
 
+  async function signUp(email: string, password: string, nome: string) {
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { nome } },
+    });
+    setLoading(false);
+    if (error) {
+      toast({ title: 'Erro ao criar conta', description: error.message, variant: 'destructive' });
+      return false;
+    }
+    toast({ title: 'Conta criada!', description: 'Verifique seu email para confirmar.' });
+    return true;
+  }
+
+  async function updatePassword(newPassword: string) {
+    setLoading(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setLoading(false);
+    if (error) {
+      toast({ title: 'Erro ao redefinir senha', description: error.message, variant: 'destructive' });
+      return false;
+    }
+    toast({ title: 'Senha redefinida!', description: 'Sua nova senha foi salva com sucesso.' });
+    return true;
+  }
+
   async function signOut() {
     await supabase.auth.signOut();
     router.push('/login');
     router.refresh();
   }
 
-  return { loading, signInWithEmail, signInWithGoogle, resetPassword, signOut };
+  return { loading, signInWithEmail, signInWithGoogle, signUp, resetPassword, updatePassword, signOut };
 }
