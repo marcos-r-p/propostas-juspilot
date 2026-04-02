@@ -40,7 +40,7 @@ export function WizardSidebar({ currentStep, completedSteps, onStepClick }: Wiza
   }
 
   return (
-    <div className="w-56 border-r border-[#e4e4e7] bg-white py-6">
+    <div className="w-[220px] border-r border-[#e4e4e7] bg-white py-6">
       <div className="mb-4 px-5 text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">
         Etapas
       </div>

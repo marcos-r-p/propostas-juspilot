@@ -26,7 +26,7 @@ export function WizardNavigation({
     <div className="mt-8 flex items-center justify-between border-t border-[#e4e4e7] pt-5">
       {currentStep > 1 ? (
         <Button variant="secondary" onClick={onBack}>
-          &larr; Voltar
+          ← Voltar
         </Button>
       ) : (
         <div />
@@ -38,7 +38,7 @@ export function WizardNavigation({
         </Button>
       ) : (
         <Button onClick={onNext} disabled={!canProceed}>
-          Proximo &rarr;
+          Próximo →
         </Button>
       )}
     </div>
