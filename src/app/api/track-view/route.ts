@@ -11,6 +11,10 @@ export async function POST(request: NextRequest) {
 
   const supabase = createAdminClient();
 
+  if (!supabase) {
+    return NextResponse.json({ success: true });
+  }
+
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
   const userAgent = request.headers.get('user-agent') || '';
   const referrer = request.headers.get('referer') || '';
