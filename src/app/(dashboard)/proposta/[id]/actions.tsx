@@ -56,7 +56,7 @@ export function PropostaActions({ proposta }: PropostaActionsProps) {
 
   return (
     <>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {!isPublished && (
           <Button onClick={handlePublish} loading={loading}>
             Publicar
