@@ -22,7 +22,7 @@ export function DoresSection({ proposta }: DoresSectionProps) {
   if (dores.length === 0) return null;
 
   return (
-    <section className="px-8 py-20">
+    <section className="px-4 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="reveal mb-16">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Diagnóstico</span>
@@ -38,10 +38,10 @@ export function DoresSection({ proposta }: DoresSectionProps) {
           {dores.map((dor, i) => (
             <div
               key={dor.id}
-              className={`reveal reveal-delay-${Math.min(i + 1, 4)} card-hover group rounded-xl border border-[#1e293b] bg-[#141c2e]/60 p-7 backdrop-blur-sm`}
+              className={`reveal reveal-delay-${Math.min(i + 1, 4)} card-hover group rounded-xl border border-[#1e293b] bg-[#141c2e]/60 p-5 backdrop-blur-sm sm:p-7`}
             >
-              <div className="mb-5 flex items-start justify-between">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#1e293b] bg-[#0a0f1c]">
+              <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#1e293b] bg-[#0a0f1c]">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d={DORE_ICONS[dor.id] || DORE_ICONS.automacao} />
                     {dor.id === 'automacao' && <circle cx="12" cy="12" r="3" />}

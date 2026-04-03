@@ -8,7 +8,7 @@ interface PricingSectionProps {
 
 export function PricingSection({ proposta }: PricingSectionProps) {
   return (
-    <section className="relative overflow-hidden px-8 py-24">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-8 sm:py-24">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
       <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2">
         <div className="h-[400px] w-[400px] rounded-full bg-[#c9a96e] opacity-[0.04] blur-[120px]" />
@@ -27,20 +27,21 @@ export function PricingSection({ proposta }: PricingSectionProps) {
 
         <div className="reveal gold-glow rounded-2xl border border-[#c9a96e]/20 bg-[#141c2e]/80 backdrop-blur-sm">
           {/* Price header */}
-          <div className="border-b border-[#1e293b] p-10">
+          <div className="border-b border-[#1e293b] p-6 sm:p-10">
             <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
-              <div>
+              <div className="text-center md:text-left">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Implementação</div>
-                <div className="font-display mt-2 text-3xl font-medium text-[#f1f5f9]">{formatCurrency(proposta.preco_setup)}</div>
+                <div className="font-display mt-2 text-2xl font-medium text-[#f1f5f9] sm:text-3xl">{formatCurrency(proposta.preco_setup)}</div>
                 <div className="mt-1 text-xs text-[#4a5568]">pagamento único</div>
               </div>
 
               <div className="hidden h-16 w-px bg-[#1e293b] md:block" />
+              <div className="h-px w-full bg-[#1e293b] md:hidden" />
 
               <div className="text-center md:text-right">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Mensalidade</div>
                 <div className="mt-2 flex items-baseline justify-center gap-1 md:justify-end">
-                  <span className="font-display text-5xl font-medium gradient-text">{formatCurrency(proposta.preco_mensalidade_final)}</span>
+                  <span className="font-display text-3xl font-medium gradient-text sm:text-5xl">{formatCurrency(proposta.preco_mensalidade_final)}</span>
                   <span className="text-base text-[#4a5568]">/mês</span>
                 </div>
                 <div className="mt-1 text-xs text-[#4a5568]">
@@ -56,7 +57,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
           </div>
 
           {/* Features */}
-          <div className="p-10">
+          <div className="p-6 sm:p-10">
             <div className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Incluso no plano</div>
             <div className="grid gap-3 md:grid-cols-2">
               {FEATURES_INCLUIDAS.map((f) => (

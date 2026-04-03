@@ -36,7 +36,7 @@ function AnimatedCounter({ target, prefix, suffix }: { target: number; prefix?: 
   }, [target]);
 
   return (
-    <div ref={ref} className="font-display text-5xl font-medium tabular-nums tracking-tight text-[#f1f5f9] md:text-6xl">
+    <div ref={ref} className="font-display text-3xl font-medium tabular-nums tracking-tight text-[#f1f5f9] sm:text-5xl md:text-6xl">
       {prefix}<span className="gradient-text">{value.toLocaleString('pt-BR')}</span>{suffix}
     </div>
   );
@@ -65,7 +65,7 @@ export function ROISection({ proposta }: ROISectionProps) {
   ];
 
   return (
-    <section className="relative overflow-hidden px-8 py-24">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-8 sm:py-24">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
       <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2">
@@ -87,7 +87,7 @@ export function ROISection({ proposta }: ROISectionProps) {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`reveal reveal-delay-${i + 1} gold-glow rounded-2xl border border-[#1e293b] bg-[#141c2e]/80 p-10 text-center backdrop-blur-sm`}
+              className={`reveal reveal-delay-${i + 1} gold-glow rounded-xl border border-[#1e293b] bg-[#141c2e]/80 p-6 text-center backdrop-blur-sm sm:rounded-2xl sm:p-10`}
             >
               <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
               <div className="mt-4 text-sm font-medium text-[#f1f5f9]">{stat.label}</div>

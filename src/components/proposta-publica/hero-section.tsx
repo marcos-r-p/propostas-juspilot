@@ -6,7 +6,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ proposta }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden px-8 pb-20 pt-24">
+    <section className="relative overflow-hidden px-4 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
       {/* Decorative elements */}
       <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2">
         <div className="h-[400px] w-[600px] rounded-full bg-[#c9a96e] opacity-[0.03] blur-[120px]" />
@@ -23,14 +23,14 @@ export function HeroSection({ proposta }: HeroSectionProps) {
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#c9a96e]" />
           </div>
 
-          <h1 className="font-display text-5xl font-medium leading-tight tracking-tight text-[#f1f5f9] md:text-6xl lg:text-7xl">
+          <h1 className="font-display text-3xl font-medium leading-tight tracking-tight text-[#f1f5f9] sm:text-5xl md:text-6xl lg:text-7xl">
             Transforme seu{' '}
             <span className="gradient-text italic">escritório</span>
             <br />
             com inteligência artificial
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[#8b95a5]">
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#8b95a5] sm:mt-8 sm:text-lg">
             Proposta personalizada para{' '}
             <span className="font-medium text-[#f1f5f9]">{proposta.escritorio_nome}</span>.
           </p>
@@ -49,7 +49,7 @@ export function HeroSection({ proposta }: HeroSectionProps) {
         </div>
       </div>
 
-      <div className="section-divider mx-auto mt-20 max-w-6xl" />
+      <div className="section-divider mx-auto mt-14 max-w-6xl sm:mt-20" />
     </section>
   );
 }

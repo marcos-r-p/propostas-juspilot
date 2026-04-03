@@ -8,7 +8,7 @@ const STEPS = [
 
 export function TimelineSection() {
   return (
-    <section className="px-8 py-20">
+    <section className="px-4 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-4xl">
         <div className="reveal mb-16 text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Implementação</span>
@@ -22,7 +22,7 @@ export function TimelineSection() {
 
         <div className="reveal relative">
           {/* Vertical line */}
-          <div className="absolute left-6 top-0 h-full w-px bg-gradient-to-b from-[#c9a96e]/40 via-[#1e293b] to-transparent md:left-1/2" />
+          <div className="absolute left-[18px] top-0 h-full w-px bg-gradient-to-b from-[#c9a96e]/40 via-[#1e293b] to-transparent sm:left-6 md:left-1/2" />
 
           <div className="space-y-12">
             {STEPS.map((s, i) => (
@@ -31,8 +31,8 @@ export function TimelineSection() {
                 className={`reveal reveal-delay-${Math.min(i + 1, 4)} relative flex items-start gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
               >
                 {/* Content card */}
-                <div className={`ml-16 flex-1 md:ml-0 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                  <div className="rounded-xl border border-[#1e293b] bg-[#141c2e]/60 p-6 backdrop-blur-sm">
+                <div className={`ml-14 flex-1 sm:ml-16 md:ml-0 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                  <div className="rounded-xl border border-[#1e293b] bg-[#141c2e]/60 p-4 backdrop-blur-sm sm:p-6">
                     <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#c9a96e]">{s.days}</div>
                     <h3 className="text-base font-semibold text-[#f1f5f9]">{s.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-[#8b95a5]">{s.description}</p>
@@ -40,8 +40,8 @@ export function TimelineSection() {
                 </div>
 
                 {/* Circle indicator */}
-                <div className="absolute left-0 flex h-12 w-12 items-center justify-center md:left-1/2 md:-translate-x-1/2">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#c9a96e]/30 bg-[#0a0f1c]">
+                <div className="absolute left-0 flex h-10 w-10 items-center justify-center sm:h-12 sm:w-12 md:left-1/2 md:-translate-x-1/2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#c9a96e]/30 bg-[#0a0f1c] sm:h-12 sm:w-12">
                     <span className="font-display text-sm font-semibold gradient-text">{s.step}</span>
                   </div>
                 </div>

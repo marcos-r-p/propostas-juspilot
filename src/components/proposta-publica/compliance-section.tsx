@@ -23,7 +23,7 @@ const COMPLIANCE_ITEMS = [
 
 export function ComplianceSection() {
   return (
-    <section className="px-8 py-20">
+    <section className="px-4 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="reveal mb-16">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Segurança</span>

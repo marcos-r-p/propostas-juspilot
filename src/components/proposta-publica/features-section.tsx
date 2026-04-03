@@ -33,7 +33,7 @@ const FEATURES = [
 
 export function FeaturesSection() {
   return (
-    <section className="px-8 py-20">
+    <section className="px-4 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="reveal mb-16 text-center">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Plataforma</span>
@@ -45,7 +45,7 @@ export function FeaturesSection() {
           </p>
         </div>
 
-        <div className="grid gap-px overflow-hidden rounded-2xl border border-[#1e293b] bg-[#1e293b] md:grid-cols-3">
+        <div className="grid gap-px overflow-hidden rounded-xl border border-[#1e293b] bg-[#1e293b] sm:rounded-2xl md:grid-cols-3">
           {FEATURES.map((f, i) => (
             <div
               key={f.title}
