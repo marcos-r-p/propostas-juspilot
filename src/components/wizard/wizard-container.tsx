@@ -17,13 +17,13 @@ import { toast } from '@/hooks/use-toast';
 import { propostaSchema } from '@/lib/validations/proposta';
 
 const STEPS = [
-  { id: 1, component: StepLead },
-  { id: 2, component: StepEscritorio },
-  { id: 3, component: StepPerfil },
-  { id: 4, component: StepMaturidade },
-  { id: 5, component: StepDores },
-  { id: 6, component: StepPrecos },
-  { id: 7, component: StepPreview },
+  { id: 1, label: 'Lead', component: StepLead },
+  { id: 2, label: 'Escritório', component: StepEscritorio },
+  { id: 3, label: 'Perfil', component: StepPerfil },
+  { id: 4, label: 'Maturidade', component: StepMaturidade },
+  { id: 5, label: 'Dores', component: StepDores },
+  { id: 6, label: 'Preços', component: StepPrecos },
+  { id: 7, label: 'Preview', component: StepPreview },
 ];
 
 export function WizardContainer() {
@@ -96,13 +96,44 @@ export function WizardContainer() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-48px)]">
-      <WizardSidebar
-        currentStep={currentStep}
-        completedSteps={completedSteps}
-        onStepClick={handleStepClick}
-      />
-      <div className="flex-1 px-10 py-8">
+    <div className="flex min-h-[calc(100vh-48px)] flex-col md:flex-row">
+      {/* Mobile step indicator */}
+      <div className="flex items-center gap-1 border-b border-[#e4e4e7] bg-white px-4 py-3 md:hidden">
+        {STEPS.map((step) => (
+          <div key={step.id} className="flex flex-1 flex-col items-center">
+            <div
+              className={`h-1.5 w-full rounded-full transition-colors ${
+                completedSteps.includes(step.id)
+                  ? 'bg-[#09090b]'
+                  : currentStep === step.id
+                    ? 'bg-[#09090b]'
+                    : 'bg-[#e4e4e7]'
+              }`}
+            />
+          </div>
+        ))}
+        <span className="ml-2 shrink-0 text-xs font-medium text-[#71717a]">
+          {currentStep}/{STEPS.length}
+        </span>
+      </div>
+      <div className="mb-2 px-4 pt-2 md:hidden">
+        <span className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">
+          Etapa {currentStep}:
+        </span>{' '}
+        <span className="text-xs font-medium text-[#09090b]">{STEPS[currentStep - 1].label}</span>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden md:block">
+        <WizardSidebar
+          currentStep={currentStep}
+          completedSteps={completedSteps}
+          onStepClick={handleStepClick}
+        />
+      </div>
+
+      {/* Form content */}
+      <div className="flex-1 px-4 py-4 md:px-10 md:py-8">
         <div className="max-w-[520px]">
           <CurrentStepComponent />
           <WizardNavigation

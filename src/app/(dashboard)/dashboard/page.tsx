@@ -29,12 +29,12 @@ export default async function DashboardPage({ searchParams }: Props) {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-semibold text-[#09090b]">Propostas</h1>
           <p className="mt-0.5 text-sm text-[#a1a1aa]">{total || 0} propostas no total</p>
         </div>
-        <Link href="/nova"><Button>+ Nova Proposta</Button></Link>
+        <Link href="/nova"><Button className="w-full sm:w-auto">+ Nova Proposta</Button></Link>
       </div>
       <div className="mb-6"><PropostaStats total={total || 0} publicadas={publicadas || 0} visualizadas={visualizadas || 0} aceitas={aceitas || 0} /></div>
       <div className="mb-4"><PropostaFilters /></div>

@@ -20,7 +20,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex h-screen">
       <Sidebar profile={profile as Profile | null} />
-      <main className="flex-1 overflow-auto px-8 py-6">
+      <main className="flex-1 overflow-auto px-4 pb-6 pt-16 md:px-8 md:pt-6">
         {children}
       </main>
     </div>

@@ -16,7 +16,7 @@ export function PropostaStats({ total, publicadas, visualizadas, aceitas }: Stat
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
       {stats.map((stat) => (
         <Card key={stat.label} className="p-4">
           <div className="text-xs uppercase tracking-wide text-[#a1a1aa]">{stat.label}</div>
