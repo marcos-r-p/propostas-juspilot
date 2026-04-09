@@ -148,17 +148,17 @@ All under `src/components/ui/`. Each primitive keeps its current export signatur
 - Focus: `border-b-ink`.
 - Disabled: `text-whisper border-rule-soft`.
 - Height matches current input height (h-10) for layout compatibility.
-- Labels render outside the primitive (consumer responsibility) — this matches current usage.
+- Label and error props are built-in (kept as-is). Label styled as `text-body-sm font-medium text-ink`. Error styled as `text-caption text-danger`.
 
 ### `badge.tsx`
 - Container: `inline-flex items-center px-2 py-0.5 text-caption uppercase tracking-[0.08em] border`.
-- Status mapping (no vivid colors):
+- Status mapping (no vivid colors — must match `PropostaStatus` from `src/types/database.ts`):
   - `rascunho` → `border-rule text-mute bg-transparent`
-  - `enviada` → `border-graphite text-graphite bg-transparent`
+  - `publicada` → `border-graphite text-graphite bg-transparent`
+  - `visualizada` → `border-ink text-ink bg-transparent`
   - `aceita` → `border-ink bg-ink text-paper-pure`
-  - `expirada` → `border-rule-soft bg-rule-soft text-mute`
   - `recusada` → `border-danger text-danger bg-transparent`
-- The status string mapping must match the current `PropostaStatus` type exactly — verify against `src/types`.
+  - `expirada` → `border-rule-soft bg-rule-soft text-mute`
 
 ### `dialog.tsx`
 - Overlay: `bg-ink/60 backdrop-blur-sm`.
