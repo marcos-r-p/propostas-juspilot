@@ -50,3 +50,17 @@ export function formatRelativeDate(date: string): string {
   if (diffDays < 30) return `${Math.floor(diffDays / 7)} semanas atrás`;
   return formatDate(date);
 }
+
+export function formatRef(slug: string, createdAt: string): string {
+  const year = new Date(createdAt).getFullYear();
+  return `JP-${year}-${slug.slice(0, 4).toUpperCase()}`;
+}
+
+export function formatPerfilTipo(perfil: string): string {
+  const map: Record<string, string> = {
+    massa: 'Volume',
+    boutique: 'Boutique',
+    misto: 'Misto',
+  };
+  return map[perfil] || perfil;
+}
