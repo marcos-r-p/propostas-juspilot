@@ -2,24 +2,16 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-const STATUS_OPTIONS = [
-  { value: 'all', label: 'Todos' },
-  { value: 'rascunho', label: 'Rascunho' },
-  { value: 'publicada', label: 'Publicada' },
-  { value: 'visualizada', label: 'Visualizada' },
-  { value: 'aceita', label: 'Aceita' },
-  { value: 'recusada', label: 'Recusada' },
-];
-
 export function PropostaFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentStatus = searchParams.get('status') || 'all';
   const currentSearch = searchParams.get('search') || '';
+  const currentTipo = searchParams.get('tipo') || '';
+  const currentPeriodo = searchParams.get('periodo') || '';
 
   function updateParams(key: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
-    if (value && value !== 'all') {
+    if (value) {
       params.set(key, value);
     } else {
       params.delete(key);
@@ -29,10 +21,10 @@ export function PropostaFilters() {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap items-center gap-4">
       <input
         type="text"
-        placeholder="🔍 Buscar por escritório ou lead..."
+        placeholder="Buscar por escritorio ou lead..."
         defaultValue={currentSearch}
         onChange={(e) => {
           clearTimeout((window as any).__searchTimeout);
@@ -40,18 +32,27 @@ export function PropostaFilters() {
             updateParams('search', e.target.value);
           }, 400);
         }}
-        className="flex-1 rounded-md border border-[#e4e4e7] bg-white px-3 py-2 text-sm text-[#09090b] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-2 focus:ring-[#09090b] focus:ring-offset-1"
+        className="w-full border-b border-rule bg-transparent pb-2 text-body-sm text-ink placeholder:text-whisper focus:border-ink focus:outline-none sm:w-64"
       />
       <select
-        value={currentStatus}
-        onChange={(e) => updateParams('status', e.target.value)}
-        className="rounded-md border border-[#e4e4e7] bg-white px-3 py-2 text-sm text-[#71717a] focus:outline-none focus:ring-2 focus:ring-[#09090b] focus:ring-offset-1"
+        value={currentTipo}
+        onChange={(e) => updateParams('tipo', e.target.value)}
+        className="border-b border-rule bg-transparent pb-2 text-body-sm text-mute focus:border-ink focus:outline-none"
       >
-        {STATUS_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            Status: {opt.label}
-          </option>
-        ))}
+        <option value="">Todos os tipos</option>
+        <option value="massa">Volume</option>
+        <option value="boutique">Boutique</option>
+        <option value="misto">Misto</option>
+      </select>
+      <select
+        value={currentPeriodo}
+        onChange={(e) => updateParams('periodo', e.target.value)}
+        className="border-b border-rule bg-transparent pb-2 text-body-sm text-mute focus:border-ink focus:outline-none"
+      >
+        <option value="">Qualquer data</option>
+        <option value="1m">Ultimo mes</option>
+        <option value="3m">Ultimos 3 meses</option>
+        <option value="6m">Ultimos 6 meses</option>
       </select>
     </div>
   );
