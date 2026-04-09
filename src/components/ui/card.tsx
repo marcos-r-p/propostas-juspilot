@@ -1,12 +1,18 @@
 import { cn } from '@/lib/utils/cn';
 import type { HTMLAttributes } from 'react';
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {}
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  variant?: 'default' | 'bordered-strong';
+}
 
-export function Card({ className, children, ...props }: CardProps) {
+export function Card({ className, variant = 'default', children, ...props }: CardProps) {
   return (
     <div
-      className={cn('rounded-lg border border-[#e4e4e7] bg-white p-4', className)}
+      className={cn(
+        'rounded-none bg-paper-pure p-6',
+        variant === 'bordered-strong' ? 'border border-ink' : 'border border-rule',
+        className
+      )}
       {...props}
     >
       {children}
