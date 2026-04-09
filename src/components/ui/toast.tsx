@@ -12,22 +12,22 @@ export function Toaster() {
         <div
           key={t.id}
           className={cn(
-            'w-80 rounded-lg border p-4 shadow-lg transition-all',
+            'w-80 rounded-none border border-rule bg-paper-pure p-4 transition-all border-l-[3px]',
             t.variant === 'destructive'
-              ? 'border-red-200 bg-red-50 text-red-900'
-              : 'border-[#e4e4e7] bg-white text-[#09090b]'
+              ? 'border-l-danger'
+              : 'border-l-ink'
           )}
         >
           <div className="flex items-start justify-between gap-2">
             <div>
-              <p className="text-sm font-medium">{t.title}</p>
+              <p className="text-body font-medium text-ink">{t.title}</p>
               {t.description && (
-                <p className="mt-1 text-xs text-[#71717a]">{t.description}</p>
+                <p className="mt-1 text-body-sm text-mute">{t.description}</p>
               )}
             </div>
             <button
               onClick={() => removeToast(t.id)}
-              className="text-[#a1a1aa] hover:text-[#09090b]"
+              className="text-whisper hover:text-ink transition-colors"
             >
               ✕
             </button>
