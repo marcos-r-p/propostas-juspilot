@@ -18,8 +18,8 @@ export function Slider({ label, value, onChange, min, max, step = 1, suffix, cla
     <div className={className}>
       {label && (
         <div className="mb-1.5 flex items-center justify-between">
-          <label className="text-sm font-medium text-[#09090b]">{label}</label>
-          <span className="text-sm font-medium text-[#09090b]">
+          <label className="text-body font-medium text-ink">{label}</label>
+          <span className="text-body font-medium text-ink">
             {value}{suffix}
           </span>
         </div>
@@ -32,8 +32,8 @@ export function Slider({ label, value, onChange, min, max, step = 1, suffix, cla
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className={cn(
-          'w-full appearance-none h-1 rounded-full bg-[#e4e4e7] outline-none',
-          '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#09090b] [&::-webkit-slider-thumb]:cursor-pointer',
+          'w-full appearance-none h-px bg-rule outline-none',
+          '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-none [&::-webkit-slider-thumb]:bg-ink [&::-webkit-slider-thumb]:cursor-pointer',
         )}
       />
     </div>
