@@ -24,16 +24,16 @@ export function Dialog({ open, onClose, title, description, children, className 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black/40" onClick={onClose} />
+      <div className="fixed inset-0 bg-ink/60 backdrop-blur-sm" onClick={onClose} />
       <div
         className={cn(
-          'relative z-10 w-full max-w-md rounded-lg border border-[#e4e4e7] bg-white p-6 shadow-lg',
+          'relative z-10 w-full max-w-md rounded-none border border-ink bg-paper-pure p-8 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.18)]',
           className
         )}
       >
-        <h3 className="text-lg font-semibold text-[#09090b]">{title}</h3>
-        {description && <p className="mt-1 text-sm text-[#71717a]">{description}</p>}
-        <div className="mt-4">{children}</div>
+        <h3 className="text-heading-lg text-ink">{title}</h3>
+        {description && <p className="mt-1 text-body text-mute">{description}</p>}
+        <div className="mt-4 border-t border-rule pt-4">{children}</div>
       </div>
     </div>
   );
