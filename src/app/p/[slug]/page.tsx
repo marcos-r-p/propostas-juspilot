@@ -9,6 +9,7 @@ import { ROISection } from '@/components/proposta-publica/roi-section';
 import { PricingSection } from '@/components/proposta-publica/pricing-section';
 import { TimelineSection } from '@/components/proposta-publica/timeline-section';
 import { PropostaFooter } from '@/components/proposta-publica/footer';
+import { NavChrome } from '@/components/proposta-publica/nav-chrome';
 import { TrackView } from './track-view';
 import type { Proposta } from '@/types';
 
@@ -63,6 +64,7 @@ export default async function PropostaPublicaPage({ params }: Props) {
       <TrackView propostaId={proposta.id} />
       <div className="vitrine min-h-screen">
         <div className="vitrine-grain" />
+        <NavChrome />
 
         <PropostaHeader proposta={proposta} />
 
