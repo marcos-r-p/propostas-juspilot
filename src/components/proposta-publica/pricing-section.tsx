@@ -1,81 +1,116 @@
+'use client';
+
 import type { Proposta } from '@/types';
 import { formatCurrency } from '@/lib/utils/format';
 import { FEATURES_INCLUIDAS } from '@/lib/constants/precos';
+import { useReveal } from '@/hooks/use-reveal';
 
 interface PricingSectionProps {
   proposta: Proposta;
 }
 
 export function PricingSection({ proposta }: PricingSectionProps) {
+  const label = useReveal();
+  const title = useReveal();
+  const card = useReveal();
+
+  const validadeDias = proposta.validade_dias || 30;
+  const criadoEm = new Date(proposta.created_at);
+  const expiraEm = proposta.data_expiracao
+    ? new Date(proposta.data_expiracao)
+    : new Date(criadoEm.getTime() + validadeDias * 24 * 60 * 60 * 1000);
+  const diasRestantes = Math.max(0, Math.ceil((expiraEm.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+
   return (
-    <section className="relative overflow-hidden px-4 py-14 sm:px-8 sm:py-24">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
-      <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2">
-        <div className="h-[400px] w-[400px] rounded-full bg-[#c9a96e] opacity-[0.04] blur-[120px]" />
+    <section id="investimento" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      <div
+        ref={label.ref}
+        className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
+      >
+        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        Investimento
+      </div>
+      <div
+        ref={title.ref}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        style={{ transitionDelay: '0.1s' }}
+      >
+        Seu plano sob medida
       </div>
 
-      <div className="relative mx-auto max-w-4xl">
-        <div className="reveal mb-16 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Investimento</span>
-          <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[#f1f5f9] md:text-4xl">
-            Valores transparentes
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#8b95a5]">
-            Tudo incluso, sem surpresas. Cancele quando quiser.
-          </p>
-        </div>
+      <div
+        ref={card.ref}
+        className={`vt-reveal ${card.isVisible ? 'visible' : ''} relative overflow-hidden border border-[var(--vt-graphite)] p-14 transition-[border-color] duration-400 hover:border-[var(--vt-mute)]`}
+        style={{ transitionDelay: '0.2s' }}
+      >
+        {/* Top gradient line */}
+        <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[var(--vt-paper)]/15 to-transparent" />
 
-        <div className="reveal gold-glow rounded-2xl border border-[#c9a96e]/20 bg-[#141c2e]/80 backdrop-blur-sm">
-          {/* Price header */}
-          <div className="border-b border-[#1e293b] p-6 sm:p-10">
-            <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
-              <div className="text-center md:text-left">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Implementação</div>
-                <div className="font-display mt-2 text-2xl font-medium text-[#f1f5f9] sm:text-3xl">{formatCurrency(proposta.preco_setup)}</div>
-                <div className="mt-1 text-xs text-[#4a5568]">pagamento único</div>
-              </div>
-
-              <div className="hidden h-16 w-px bg-[#1e293b] md:block" />
-              <div className="h-px w-full bg-[#1e293b] md:hidden" />
-
-              <div className="text-center md:text-right">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Mensalidade</div>
-                <div className="mt-2 flex items-baseline justify-center gap-1 md:justify-end">
-                  <span className="font-display text-3xl font-medium gradient-text sm:text-5xl">{formatCurrency(proposta.preco_mensalidade_final)}</span>
-                  <span className="text-base text-[#4a5568]">/mês</span>
-                </div>
-                <div className="mt-1 text-xs text-[#4a5568]">
-                  {proposta.preco_usuarios_inclusos} usuários inclusos
-                  {proposta.preco_desconto > 0 && (
-                    <span className="ml-2 inline-flex rounded-full bg-[#c9a96e]/10 px-2 py-0.5 text-[10px] font-semibold text-[#c9a96e]">
-                      -{proposta.preco_desconto}% desconto
-                    </span>
-                  )}
-                </div>
-              </div>
+        {/* Pricing header */}
+        <div className="flex flex-col items-start justify-between gap-8 border-b border-[var(--vt-paper)]/8 pb-12 md:flex-row">
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Setup único</div>
+            <div className="mt-2.5 font-display text-[44px] font-semibold leading-[1.1] text-[var(--vt-paper)]">
+              {formatCurrency(proposta.preco_setup)}
             </div>
           </div>
 
-          {/* Features */}
-          <div className="p-6 sm:p-10">
-            <div className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#4a5568]">Incluso no plano</div>
-            <div className="grid gap-3 md:grid-cols-2">
-              {FEATURES_INCLUIDAS.map((f) => (
-                <div key={f} className="flex items-center gap-3">
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#c9a96e]/10">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <span className="text-sm text-[#8b95a5]">{f}</span>
-                </div>
-              ))}
+          <div className="hidden h-auto w-px self-stretch bg-[var(--vt-paper)]/8 md:block" />
+
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Mensalidade</div>
+            <div className="mt-2.5 font-display text-[44px] font-semibold leading-[1.1] text-[var(--vt-paper)]">
+              {formatCurrency(proposta.preco_mensalidade_final)}
+              <span className="ml-1 font-sans text-base font-normal text-[var(--vt-whisper)]">/mês</span>
             </div>
+            {proposta.preco_desconto > 0 && (
+              <div className="mt-2.5 inline-block bg-[var(--vt-graphite)] px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-paper)]">
+                {proposta.preco_desconto}% de desconto aplicado
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      <div className="section-divider relative mx-auto mt-24 max-w-6xl" />
+        {/* Feature checklist */}
+        <div className="grid gap-4 py-12 sm:grid-cols-2 sm:gap-x-10">
+          {FEATURES_INCLUIDAS.map((f) => (
+            <div key={f} className="flex items-center gap-3 border-b border-[var(--vt-paper)]/5 py-2 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
+              <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center border-[1.5px] border-[var(--vt-paper)]">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              {f}
+            </div>
+          ))}
+        </div>
+
+        {/* CTA row */}
+        <div className="flex flex-col items-start gap-6 border-t border-[var(--vt-paper)]/8 pt-12 sm:flex-row sm:items-center">
+          <a
+            href={`https://wa.me/5561984014175?text=Olá! Vi a proposta do JusPilot e gostaria de agendar uma demonstração.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center gap-2.5 overflow-hidden bg-[var(--vt-paper)] px-8 py-4 text-sm font-semibold tracking-[0.02em] text-[var(--vt-ink)]"
+          >
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-[var(--vt-paper)]">Falar com consultor</span>
+            <span className="relative z-10 transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-[var(--vt-paper)]">&#8594;</span>
+            <span className="absolute inset-0 z-0 translate-y-full bg-[var(--vt-ink)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+          </a>
+
+          <a href="#" className="group relative pb-0.5 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
+            Baixar proposta em PDF
+            <span className="absolute bottom-0 left-0 h-px w-full bg-[var(--vt-graphite)] transition-[background] duration-300 group-hover:bg-[var(--vt-paper)]" />
+          </a>
+
+          {diasRestantes > 0 && (
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)] sm:ml-auto">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-paper)]" />
+              Válida por mais {diasRestantes} dia{diasRestantes !== 1 ? 's' : ''}
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

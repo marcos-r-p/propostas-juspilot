@@ -1,103 +1,63 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import type { Proposta } from '@/types';
+import { useReveal } from '@/hooks/use-reveal';
+import { useCounter } from '@/hooks/use-counter';
 
 interface ROISectionProps {
   proposta: Proposta;
 }
 
-function AnimatedCounter({ target, prefix, suffix }: { target: number; prefix?: string; suffix?: string }) {
-  const [value, setValue] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const duration = 2000;
-          const start = performance.now();
-          function animate(now: number) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 4);
-            setValue(Math.round(target * eased));
-            if (progress < 1) requestAnimationFrame(animate);
-          }
-          requestAnimationFrame(animate);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target]);
+function ROICard({ target, unit, label, decimals = 0, prefix = '', index }: {
+  target: number; unit: string; label: string; decimals?: number; prefix?: string; index: number;
+}) {
+  const { ref, isVisible } = useReveal();
+  const value = useCounter(target, { enabled: isVisible, decimals });
 
   return (
-    <div ref={ref} className="font-display text-3xl font-medium tabular-nums tracking-tight text-[#f1f5f9] sm:text-5xl md:text-6xl">
-      {prefix}<span className="gradient-text">{value.toLocaleString('pt-BR')}</span>{suffix}
+    <div
+      ref={ref}
+      className={`vt-reveal ${isVisible ? 'visible' : ''} group relative overflow-hidden bg-[var(--vt-ink)] px-9 py-14 text-center transition-[background] duration-300 hover:bg-[var(--vt-ink-soft)]`}
+      style={{ transitionDelay: `${index * 0.08}s` }}
+    >
+      {/* Bottom accent line on hover */}
+      <div className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-[var(--vt-paper)] transition-[width] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-3/5" />
+
+      <div className="font-display text-[60px] font-semibold leading-none text-[var(--vt-paper)]" style={{ fontVariantNumeric: 'tabular-nums' }}>
+        {prefix}{decimals > 0 ? value.toFixed(decimals) : value}
+        <span className="text-2xl font-normal text-[var(--vt-whisper)]">{unit}</span>
+      </div>
+      <div className="mt-3.5 text-[13px] leading-[1.4] text-[var(--vt-mute)]" dangerouslySetInnerHTML={{ __html: label.replace('\n', '<br/>') }} />
     </div>
   );
 }
 
 export function ROISection({ proposta }: ROISectionProps) {
-  const stats = [
-    {
-      target: proposta.roi_horas_economizadas_total || 0,
-      suffix: 'h',
-      label: 'Horas economizadas por mês',
-      sublabel: `${proposta.roi_horas_economizadas_por_adv || 0}h por advogado`,
-    },
-    {
-      target: proposta.roi_valor_gerado || 0,
-      prefix: 'R$ ',
-      label: 'Valor gerado por mês',
-      sublabel: 'em horas liberadas para atividades estratégicas',
-    },
-    {
-      target: Number(proposta.roi_multiplo) || 0,
-      suffix: 'x',
-      label: 'Retorno sobre investimento',
-      sublabel: `${proposta.roi_percentual || 0}% de ROI mensal`,
-    },
-  ];
+  const label = useReveal();
+  const title = useReveal();
 
   return (
-    <section className="relative overflow-hidden px-4 py-14 sm:px-8 sm:py-24">
-      {/* Background accent */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
-      <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2">
-        <div className="h-[300px] w-[300px] rounded-full bg-[#c9a96e] opacity-[0.03] blur-[100px]" />
+    <section id="numeros" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      <div
+        ref={label.ref}
+        className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
+      >
+        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        Os números
+      </div>
+      <div
+        ref={title.ref}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        style={{ transitionDelay: '0.1s' }}
+      >
+        O retorno do seu investimento
       </div>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="reveal mb-16 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Projeção</span>
-          <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[#f1f5f9] md:text-4xl">
-            Retorno do investimento
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#8b95a5]">
-            Estimativa conservadora baseada no perfil do seu escritório.
-          </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-3">
-          {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`reveal reveal-delay-${i + 1} gold-glow rounded-xl border border-[#1e293b] bg-[#141c2e]/80 p-6 text-center backdrop-blur-sm sm:rounded-2xl sm:p-10`}
-            >
-              <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
-              <div className="mt-4 text-sm font-medium text-[#f1f5f9]">{stat.label}</div>
-              <div className="mt-1 text-xs text-[#4a5568]">{stat.sublabel}</div>
-            </div>
-          ))}
-        </div>
+      <div className="mosaic-grid mb-18 grid-cols-1 sm:grid-cols-3">
+        <ROICard target={proposta.roi_horas_economizadas_total || 0} unit="h" label={`Horas economizadas\npor mês`} index={0} />
+        <ROICard target={Math.round((proposta.roi_valor_gerado || 0) / 1000)} unit="mil" label={`Valor gerado\npor mês`} prefix="R$" index={1} />
+        <ROICard target={Number(proposta.roi_multiplo) || 0} unit="x" label={`Retorno sobre\ninvestimento`} decimals={1} index={2} />
       </div>
-
-      <div className="section-divider relative mx-auto mt-24 max-w-6xl" />
     </section>
   );
 }

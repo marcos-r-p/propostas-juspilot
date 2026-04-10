@@ -1,60 +1,61 @@
+'use client';
+
+import { useReveal } from '@/hooks/use-reveal';
+
 const STEPS = [
-  { step: 1, title: 'Assinatura', description: 'Formalização do contrato e pagamento do setup.', days: 'Dia 1' },
-  { step: 2, title: 'Onboarding', description: 'Configuração da plataforma e migração de dados.', days: 'Dias 2-4' },
-  { step: 3, title: 'Treinamento', description: 'Capacitação do time em todas as funcionalidades.', days: 'Dias 5-8' },
-  { step: 4, title: 'Go-Live', description: 'Lançamento oficial com suporte dedicado.', days: 'Dias 9-10' },
-  { step: 5, title: 'Acompanhamento', description: 'Revisão de métricas e otimização contínua.', days: 'Dia 14+' },
+  { number: '01', title: 'Onboarding', period: 'Dia 1 — 7', description: 'Configuração da conta, importação de dados e treinamento da equipe.' },
+  { number: '02', title: 'Calibração', period: 'Dia 8 — 21', description: 'Ajuste dos agentes de IA ao perfil do escritório e validação com casos reais.' },
+  { number: '03', title: 'Operação plena', period: 'Dia 22 — 30', description: 'Equipe operando de forma autônoma com acompanhamento do time JusPilot.' },
 ];
 
-export function TimelineSection() {
+function TimelineStep({ step, index }: { step: typeof STEPS[number]; index: number }) {
+  const { ref, isVisible } = useReveal();
+
   return (
-    <section className="px-4 py-14 sm:px-8 sm:py-20">
-      <div className="mx-auto max-w-4xl">
-        <div className="reveal mb-16 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a96e]">Implementação</span>
-          <h2 className="font-display mt-3 text-3xl font-medium tracking-tight text-[#f1f5f9] md:text-4xl">
-            Do contrato ao Go-Live
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-[#8b95a5]">
-            Processo estruturado com acompanhamento dedicado em cada etapa.
-          </p>
-        </div>
+    <div
+      ref={ref}
+      className={`vt-reveal ${isVisible ? 'visible' : ''} group relative flex-1 bg-[var(--vt-ink)] p-9 transition-[background] duration-300 hover:bg-[var(--vt-ink-soft)]`}
+      style={{ transitionDelay: `${index * 0.08}s` }}
+    >
+      {/* Top accent line on hover */}
+      <div className="absolute left-0 top-0 h-[2px] w-0 bg-[var(--vt-paper)] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
 
-        <div className="reveal relative">
-          {/* Vertical line */}
-          <div className="absolute left-[18px] top-0 h-full w-px bg-gradient-to-b from-[#c9a96e]/40 via-[#1e293b] to-transparent sm:left-6 md:left-1/2" />
+      <div className="mb-5 font-display text-[52px] font-semibold leading-none text-[var(--vt-paper)]/6 transition-colors duration-400 group-hover:text-[var(--vt-paper)]/16">
+        {step.number}
+      </div>
+      <div className="text-base font-semibold text-[var(--vt-paper)]">{step.title}</div>
+      <div className="mt-1.5 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)]">{step.period}</div>
+      <div className="mt-3.5 text-[13px] leading-[1.55] text-[var(--vt-whisper)]">{step.description}</div>
+    </div>
+  );
+}
 
-          <div className="space-y-12">
-            {STEPS.map((s, i) => (
-              <div
-                key={s.step}
-                className={`reveal reveal-delay-${Math.min(i + 1, 4)} relative flex items-start gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-              >
-                {/* Content card */}
-                <div className={`ml-14 flex-1 sm:ml-16 md:ml-0 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                  <div className="rounded-xl border border-[#1e293b] bg-[#141c2e]/60 p-4 backdrop-blur-sm sm:p-6">
-                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#c9a96e]">{s.days}</div>
-                    <h3 className="text-base font-semibold text-[#f1f5f9]">{s.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#8b95a5]">{s.description}</p>
-                  </div>
-                </div>
+export function TimelineSection() {
+  const label = useReveal();
+  const title = useReveal();
 
-                {/* Circle indicator */}
-                <div className="absolute left-0 flex h-10 w-10 items-center justify-center sm:h-12 sm:w-12 md:left-1/2 md:-translate-x-1/2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#c9a96e]/30 bg-[#0a0f1c] sm:h-12 sm:w-12">
-                    <span className="font-display text-sm font-semibold gradient-text">{s.step}</span>
-                  </div>
-                </div>
-
-                {/* Spacer for opposite side */}
-                <div className="hidden flex-1 md:block" />
-              </div>
-            ))}
-          </div>
-        </div>
+  return (
+    <section id="implantacao" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      <div
+        ref={label.ref}
+        className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
+      >
+        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        Implantação
+      </div>
+      <div
+        ref={title.ref}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        style={{ transitionDelay: '0.1s' }}
+      >
+        Do contrato ao primeiro resultado
       </div>
 
-      <div className="section-divider mx-auto mt-20 max-w-6xl" />
+      <div className="mosaic-grid flex flex-col sm:flex-row">
+        {STEPS.map((step, i) => (
+          <TimelineStep key={step.number} step={step} index={i} />
+        ))}
+      </div>
     </section>
   );
 }

@@ -10,24 +10,27 @@ export function PropostaHeader({ proposta }: HeaderProps) {
   const year = now.getFullYear();
 
   return (
-    <header className="relative z-10 px-4 py-4 sm:px-8 sm:py-5">
-      <div className="mx-auto flex max-w-6xl items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#c9a96e] to-[#a08450]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+    <header className="relative z-10 mx-auto max-w-[1100px] px-6 py-9 sm:px-12">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* Monogram seal */}
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-[var(--vt-paper)]/25 transition-[border-color] duration-400 hover:border-[var(--vt-paper)]/60">
+            <span className="font-display text-[22px] font-semibold leading-none text-[var(--vt-paper)]">
+              J
+            </span>
           </div>
-          <span className="font-display text-lg font-medium tracking-wide text-[#f1f5f9]">JusPilot</span>
+          {/* Wordmark */}
+          <span className="font-display text-[32px] font-semibold leading-none tracking-[0.05em] text-[var(--vt-paper)]" style={{ fontVariantCaps: 'small-caps' }}>
+            Juspilot
+          </span>
         </div>
-        <div className="hidden items-center gap-6 sm:flex">
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-[#4a5568]">
+
+        <div className="hidden items-center gap-4 sm:flex">
+          <span className="text-xs uppercase tracking-[0.06em] text-[var(--vt-mute)]">
             {proposta.escritorio_cidade} — {proposta.escritorio_uf}
           </span>
-          <span className="h-4 w-px bg-[#1e293b]" />
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-[#4a5568]">
+          <span className="h-4 w-px bg-[var(--vt-graphite)]" />
+          <span className="text-xs uppercase tracking-[0.06em] text-[var(--vt-mute)]">
             {month} {year}
           </span>
         </div>

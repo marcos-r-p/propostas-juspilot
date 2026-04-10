@@ -1,21 +1,25 @@
 export function PropostaFooter() {
   return (
-    <footer className="border-t border-[#1e293b] px-4 py-8 sm:px-8 sm:py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
+    <footer className="mx-auto max-w-[1100px] px-6 py-14 sm:px-12">
+      <div className="flex items-center justify-between border-t border-[var(--vt-paper)]/6 pt-14">
         <div className="flex items-center gap-3">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-[#c9a96e] to-[#a08450]">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+          {/* Small monogram seal */}
+          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--vt-graphite)]">
+            <span className="font-display text-[15px] font-semibold leading-none text-[var(--vt-graphite)]">
+              J
+            </span>
           </div>
-          <span className="text-sm font-medium tracking-wide text-[#4a5568]">
-            JusPilot — Copiloto Jurídico com IA
+          <span className="font-display text-xl font-semibold tracking-[0.06em] text-[var(--vt-graphite)]" style={{ fontVariantCaps: 'small-caps' }}>
+            Juspilot
           </span>
         </div>
-        <div className="text-xs tracking-wide text-[#1e293b]">
-          Powered by Octolab
+
+        <div className="flex gap-5 text-[11px] uppercase tracking-[0.06em] text-[var(--vt-graphite)]">
+          {['AES-256', 'LGPD', 'AWS', 'Audit Trail'].map((item) => (
+            <span key={item} className="opacity-60 transition-opacity duration-300 hover:opacity-100">
+              {item}
+            </span>
+          ))}
         </div>
       </div>
     </footer>
