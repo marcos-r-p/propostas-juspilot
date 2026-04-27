@@ -54,9 +54,9 @@ export function NavChrome() {
           <button
             key={s.id}
             onClick={() => scrollTo(s.id)}
-            className={`group relative h-2 w-2 border transition-all duration-300 ${
+            className={`group relative h-2 w-2 rounded-full border transition-all duration-300 ${
               i === activeSection
-                ? 'border-[var(--vt-paper)] bg-[var(--vt-paper)]'
+                ? 'border-[var(--vt-brand)] bg-[var(--vt-brand)]'
                 : 'border-[var(--vt-graphite)] bg-transparent hover:border-[var(--vt-mute)]'
             }`}
             aria-label={s.label}
@@ -71,7 +71,7 @@ export function NavChrome() {
       {/* Back to top */}
       <button
         onClick={() => scrollTo('hero')}
-        className={`fixed bottom-8 right-8 z-[60] flex h-11 w-11 items-center justify-center border border-[var(--vt-graphite)] bg-[var(--vt-ink-soft)] text-[var(--vt-paper)] transition-all duration-300 hover:border-[var(--vt-mute)] hover:bg-[var(--vt-graphite)] ${
+        className={`fixed bottom-8 right-8 z-[60] flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--vt-graphite)] bg-[var(--vt-ink-soft)] text-[var(--vt-paper)] transition-all duration-300 hover:border-[var(--vt-brand)] hover:bg-[var(--vt-brand)] ${
           showBackToTop ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
         }`}
         aria-label="Voltar ao topo"

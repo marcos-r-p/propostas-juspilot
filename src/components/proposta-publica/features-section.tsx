@@ -79,7 +79,7 @@ export function FeaturesSection() {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
         A plataforma
       </div>
       <div className="mosaic-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

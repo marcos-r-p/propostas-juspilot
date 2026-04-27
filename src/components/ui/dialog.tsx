@@ -27,7 +27,7 @@ export function Dialog({ open, onClose, title, description, children, className 
       <div className="fixed inset-0 bg-ink/60 backdrop-blur-sm" onClick={onClose} />
       <div
         className={cn(
-          'relative z-10 w-full max-w-md rounded-none border border-ink bg-paper-pure p-8 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.18)]',
+          'relative z-10 w-full max-w-md rounded-xl border border-rule bg-paper-pure p-8 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.18)]',
           className
         )}
       >

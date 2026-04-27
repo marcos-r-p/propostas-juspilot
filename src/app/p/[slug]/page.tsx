@@ -52,7 +52,7 @@ export default async function PropostaPublicaPage({ params }: Props) {
       <div className="vitrine flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-6 h-px w-16 bg-[var(--vt-paper)]/20" />
-          <h1 className="font-display text-2xl font-light tracking-wide text-[var(--vt-paper)]">Proposta expirada</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--vt-paper)]">Proposta expirada</h1>
           <p className="mt-3 text-sm tracking-wide text-[var(--vt-mute)]">Esta proposta não está mais disponível.</p>
         </div>
       </div>

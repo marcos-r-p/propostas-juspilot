@@ -22,7 +22,7 @@ function DorCard({ dor, index }: { dor: { id: string; label: string; description
       onClick={() => setExpanded(!expanded)}
     >
       {/* Left border accent */}
-      <div className={`absolute left-0 top-10 w-[3px] bg-[var(--vt-paper)] transition-[height] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${expanded ? 'h-[calc(100%-80px)]' : 'h-0 group-hover:h-[calc(100%-80px)]'}`} />
+      <div className={`absolute left-0 top-10 w-[3px] bg-[var(--vt-brand)] transition-[height] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${expanded ? 'h-[calc(100%-80px)]' : 'h-0 group-hover:h-[calc(100%-80px)]'}`} />
 
       {/* Chevron arrow */}
       <div className={`absolute right-9 top-10 text-[var(--vt-graphite)] transition-[color,transform] duration-300 group-hover:text-[var(--vt-whisper)] ${expanded ? 'rotate-180 !text-[var(--vt-paper)]' : ''}`}>
@@ -70,12 +70,12 @@ export function DoresSection({ proposta }: DoresSectionProps) {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
         Diagnóstico
       </div>
       <div
         ref={title.ref}
-        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
         O que identificamos no seu escritório

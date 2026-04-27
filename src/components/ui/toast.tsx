@@ -12,10 +12,10 @@ export function Toaster() {
         <div
           key={t.id}
           className={cn(
-            'w-80 rounded-none border border-rule bg-paper-pure p-4 transition-all border-l-[3px]',
+            'w-80 rounded-lg border border-rule bg-paper-pure p-4 transition-all border-l-[3px]',
             t.variant === 'destructive'
               ? 'border-l-danger'
-              : 'border-l-ink'
+              : 'border-l-brand'
           )}
         >
           <div className="flex items-start justify-between gap-2">

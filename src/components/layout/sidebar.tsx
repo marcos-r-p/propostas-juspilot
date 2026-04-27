@@ -25,9 +25,14 @@ export function Sidebar({ profile }: SidebarProps) {
     <>
       {/* Mobile header */}
       <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-[#e4e4e7] bg-white px-4 py-3 md:hidden">
-        <div>
-          <div className="text-base font-bold text-[#09090b]">⚖️ JusPilot</div>
-          <div className="text-[10px] text-[#a1a1aa]">Propostas Comerciais</div>
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#D4663C]">
+            <span className="text-sm font-bold text-white">J</span>
+          </div>
+          <div>
+            <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
+            <div className="text-[10px] text-[#a1a1aa]">Propostas</div>
+          </div>
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -58,9 +63,14 @@ export function Sidebar({ profile }: SidebarProps) {
       )}>
         <div className="border-b border-[#e4e4e7] px-5 py-5">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="text-base font-bold text-[#09090b]">⚖️ JusPilot</div>
-              <div className="mt-0.5 text-xs text-[#a1a1aa]">Propostas Comerciais</div>
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D4663C]">
+                <span className="text-base font-bold text-white">J</span>
+              </div>
+              <div>
+                <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
+                <div className="mt-0.5 text-[10px] text-[#a1a1aa]">Propostas</div>
+              </div>
             </div>
             <button
               onClick={() => setMobileOpen(false)}
@@ -80,7 +90,7 @@ export function Sidebar({ profile }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className={cn('mb-1 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#f4f4f5] font-medium text-[#09090b]' : 'text-[#71717a] hover:bg-[#f4f4f5] hover:text-[#09090b]')}
+                className={cn('mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#D4663C]/10 font-medium text-[#D4663C]' : 'text-[#71717a] hover:bg-[#f4f4f5] hover:text-[#09090b]')}
               >
                 <span>{item.icon}</span>
                 {item.label}

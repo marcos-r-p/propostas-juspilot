@@ -21,9 +21,9 @@ function ROICard({ target, unit, label, decimals = 0, prefix = '', index }: {
       style={{ transitionDelay: `${index * 0.08}s` }}
     >
       {/* Bottom accent line on hover */}
-      <div className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-[var(--vt-paper)] transition-[width] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-3/5" />
+      <div className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-[var(--vt-brand)] transition-[width] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-3/5" />
 
-      <div className="font-display text-[60px] font-semibold leading-none text-[var(--vt-paper)]" style={{ fontVariantNumeric: 'tabular-nums' }}>
+      <div className="text-[60px] font-extrabold leading-none text-[var(--vt-paper)]" style={{ fontVariantNumeric: 'tabular-nums' }}>
         {prefix}{decimals > 0 ? value.toFixed(decimals) : value}
         <span className="text-2xl font-normal text-[var(--vt-whisper)]">{unit}</span>
       </div>
@@ -42,12 +42,12 @@ export function ROISection({ proposta }: ROISectionProps) {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
         Os números
       </div>
       <div
         ref={title.ref}
-        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
         O retorno do seu investimento

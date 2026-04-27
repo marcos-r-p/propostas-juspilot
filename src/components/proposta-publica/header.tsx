@@ -12,15 +12,13 @@ export function PropostaHeader({ proposta }: HeaderProps) {
   return (
     <header className="relative z-10 mx-auto max-w-[1100px] px-6 py-9 sm:px-12">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {/* Monogram seal */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-[var(--vt-paper)]/25 transition-[border-color] duration-400 hover:border-[var(--vt-paper)]/60">
-            <span className="font-display text-[22px] font-semibold leading-none text-[var(--vt-paper)]">
-              J
-            </span>
+        <div className="flex items-center gap-3">
+          {/* Brand icon */}
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--vt-brand)]">
+            <span className="text-lg font-bold text-white">J</span>
           </div>
           {/* Wordmark */}
-          <span className="font-display text-[32px] font-semibold leading-none tracking-[0.05em] text-[var(--vt-paper)]" style={{ fontVariantCaps: 'small-caps' }}>
+          <span className="text-xl font-bold tracking-tight text-[var(--vt-paper)]">
             Juspilot
           </span>
         </div>

@@ -27,12 +27,12 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
         Investimento
       </div>
       <div
         ref={title.ref}
-        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
         Seu plano sob medida
@@ -50,7 +50,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         <div className="flex flex-col items-start justify-between gap-8 border-b border-[var(--vt-paper)]/8 pb-12 md:flex-row">
           <div>
             <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Setup único</div>
-            <div className="mt-2.5 font-display text-[44px] font-semibold leading-[1.1] text-[var(--vt-paper)]">
+            <div className="mt-2.5 text-[44px] font-extrabold leading-[1.1] text-[var(--vt-paper)]">
               {formatCurrency(proposta.preco_setup)}
             </div>
           </div>
@@ -59,12 +59,12 @@ export function PricingSection({ proposta }: PricingSectionProps) {
 
           <div>
             <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Mensalidade</div>
-            <div className="mt-2.5 font-display text-[44px] font-semibold leading-[1.1] text-[var(--vt-paper)]">
+            <div className="mt-2.5 text-[44px] font-extrabold leading-[1.1] text-[var(--vt-paper)]">
               {formatCurrency(proposta.preco_mensalidade_final)}
-              <span className="ml-1 font-sans text-base font-normal text-[var(--vt-whisper)]">/mês</span>
+              <span className="ml-1 text-base font-normal text-[var(--vt-whisper)]">/mês</span>
             </div>
             {proposta.preco_desconto > 0 && (
-              <div className="mt-2.5 inline-block bg-[var(--vt-graphite)] px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-paper)]">
+              <div className="mt-2.5 inline-block rounded-md bg-[var(--vt-brand)] px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] text-white">
                 {proposta.preco_desconto}% de desconto aplicado
               </div>
             )}
@@ -75,7 +75,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         <div className="grid gap-4 py-12 sm:grid-cols-2 sm:gap-x-10">
           {FEATURES_INCLUIDAS.map((f) => (
             <div key={f} className="flex items-center gap-3 border-b border-[var(--vt-paper)]/5 py-2 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
-              <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center border-[1.5px] border-[var(--vt-paper)]">
+              <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded border-[1.5px] border-[var(--vt-brand)]">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 13l4 4L19 7" />
                 </svg>
@@ -91,11 +91,11 @@ export function PricingSection({ proposta }: PricingSectionProps) {
             href={`https://wa.me/5561984014175?text=Olá! Vi a proposta do JusPilot e gostaria de agendar uma demonstração.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-2.5 overflow-hidden bg-[var(--vt-paper)] px-8 py-4 text-sm font-semibold tracking-[0.02em] text-[var(--vt-ink)]"
+            className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-xl bg-[var(--vt-brand)] px-8 py-4 text-sm font-bold tracking-[0.02em] text-white"
           >
-            <span className="relative z-10 transition-colors duration-300 group-hover:text-[var(--vt-paper)]">Falar com consultor</span>
-            <span className="relative z-10 transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-[var(--vt-paper)]">&#8594;</span>
-            <span className="absolute inset-0 z-0 translate-y-full bg-[var(--vt-ink)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+            <span className="relative z-10 transition-colors duration-300">Falar com consultor</span>
+            <span className="relative z-10 transition-[color,transform] duration-300 group-hover:translate-x-1">&#8594;</span>
+            <span className="absolute inset-0 z-0 translate-y-full bg-[var(--vt-brand-hover)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
           </a>
 
           <a href="#" className="group relative pb-0.5 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
@@ -105,7 +105,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
 
           {diasRestantes > 0 && (
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)] sm:ml-auto">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-paper)]" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-brand)]" />
               Válida por mais {diasRestantes} dia{diasRestantes !== 1 ? 's' : ''}
             </div>
           )}

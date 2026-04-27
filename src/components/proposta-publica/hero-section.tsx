@@ -23,22 +23,19 @@ export function HeroSection({ proposta }: HeroSectionProps) {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-8 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-8 bg-[var(--vt-brand)]" />
         Proposta comercial
       </div>
 
       <h1
         ref={heading.ref}
-        className={`vt-reveal ${heading.isVisible ? 'visible' : ''} font-display max-w-[820px] text-5xl font-semibold leading-[1.06] text-[var(--vt-paper)] sm:text-[64px]`}
+        className={`vt-reveal ${heading.isVisible ? 'visible' : ''} max-w-[820px] text-5xl font-extrabold leading-[1.06] text-[var(--vt-paper)] sm:text-[64px]`}
         style={{ transitionDelay: '0.1s' }}
       >
-        A Advocacia,
+        Toda a{' '}
+        <span className="text-[var(--vt-brand)]">operação jurídica</span>
         <br />
-        <em className="font-normal italic text-[var(--vt-whisper)]">
-          preparada para fazer
-          <br />
-          mais com menos.
-        </em>
+        em um só lugar.
       </h1>
 
       <p
@@ -52,10 +49,10 @@ export function HeroSection({ proposta }: HeroSectionProps) {
       {proposta.lead_nome && (
         <div
           ref={badge.ref}
-          className={`vt-reveal ${badge.isVisible ? 'visible' : ''} mt-14 flex w-fit items-center gap-3.5 border border-[var(--vt-graphite)] px-5 py-4 transition-[border-color,background] duration-300 hover:border-[var(--vt-mute)] hover:bg-[var(--vt-ink-soft)]`}
+          className={`vt-reveal ${badge.isVisible ? 'visible' : ''} mt-14 flex w-fit items-center gap-3.5 rounded-xl border border-[var(--vt-graphite)] px-5 py-4 transition-[border-color,background] duration-300 hover:border-[var(--vt-brand)]/40 hover:bg-[var(--vt-ink-soft)]`}
           style={{ transitionDelay: '0.3s' }}
         >
-          <div className="flex h-11 w-11 items-center justify-center bg-[var(--vt-graphite)] text-sm font-semibold tracking-[0.04em] text-[var(--vt-paper)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--vt-brand)] text-sm font-bold tracking-[0.04em] text-white">
             {proposta.lead_nome.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
           </div>
           <div>

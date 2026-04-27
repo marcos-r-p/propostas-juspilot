@@ -9,7 +9,7 @@ export function Card({ className, variant = 'default', children, ...props }: Car
   return (
     <div
       className={cn(
-        'rounded-none bg-paper-pure p-6',
+        'rounded-lg bg-paper-pure p-6',
         variant === 'bordered-strong' ? 'border border-ink' : 'border border-rule',
         className
       )}

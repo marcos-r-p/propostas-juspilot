@@ -3,13 +3,10 @@ export function PropostaFooter() {
     <footer className="mx-auto max-w-[1100px] px-6 py-14 sm:px-12">
       <div className="flex items-center justify-between border-t border-[var(--vt-paper)]/6 pt-14">
         <div className="flex items-center gap-3">
-          {/* Small monogram seal */}
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--vt-graphite)]">
-            <span className="font-display text-[15px] font-semibold leading-none text-[var(--vt-graphite)]">
-              J
-            </span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--vt-brand)]">
+            <span className="text-sm font-bold text-white">J</span>
           </div>
-          <span className="font-display text-xl font-semibold tracking-[0.06em] text-[var(--vt-graphite)]" style={{ fontVariantCaps: 'small-caps' }}>
+          <span className="text-lg font-bold tracking-tight text-[var(--vt-graphite)]">
             Juspilot
           </span>
         </div>

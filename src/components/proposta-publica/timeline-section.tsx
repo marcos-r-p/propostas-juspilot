@@ -18,9 +18,9 @@ function TimelineStep({ step, index }: { step: typeof STEPS[number]; index: numb
       style={{ transitionDelay: `${index * 0.08}s` }}
     >
       {/* Top accent line on hover */}
-      <div className="absolute left-0 top-0 h-[2px] w-0 bg-[var(--vt-paper)] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
+      <div className="absolute left-0 top-0 h-[2px] w-0 bg-[var(--vt-brand)] transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
 
-      <div className="mb-5 font-display text-[52px] font-semibold leading-none text-[var(--vt-paper)]/6 transition-colors duration-400 group-hover:text-[var(--vt-paper)]/16">
+      <div className="mb-5 text-[52px] font-extrabold leading-none text-[var(--vt-brand)]/15 transition-colors duration-400 group-hover:text-[var(--vt-brand)]/30">
         {step.number}
       </div>
       <div className="text-base font-semibold text-[var(--vt-paper)]">{step.title}</div>
@@ -40,12 +40,12 @@ export function TimelineSection() {
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
       >
-        <span className="h-px w-6 bg-[var(--vt-graphite)]" />
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
         Implantação
       </div>
       <div
         ref={title.ref}
-        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 font-display text-4xl font-semibold leading-[1.12] text-[var(--vt-paper)]`}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
         Do contrato ao primeiro resultado
