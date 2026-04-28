@@ -1,4 +1,4 @@
-import type { PropostaFormData, ROICalculation } from '@/types';
+import type { PropostaFormData, ROICalculation, PrecoFaixa } from '@/types';
 
 const MATURIDADE_IA_REDUCAO: Record<string, number> = {
   nunca: 0.6,
@@ -13,6 +13,22 @@ const PERFIL_PERCENTUAL: Record<string, number> = {
   misto: 0.4,
 };
 
+function calcularMensalidadeMediaPonderada(faixas: PrecoFaixa[], meses: number = 12): number {
+  let totalValor = 0;
+  let totalMeses = 0;
+
+  for (const faixa of faixas) {
+    const inicio = faixa.de_mes;
+    const fim = faixa.ate_mes !== null ? Math.min(faixa.ate_mes, meses) : meses;
+    if (inicio > meses) break;
+    const mesesFaixa = fim - inicio + 1;
+    totalValor += mesesFaixa * faixa.valor;
+    totalMeses += mesesFaixa;
+  }
+
+  return totalMeses > 0 ? Math.round(totalValor / totalMeses) : 0;
+}
+
 export function calculateROI(formData: PropostaFormData): ROICalculation {
   const {
     escritorio_qtd_advogados,
@@ -25,6 +41,8 @@ export function calculateROI(formData: PropostaFormData): ROICalculation {
     preco_mensalidade,
     preco_usuarios_inclusos,
     preco_desconto,
+    usar_preco_faixas,
+    preco_faixas,
   } = formData;
 
   const HORAS_MES = 176;
@@ -50,9 +68,16 @@ export function calculateROI(formData: PropostaFormData): ROICalculation {
 
   // Preços
   const precoSugerido = getPrecoSugerido(escritorio_qtd_advogados);
-  const mensalidadeBase = usar_preco_sugerido
-    ? precoSugerido.mensalidade
-    : preco_mensalidade;
+  let mensalidadeBase: number;
+
+  if (usar_preco_faixas && preco_faixas && preco_faixas.length > 0) {
+    mensalidadeBase = calcularMensalidadeMediaPonderada(preco_faixas);
+  } else if (usar_preco_sugerido) {
+    mensalidadeBase = precoSugerido.mensalidade;
+  } else {
+    mensalidadeBase = preco_mensalidade;
+  }
+
   const mensalidade_final = Math.round(
     mensalidadeBase * (1 - preco_desconto / 100)
   );

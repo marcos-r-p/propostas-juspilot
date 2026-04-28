@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
+import { JuspilotSymbol } from '@/components/brand/juspilot-symbol';
 import { UserMenu } from './user-menu';
 import type { Profile } from '@/types';
 
@@ -26,9 +27,7 @@ export function Sidebar({ profile }: SidebarProps) {
       {/* Mobile header */}
       <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-[#e4e4e7] bg-white px-4 py-3 md:hidden">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#D4663C]">
-            <span className="text-sm font-bold text-white">J</span>
-          </div>
+          <JuspilotSymbol size={32} />
           <div>
             <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
             <div className="text-[10px] text-[#a1a1aa]">Propostas</div>
@@ -64,9 +63,7 @@ export function Sidebar({ profile }: SidebarProps) {
         <div className="border-b border-[#e4e4e7] px-5 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D4663C]">
-                <span className="text-base font-bold text-white">J</span>
-              </div>
+              <JuspilotSymbol size={36} />
               <div>
                 <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
                 <div className="mt-0.5 text-[10px] text-[#a1a1aa]">Propostas</div>

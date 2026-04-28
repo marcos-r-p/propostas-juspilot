@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils/cn';
+import { JuspilotSymbol } from './juspilot-symbol';
 
 interface SealProps {
   tone?: 'ink' | 'paper';
@@ -7,22 +8,13 @@ interface SealProps {
 }
 
 export function Seal({ tone = 'ink', size = 'md', className }: SealProps) {
-  const sizeClasses = {
-    sm: 'h-8 w-8 text-sm rounded-lg',
-    md: 'h-10 w-10 text-base rounded-lg',
-    lg: 'h-14 w-14 text-xl rounded-xl',
-  };
+  const sizeMap = { sm: 32, md: 40, lg: 56 };
 
   return (
-    <div
-      className={cn(
-        'flex items-center justify-center bg-[var(--color-brand)] font-bold text-white',
-        sizeClasses[size],
-        className
-      )}
-      aria-label="JusPilot"
-    >
-      J
-    </div>
+    <JuspilotSymbol
+      size={sizeMap[size]}
+      tone={tone === 'ink' ? 'brand' : 'white'}
+      className={className}
+    />
   );
 }

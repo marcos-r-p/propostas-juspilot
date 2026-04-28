@@ -23,6 +23,8 @@ const initialFormData: PropostaFormData = {
   escritorio_qtd_advogados: 5,
   escritorio_valor_hora: 200,
   escritorio_valor_hora_informado: true,
+  escritorio_site_url: '',
+  escritorio_logo_url: '',
   escritorio_areas: [],
   escritorio_perfil: 'misto',
   escritorio_maturidade_processos: 'desenvolvimento',
@@ -34,6 +36,8 @@ const initialFormData: PropostaFormData = {
   preco_mensalidade: 3000,
   preco_usuarios_inclusos: 10,
   preco_desconto: 0,
+  usar_preco_faixas: false,
+  preco_faixas: null,
 };
 
 export const useWizardStore = create<WizardState>()(

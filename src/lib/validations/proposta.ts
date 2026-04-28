@@ -14,6 +14,8 @@ export const propostaSchema = z.object({
   escritorio_qtd_advogados: z.number().min(1).max(500),
   escritorio_valor_hora: z.number().min(50).max(2000),
   escritorio_valor_hora_informado: z.boolean(),
+  escritorio_site_url: z.string().optional().default(''),
+  escritorio_logo_url: z.string().optional().default(''),
 
   // Step 3: Perfil
   escritorio_areas: z.array(z.string()).min(1, 'Selecione ao menos uma área'),
@@ -42,6 +44,12 @@ export const propostaSchema = z.object({
   preco_mensalidade: z.number().min(0),
   preco_usuarios_inclusos: z.number().min(1),
   preco_desconto: z.number().min(0).max(30),
+  usar_preco_faixas: z.boolean().optional().default(false),
+  preco_faixas: z.array(z.object({
+    de_mes: z.number().min(1),
+    ate_mes: z.number().nullable(),
+    valor: z.number().min(0),
+  })).max(5).nullable().optional().default(null),
 });
 
 export type PropostaSchemaType = z.infer<typeof propostaSchema>;

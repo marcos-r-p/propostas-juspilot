@@ -1,12 +1,77 @@
 'use client';
 
-import type { Proposta } from '@/types';
+import type { Proposta, PrecoFaixa } from '@/types';
 import { formatCurrency } from '@/lib/utils/format';
 import { FEATURES_INCLUIDAS } from '@/lib/constants/precos';
 import { useReveal } from '@/hooks/use-reveal';
 
 interface PricingSectionProps {
   proposta: Proposta;
+}
+
+function FaixasTimeline({ faixas, desconto }: { faixas: PrecoFaixa[]; desconto: number }) {
+  const reveal = useReveal();
+  const menorValor = Math.min(...faixas.map((f) => f.valor));
+  const primeiroMes = faixas[0]?.ate_mes || 3;
+
+  // Calcular economia nos primeiros 12 meses vs valor cheio
+  const ultimaFaixa = faixas[faixas.length - 1];
+  const valorCheio = ultimaFaixa.valor;
+  let economia = 0;
+  for (const faixa of faixas) {
+    if (faixa.ate_mes === null) break;
+    const meses = faixa.ate_mes - faixa.de_mes + 1;
+    economia += (valorCheio - faixa.valor) * meses;
+  }
+
+  return (
+    <div
+      ref={reveal.ref}
+      className={`vt-reveal ${reveal.isVisible ? 'visible' : ''} mb-12 border-b border-[var(--vt-paper)]/8 pb-12`}
+      style={{ transitionDelay: '0.15s' }}
+    >
+      <div className="mb-6 flex flex-wrap items-center gap-3">
+        <span className="rounded-md bg-[var(--vt-brand)] px-3 py-1.5 text-sm font-bold text-white">
+          Comece pagando {formatCurrency(menorValor * (1 - desconto / 100))}/mês
+        </span>
+        {economia > 0 && (
+          <span className="rounded-md border border-[var(--vt-brand)]/30 px-3 py-1.5 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-brand)]">
+            Economia de {formatCurrency(economia)} nos primeiros {primeiroMes} meses
+          </span>
+        )}
+      </div>
+
+      <div className="relative flex items-start gap-0">
+        {/* Timeline line */}
+        <div className="absolute left-0 right-0 top-5 h-px bg-[var(--vt-paper)]/10" />
+
+        {faixas.map((faixa, i) => {
+          const isLast = i === faixas.length - 1;
+          const valorComDesconto = Math.round(faixa.valor * (1 - desconto / 100));
+
+          return (
+            <div key={i} className="relative flex-1 text-center">
+              {/* Dot */}
+              <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full border-2 border-[var(--vt-brand)] bg-[var(--vt-ink)]">
+                <span className="text-xs font-bold text-[var(--vt-brand)]">{i + 1}</span>
+              </div>
+              {/* Value */}
+              <div className="text-lg font-extrabold text-[var(--vt-paper)]">
+                {formatCurrency(valorComDesconto)}
+                <span className="text-xs font-normal text-[var(--vt-whisper)]">/mês</span>
+              </div>
+              {/* Period */}
+              <div className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)]">
+                {isLast
+                  ? `Mês ${faixa.de_mes} em diante`
+                  : `Mês ${faixa.de_mes}${faixa.ate_mes !== faixa.de_mes ? `–${faixa.ate_mes}` : ''}`}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export function PricingSection({ proposta }: PricingSectionProps) {
@@ -20,6 +85,8 @@ export function PricingSection({ proposta }: PricingSectionProps) {
     ? new Date(proposta.data_expiracao)
     : new Date(criadoEm.getTime() + validadeDias * 24 * 60 * 60 * 1000);
   const diasRestantes = Math.max(0, Math.ceil((expiraEm.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+
+  const hasFaixas = proposta.preco_faixas && proposta.preco_faixas.length > 0;
 
   return (
     <section id="investimento" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
@@ -46,6 +113,11 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         {/* Top gradient line */}
         <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[var(--vt-paper)]/15 to-transparent" />
 
+        {/* Faixas timeline (conditional) */}
+        {hasFaixas && (
+          <FaixasTimeline faixas={proposta.preco_faixas!} desconto={proposta.preco_desconto} />
+        )}
+
         {/* Pricing header */}
         <div className="flex flex-col items-start justify-between gap-8 border-b border-[var(--vt-paper)]/8 pb-12 md:flex-row">
           <div>
@@ -58,7 +130,9 @@ export function PricingSection({ proposta }: PricingSectionProps) {
           <div className="hidden h-auto w-px self-stretch bg-[var(--vt-paper)]/8 md:block" />
 
           <div>
-            <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Mensalidade</div>
+            <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">
+              {hasFaixas ? 'Mensalidade (valor final)' : 'Mensalidade'}
+            </div>
             <div className="mt-2.5 text-[44px] font-extrabold leading-[1.1] text-[var(--vt-paper)]">
               {formatCurrency(proposta.preco_mensalidade_final)}
               <span className="ml-1 text-base font-normal text-[var(--vt-whisper)]">/mês</span>

@@ -13,18 +13,52 @@ export type MaturidadeProcessos = 'inicial' | 'desenvolvimento' | 'maduro';
 export type MaturidadeIA = 'nunca' | 'iniciante' | 'intermediario' | 'avancado';
 
 export type AreaAtuacao =
-  | 'Trabalhista'
-  | 'Bancário'
-  | 'Consumidor'
+  // Contencioso
   | 'Cível'
-  | 'Família'
-  | 'Empresarial'
-  | 'Tributário'
+  | 'Trabalhista'
   | 'Criminal'
-  | 'Ambiental'
+  | 'Consumidor'
+  | 'Família e Sucessões'
+  // Empresarial
+  | 'Empresarial/Societário'
+  | 'Bancário'
+  | 'Tributário'
+  | 'Recuperação Judicial e Falências'
+  | 'Startups e Venture Capital'
+  | 'Compliance e Governança'
+  // Público e Regulatório
+  | 'Direito Público'
+  | 'Administrativo'
+  | 'Regulatório'
+  | 'Licitações e Contratos Administrativos'
+  | 'Eleitoral'
+  | 'Constitucional'
+  // Especializado
+  | 'Aeronáutico'
+  | 'Marítimo'
+  | 'Desportivo'
+  | 'Minerário'
+  | 'Agronegócio'
+  // Propriedade e Patrimônio
   | 'Imobiliário'
+  | 'Propriedade Intelectual'
+  | 'Ambiental'
+  // Social e Previdenciário
   | 'Previdenciário'
-  | 'Administrativo';
+  | 'Saúde e Planos de Saúde'
+  // Digital e Tecnologia
+  | 'Proteção de Dados (LGPD)'
+  | 'Direito Digital'
+  | 'Contencioso Estratégico e Arbitragem'
+  // Internacional
+  | 'Direito Internacional'
+  | 'Comércio Exterior';
+
+export interface PrecoFaixa {
+  de_mes: number;
+  ate_mes: number | null;
+  valor: number;
+}
 
 export type DorId =
   | 'tempo_pecas'
@@ -70,6 +104,8 @@ export interface Proposta {
   escritorio_valor_hora_informado: boolean;
   escritorio_contexto?: string;
   escritorio_dores: DorId[];
+  escritorio_site_url?: string;
+  escritorio_logo_url?: string;
 
   // Preços
   preco_setup: number;
@@ -77,6 +113,7 @@ export interface Proposta {
   preco_usuarios_inclusos: number;
   preco_desconto: number;
   preco_mensalidade_final: number;
+  preco_faixas?: PrecoFaixa[] | null;
 
   // ROI
   roi_horas_economizadas_total?: number;
@@ -134,6 +171,8 @@ export interface PropostaFormData {
   escritorio_qtd_advogados: number;
   escritorio_valor_hora: number;
   escritorio_valor_hora_informado: boolean;
+  escritorio_site_url: string;
+  escritorio_logo_url: string;
 
   // Step 3: Perfil
   escritorio_areas: AreaAtuacao[];
@@ -153,6 +192,8 @@ export interface PropostaFormData {
   preco_mensalidade: number;
   preco_usuarios_inclusos: number;
   preco_desconto: number;
+  usar_preco_faixas: boolean;
+  preco_faixas: PrecoFaixa[] | null;
 }
 
 // Calculated values

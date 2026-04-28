@@ -8,10 +8,64 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import { getPrecoSugerido } from '@/lib/utils/roi';
 import { formatCurrency } from '@/lib/utils/format';
+import type { PrecoFaixa } from '@/types';
+
+function createDefaultFaixas(): PrecoFaixa[] {
+  return [
+    { de_mes: 1, ate_mes: 3, valor: 1500 },
+    { de_mes: 4, ate_mes: null, valor: 3000 },
+  ];
+}
 
 export function StepPrecos() {
   const { formData, roi, updateField, updateFields } = useWizardStore();
   const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados);
+  const faixas = formData.preco_faixas || [];
+
+  const handleToggleFaixas = (enabled: boolean) => {
+    if (enabled) {
+      updateFields({
+        usar_preco_faixas: true,
+        preco_faixas: createDefaultFaixas(),
+      });
+    } else {
+      updateFields({
+        usar_preco_faixas: false,
+        preco_faixas: null,
+      });
+    }
+  };
+
+  const updateFaixa = (index: number, field: keyof PrecoFaixa, value: number | null) => {
+    const newFaixas = [...faixas];
+    newFaixas[index] = { ...newFaixas[index], [field]: value };
+    // Sync preco_mensalidade with last faixa valor
+    const lastFaixa = newFaixas[newFaixas.length - 1];
+    updateFields({
+      preco_faixas: newFaixas,
+      preco_mensalidade: lastFaixa.valor,
+    });
+  };
+
+  const addFaixa = () => {
+    if (faixas.length >= 5) return;
+    const newFaixas = [...faixas];
+    // Set ate_mes on previous last faixa
+    const prevLast = newFaixas[newFaixas.length - 1];
+    const nextDeMes = (prevLast.ate_mes || prevLast.de_mes) + 1;
+    newFaixas[newFaixas.length - 1] = { ...prevLast, ate_mes: nextDeMes - 1 };
+    newFaixas.push({ de_mes: nextDeMes, ate_mes: null, valor: prevLast.valor });
+    updateFields({ preco_faixas: newFaixas, preco_mensalidade: prevLast.valor });
+  };
+
+  const removeFaixa = (index: number) => {
+    if (faixas.length <= 2) return;
+    const newFaixas = faixas.filter((_, i) => i !== index);
+    // Ensure last faixa has ate_mes = null
+    newFaixas[newFaixas.length - 1] = { ...newFaixas[newFaixas.length - 1], ate_mes: null };
+    const lastFaixa = newFaixas[newFaixas.length - 1];
+    updateFields({ preco_faixas: newFaixas, preco_mensalidade: lastFaixa.valor });
+  };
 
   return (
     <div>
@@ -47,13 +101,15 @@ export function StepPrecos() {
             value={formData.preco_setup}
             onChange={(e) => updateField('preco_setup', Number(e.target.value))}
           />
-          <Input
-            id="preco_mensalidade"
-            label="Mensalidade"
-            type="number"
-            value={formData.preco_mensalidade}
-            onChange={(e) => updateField('preco_mensalidade', Number(e.target.value))}
-          />
+          {!formData.usar_preco_faixas && (
+            <Input
+              id="preco_mensalidade"
+              label="Mensalidade"
+              type="number"
+              value={formData.preco_mensalidade}
+              onChange={(e) => updateField('preco_mensalidade', Number(e.target.value))}
+            />
+          )}
           <Input
             id="preco_usuarios_inclusos"
             label="Usuarios inclusos"
@@ -61,6 +117,85 @@ export function StepPrecos() {
             value={formData.preco_usuarios_inclusos}
             onChange={(e) => updateField('preco_usuarios_inclusos', Number(e.target.value))}
           />
+        </div>
+      )}
+
+      {/* Toggle faixas */}
+      <div className="mb-6">
+        <Checkbox
+          checked={formData.usar_preco_faixas}
+          onChange={handleToggleFaixas}
+          label="Precificação por faixas"
+          description="Ofereça valores promocionais nos primeiros meses"
+        />
+      </div>
+
+      {/* Faixas editor */}
+      {formData.usar_preco_faixas && faixas.length > 0 && (
+        <div className="mb-6 space-y-3">
+          <label className="block text-sm font-medium text-[#09090b]">Faixas de preço</label>
+          {faixas.map((faixa, index) => {
+            const isLast = index === faixas.length - 1;
+            return (
+              <div key={index} className="flex items-center gap-2 rounded-lg border border-[#e4e4e7] p-3">
+                <div className="flex-1">
+                  <div className="mb-1 text-xs text-[#a1a1aa]">
+                    Mês {faixa.de_mes} {isLast ? 'em diante' : `até ${faixa.ate_mes}`}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {!isLast && (
+                      <input
+                        type="number"
+                        min={faixa.de_mes}
+                        value={faixa.ate_mes ?? ''}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          updateFaixa(index, 'ate_mes', val);
+                          // Adjust next faixa de_mes
+                          if (index < faixas.length - 1) {
+                            const newFaixas = [...faixas];
+                            newFaixas[index] = { ...faixas[index], ate_mes: val };
+                            newFaixas[index + 1] = { ...faixas[index + 1], de_mes: val + 1 };
+                            updateFields({ preco_faixas: newFaixas });
+                          }
+                        }}
+                        className="w-16 rounded border border-[#e4e4e7] px-2 py-1 text-sm"
+                        placeholder="Até mês"
+                      />
+                    )}
+                    <span className="text-sm text-[#a1a1aa]">R$</span>
+                    <input
+                      type="number"
+                      min={0}
+                      value={faixa.valor}
+                      onChange={(e) => updateFaixa(index, 'valor', Number(e.target.value))}
+                      className="w-24 rounded border border-[#e4e4e7] px-2 py-1 text-sm"
+                    />
+                  </div>
+                </div>
+                {!isLast && faixas.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={() => removeFaixa(index)}
+                    className="text-[#a1a1aa] hover:text-[#ef4444] transition-colors"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            );
+          })}
+          {faixas.length < 5 && (
+            <button
+              type="button"
+              onClick={addFaixa}
+              className="w-full rounded-lg border border-dashed border-[#d4d4d8] px-3 py-2 text-sm text-[#a1a1aa] hover:border-[#09090b] hover:text-[#09090b] transition-colors"
+            >
+              + Adicionar faixa
+            </button>
+          )}
         </div>
       )}
 

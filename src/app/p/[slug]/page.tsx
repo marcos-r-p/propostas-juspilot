@@ -87,7 +87,7 @@ export default async function PropostaPublicaPage({ params }: Props) {
 
         <TimelineSection />
 
-        <PropostaFooter />
+        <PropostaFooter proposta={proposta} />
       </div>
     </>
   );

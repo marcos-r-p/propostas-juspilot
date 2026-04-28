@@ -4,6 +4,7 @@ export type {
   MaturidadeProcessos,
   MaturidadeIA,
   AreaAtuacao,
+  PrecoFaixa,
   DorId,
   Profile,
   Proposta,
