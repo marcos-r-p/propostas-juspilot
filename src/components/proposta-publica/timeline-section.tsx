@@ -3,9 +3,9 @@
 import { useReveal } from '@/hooks/use-reveal';
 
 const STEPS = [
-  { number: '01', title: 'Onboarding', period: 'Dia 1 — 7', description: 'Configuração da conta, importação de dados e treinamento da equipe.' },
-  { number: '02', title: 'Calibração', period: 'Dia 8 — 21', description: 'Ajuste dos agentes de IA ao perfil do escritório e validação com casos reais.' },
-  { number: '03', title: 'Operação plena', period: 'Dia 22 — 30', description: 'Equipe operando de forma autônoma com acompanhamento do time JusPilot.' },
+  { number: '01', title: 'Onboarding técnico', period: 'Dia 1 — 15', description: 'Configuração da conta, importação de dados, integração com ferramentas existentes e treinamento inicial da equipe.' },
+  { number: '02', title: 'Calibração e treinamento', period: 'Dia 16 — 45', description: 'Ajuste fino dos agentes de IA com minutas históricas, validação por área de atuação e treinamento avançado.' },
+  { number: '03', title: 'Adoção plena', period: 'Dia 46 — 90', description: 'Expansão progressiva por área de atuação, business review mensal com Customer Success dedicado.' },
 ];
 
 function TimelineStep({ step, index }: { step: typeof STEPS[number]; index: number }) {
@@ -48,7 +48,7 @@ export function TimelineSection() {
         className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
-        Do contrato ao primeiro resultado
+        Implantação estruturada em 90 dias
       </div>
 
       <div className="mosaic-grid flex flex-col sm:flex-row">

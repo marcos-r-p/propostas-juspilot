@@ -82,9 +82,14 @@ export function DoresSection({ proposta }: DoresSectionProps) {
       </div>
 
       <div className="mosaic-grid grid-cols-1 md:grid-cols-2">
-        {dores.map((dor, i) => (
-          <DorCard key={dor.id} dor={dor} index={i} />
-        ))}
+        {dores.map((dor, i) => {
+          const isLastOdd = dores.length % 2 !== 0 && i === dores.length - 1;
+          return (
+            <div key={dor.id} className={isLastOdd ? 'md:col-span-2' : ''}>
+              <DorCard dor={dor} index={i} />
+            </div>
+          );
+        })}
       </div>
     </section>
   );

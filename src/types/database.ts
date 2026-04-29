@@ -67,7 +67,14 @@ export type DorId =
   | 'padronizacao'
   | 'comunicacao_cliente'
   | 'contratos'
-  | 'automacao';
+  | 'automacao'
+  | 'inteligencia_dispersa'
+  | 'pesquisa_tribunais_superiores'
+  | 'atendimento_corporate'
+  | 'seguranca_conformidade'
+  | 'due_diligence'
+  | 'compliance_monitoramento'
+  | 'volume_reclamatorias';
 
 export interface Profile {
   id: string;
@@ -122,6 +129,13 @@ export interface Proposta {
   roi_percentual?: number;
   roi_multiplo?: number;
   roi_custo_por_advogado?: number;
+
+  // Consultor
+  consultor_nome?: string;
+  consultor_cargo?: string;
+  consultor_whatsapp?: string;
+  consultor_email?: string;
+  consultor_avatar_url?: string;
 
   // Meta
   validade_dias: number;
@@ -186,7 +200,13 @@ export interface PropostaFormData {
   escritorio_dores: DorId[];
   escritorio_contexto?: string;
 
-  // Step 6: Preços
+  // Step 6: Consultor
+  consultor_nome: string;
+  consultor_cargo: string;
+  consultor_whatsapp: string;
+  consultor_email: string;
+
+  // Step 7: Preços
   usar_preco_sugerido: boolean;
   preco_setup: number;
   preco_mensalidade: number;

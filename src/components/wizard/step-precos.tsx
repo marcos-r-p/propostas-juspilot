@@ -47,24 +47,33 @@ export function StepPrecos() {
     });
   };
 
+  const normalizeFaixas = (raw: typeof faixas): typeof faixas => {
+    // Ensure continuity: each faixa.de_mes = previous.ate_mes + 1
+    return raw.map((f, i) => {
+      if (i === 0) return { ...f, de_mes: 1 };
+      const prev = raw[i - 1];
+      return { ...f, de_mes: (prev.ate_mes ?? prev.de_mes) + 1 };
+    });
+  };
+
   const addFaixa = () => {
     if (faixas.length >= 5) return;
     const newFaixas = [...faixas];
-    // Set ate_mes on previous last faixa
     const prevLast = newFaixas[newFaixas.length - 1];
-    const nextDeMes = (prevLast.ate_mes || prevLast.de_mes) + 1;
+    const nextDeMes = (prevLast.ate_mes || prevLast.de_mes) + 3;
     newFaixas[newFaixas.length - 1] = { ...prevLast, ate_mes: nextDeMes - 1 };
     newFaixas.push({ de_mes: nextDeMes, ate_mes: null, valor: prevLast.valor });
-    updateFields({ preco_faixas: newFaixas, preco_mensalidade: prevLast.valor });
+    const normalized = normalizeFaixas(newFaixas);
+    updateFields({ preco_faixas: normalized, preco_mensalidade: prevLast.valor });
   };
 
   const removeFaixa = (index: number) => {
     if (faixas.length <= 2) return;
     const newFaixas = faixas.filter((_, i) => i !== index);
-    // Ensure last faixa has ate_mes = null
     newFaixas[newFaixas.length - 1] = { ...newFaixas[newFaixas.length - 1], ate_mes: null };
-    const lastFaixa = newFaixas[newFaixas.length - 1];
-    updateFields({ preco_faixas: newFaixas, preco_mensalidade: lastFaixa.valor });
+    const normalized = normalizeFaixas(newFaixas);
+    const lastFaixa = normalized[normalized.length - 1];
+    updateFields({ preco_faixas: normalized, preco_mensalidade: lastFaixa.valor });
   };
 
   return (
@@ -150,14 +159,11 @@ export function StepPrecos() {
                         value={faixa.ate_mes ?? ''}
                         onChange={(e) => {
                           const val = Number(e.target.value);
-                          updateFaixa(index, 'ate_mes', val);
-                          // Adjust next faixa de_mes
-                          if (index < faixas.length - 1) {
-                            const newFaixas = [...faixas];
-                            newFaixas[index] = { ...faixas[index], ate_mes: val };
-                            newFaixas[index + 1] = { ...faixas[index + 1], de_mes: val + 1 };
-                            updateFields({ preco_faixas: newFaixas });
-                          }
+                          const newFaixas = [...faixas];
+                          newFaixas[index] = { ...faixas[index], ate_mes: val };
+                          const normalized = normalizeFaixas(newFaixas);
+                          const lastFaixa = normalized[normalized.length - 1];
+                          updateFields({ preco_faixas: normalized, preco_mensalidade: lastFaixa.valor });
                         }}
                         className="w-16 rounded border border-[#e4e4e7] px-2 py-1 text-sm"
                         placeholder="Até mês"

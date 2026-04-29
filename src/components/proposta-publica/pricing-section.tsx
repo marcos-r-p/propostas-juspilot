@@ -11,17 +11,17 @@ interface PricingSectionProps {
 
 function FaixasTimeline({ faixas, desconto }: { faixas: PrecoFaixa[]; desconto: number }) {
   const reveal = useReveal();
-  const menorValor = Math.min(...faixas.map((f) => f.valor));
-  const primeiroMes = faixas[0]?.ate_mes || 3;
-
-  // Calcular economia nos primeiros 12 meses vs valor cheio
   const ultimaFaixa = faixas[faixas.length - 1];
   const valorCheio = ultimaFaixa.valor;
+
+  // Calculate savings across promotional tiers
   let economia = 0;
+  let mesesPromo = 0;
   for (const faixa of faixas) {
     if (faixa.ate_mes === null) break;
     const meses = faixa.ate_mes - faixa.de_mes + 1;
     economia += (valorCheio - faixa.valor) * meses;
+    mesesPromo += meses;
   }
 
   return (
@@ -30,16 +30,14 @@ function FaixasTimeline({ faixas, desconto }: { faixas: PrecoFaixa[]; desconto: 
       className={`vt-reveal ${reveal.isVisible ? 'visible' : ''} mb-12 border-b border-[var(--vt-paper)]/8 pb-12`}
       style={{ transitionDelay: '0.15s' }}
     >
-      <div className="mb-6 flex flex-wrap items-center gap-3">
-        <span className="rounded-md bg-[var(--vt-brand)] px-3 py-1.5 text-sm font-bold text-white">
-          Comece pagando {formatCurrency(menorValor * (1 - desconto / 100))}/mês
-        </span>
-        {economia > 0 && (
-          <span className="rounded-md border border-[var(--vt-brand)]/30 px-3 py-1.5 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-brand)]">
-            Economia de {formatCurrency(economia)} nos primeiros {primeiroMes} meses
-          </span>
-        )}
+      <div className="mb-2 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">
+        Condição especial de adoção
       </div>
+      {economia > 0 && (
+        <div className="mb-6 text-sm text-[var(--vt-whisper)]">
+          Economia de {formatCurrency(economia)} nos primeiros {mesesPromo} meses
+        </div>
+      )}
 
       <div className="relative flex items-start gap-0">
         {/* Timeline line */}
@@ -79,14 +77,25 @@ export function PricingSection({ proposta }: PricingSectionProps) {
   const title = useReveal();
   const card = useReveal();
 
-  const validadeDias = proposta.validade_dias || 30;
   const criadoEm = new Date(proposta.created_at);
+  const validadeDias = proposta.validade_dias || 30;
   const expiraEm = proposta.data_expiracao
     ? new Date(proposta.data_expiracao)
     : new Date(criadoEm.getTime() + validadeDias * 24 * 60 * 60 * 1000);
-  const diasRestantes = Math.max(0, Math.ceil((expiraEm.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+
+  const dataValidade = expiraEm.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  });
 
   const hasFaixas = proposta.preco_faixas && proposta.preco_faixas.length > 0;
+  const whatsapp = proposta.consultor_whatsapp || '5561984014175';
+
+  // Per-attorney cost
+  const custoAdv = proposta.escritorio_qtd_advogados > 0
+    ? Math.round(proposta.preco_mensalidade_final / proposta.escritorio_qtd_advogados)
+    : null;
 
   return (
     <section id="investimento" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
@@ -118,27 +127,33 @@ export function PricingSection({ proposta }: PricingSectionProps) {
           <FaixasTimeline faixas={proposta.preco_faixas!} desconto={proposta.preco_desconto} />
         )}
 
-        {/* Pricing header */}
+        {/* Pricing blocks */}
         <div className="flex flex-col items-start justify-between gap-8 border-b border-[var(--vt-paper)]/8 pb-12 md:flex-row">
           <div>
             <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">Setup único</div>
             <div className="mt-2.5 text-[44px] font-extrabold leading-[1.1] text-[var(--vt-paper)]">
               {formatCurrency(proposta.preco_setup)}
             </div>
+            <div className="mt-1.5 text-[13px] text-[var(--vt-mute)]">Cobrado na assinatura</div>
           </div>
 
           <div className="hidden h-auto w-px self-stretch bg-[var(--vt-paper)]/8 md:block" />
 
           <div>
             <div className="text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]">
-              {hasFaixas ? 'Mensalidade (valor final)' : 'Mensalidade'}
+              Mensalidade
             </div>
             <div className="mt-2.5 text-[44px] font-extrabold leading-[1.1] text-[var(--vt-paper)]">
               {formatCurrency(proposta.preco_mensalidade_final)}
               <span className="ml-1 text-base font-normal text-[var(--vt-whisper)]">/mês</span>
             </div>
+            {custoAdv && (
+              <div className="mt-1.5 text-[13px] text-[var(--vt-mute)]">
+                ≈ {formatCurrency(custoAdv)} por advogado/mês para {proposta.escritorio_qtd_advogados} advogados
+              </div>
+            )}
             {proposta.preco_desconto > 0 && (
-              <div className="mt-2.5 inline-block rounded-md bg-[var(--vt-brand)] px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] text-white">
+              <div className="mt-2.5 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-brand)]">
                 {proposta.preco_desconto}% de desconto aplicado
               </div>
             )}
@@ -162,12 +177,12 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         {/* CTA row */}
         <div className="flex flex-col items-start gap-6 border-t border-[var(--vt-paper)]/8 pt-12 sm:flex-row sm:items-center">
           <a
-            href={`https://wa.me/5561984014175?text=Olá! Vi a proposta do JusPilot e gostaria de agendar uma demonstração.`}
+            href={`https://wa.me/${whatsapp}?text=Olá! Vi a proposta do JusPilot para ${proposta.escritorio_nome} e gostaria de agendar uma conversa.`}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-xl bg-[var(--vt-brand)] px-8 py-4 text-sm font-bold tracking-[0.02em] text-white"
           >
-            <span className="relative z-10 transition-colors duration-300">Falar com consultor</span>
+            <span className="relative z-10 transition-colors duration-300">Agendar conversa</span>
             <span className="relative z-10 transition-[color,transform] duration-300 group-hover:translate-x-1">&#8594;</span>
             <span className="absolute inset-0 z-0 translate-y-full bg-[var(--vt-brand-hover)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
           </a>
@@ -177,12 +192,10 @@ export function PricingSection({ proposta }: PricingSectionProps) {
             <span className="absolute bottom-0 left-0 h-px w-full bg-[var(--vt-graphite)] transition-[background] duration-300 group-hover:bg-[var(--vt-paper)]" />
           </a>
 
-          {diasRestantes > 0 && (
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)] sm:ml-auto">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-brand)]" />
-              Válida por mais {diasRestantes} dia{diasRestantes !== 1 ? 's' : ''}
-            </div>
-          )}
+          <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)] sm:ml-auto">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-brand)]" />
+            Válida até {dataValidade}
+          </div>
         </div>
       </div>
     </section>

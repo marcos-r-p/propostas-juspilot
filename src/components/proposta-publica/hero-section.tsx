@@ -46,23 +46,41 @@ export function HeroSection({ proposta }: HeroSectionProps) {
         {displayText || '\u00A0'}
       </p>
 
-      {proposta.lead_nome && (
-        <div
-          ref={badge.ref}
-          className={`vt-reveal ${badge.isVisible ? 'visible' : ''} mt-14 flex w-fit items-center gap-3.5 rounded-xl border border-[var(--vt-graphite)] px-5 py-4 transition-[border-color,background] duration-300 hover:border-[var(--vt-brand)]/40 hover:bg-[var(--vt-ink-soft)]`}
-          style={{ transitionDelay: '0.3s' }}
-        >
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--vt-brand)] text-sm font-bold tracking-[0.04em] text-white">
-            {proposta.lead_nome.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+      <div
+        ref={badge.ref}
+        className={`vt-reveal ${badge.isVisible ? 'visible' : ''} mt-14 flex flex-wrap gap-4`}
+        style={{ transitionDelay: '0.3s' }}
+      >
+        {/* Lead badge */}
+        {proposta.lead_nome && (
+          <div className="flex items-center gap-3.5 rounded-xl border border-[var(--vt-graphite)] px-5 py-4 transition-[border-color,background] duration-300 hover:border-[var(--vt-brand)]/40 hover:bg-[var(--vt-ink-soft)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--vt-brand)] text-sm font-bold tracking-[0.04em] text-white">
+              {proposta.lead_nome.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <div className="text-sm font-medium text-[var(--vt-paper)]">{proposta.lead_nome}</div>
+              {proposta.lead_cargo && (
+                <div className="mt-0.5 text-[13px] text-[var(--vt-mute)]">{proposta.lead_cargo}</div>
+              )}
+            </div>
           </div>
-          <div>
-            <div className="text-sm font-medium text-[var(--vt-paper)]">{proposta.lead_nome}</div>
-            {proposta.lead_cargo && (
-              <div className="mt-0.5 text-[13px] text-[var(--vt-mute)]">{proposta.lead_cargo}</div>
-            )}
+        )}
+
+        {/* Consultor badge */}
+        {proposta.consultor_nome && (
+          <div className="flex items-center gap-3.5 rounded-xl border border-[var(--vt-graphite)] px-5 py-4 transition-[border-color,background] duration-300 hover:border-[var(--vt-brand)]/40 hover:bg-[var(--vt-ink-soft)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--vt-ink-soft)] text-sm font-bold tracking-[0.04em] text-[var(--vt-brand)]">
+              {proposta.consultor_nome.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <div className="text-sm font-medium text-[var(--vt-paper)]">{proposta.consultor_nome}</div>
+              <div className="mt-0.5 text-[13px] text-[var(--vt-mute)]">
+                {proposta.consultor_cargo || 'Consultor Comercial'} — JusPilot
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }

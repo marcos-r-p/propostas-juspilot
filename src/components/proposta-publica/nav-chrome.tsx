@@ -7,7 +7,9 @@ const SECTIONS = [
   { id: 'diagnostico', label: 'Diagnóstico' },
   { id: 'numeros', label: 'Números' },
   { id: 'investimento', label: 'Investimento' },
+  { id: 'seguranca', label: 'Segurança' },
   { id: 'implantacao', label: 'Implantação' },
+  { id: 'faq', label: 'FAQ' },
 ];
 
 export function NavChrome() {

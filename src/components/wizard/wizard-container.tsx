@@ -11,6 +11,7 @@ import { StepEscritorio } from './step-escritorio';
 import { StepPerfil } from './step-perfil';
 import { StepMaturidade } from './step-maturidade';
 import { StepDores } from './step-dores';
+import { StepConsultor } from './step-consultor';
 import { StepPrecos } from './step-precos';
 import { StepPreview } from './step-preview';
 import { toast } from '@/hooks/use-toast';
@@ -22,8 +23,9 @@ const STEPS = [
   { id: 3, label: 'Perfil', component: StepPerfil },
   { id: 4, label: 'Maturidade', component: StepMaturidade },
   { id: 5, label: 'Dores', component: StepDores },
-  { id: 6, label: 'Preços', component: StepPrecos },
-  { id: 7, label: 'Preview', component: StepPreview },
+  { id: 6, label: 'Consultor', component: StepConsultor },
+  { id: 7, label: 'Preços', component: StepPrecos },
+  { id: 8, label: 'Preview', component: StepPreview },
 ];
 
 export function WizardContainer() {

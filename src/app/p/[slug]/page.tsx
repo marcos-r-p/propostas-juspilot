@@ -8,6 +8,8 @@ import { FeaturesSection } from '@/components/proposta-publica/features-section'
 import { ROISection } from '@/components/proposta-publica/roi-section';
 import { PricingSection } from '@/components/proposta-publica/pricing-section';
 import { TimelineSection } from '@/components/proposta-publica/timeline-section';
+import { SecuritySection } from '@/components/proposta-publica/security-section';
+import { FAQSection } from '@/components/proposta-publica/faq-section';
 import { PropostaFooter } from '@/components/proposta-publica/footer';
 import { NavChrome } from '@/components/proposta-publica/nav-chrome';
 import { TrackView } from './track-view';
@@ -85,7 +87,15 @@ export default async function PropostaPublicaPage({ params }: Props) {
 
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
+        <SecuritySection />
+
+        <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
+
         <TimelineSection />
+
+        <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
+
+        <FAQSection />
 
         <PropostaFooter proposta={proposta} />
       </div>

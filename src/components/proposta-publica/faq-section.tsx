@@ -1,0 +1,113 @@
+'use client';
+
+import { useState } from 'react';
+import { useReveal } from '@/hooks/use-reveal';
+
+const FAQ_ITEMS = [
+  {
+    question: 'E se a IA cometer um erro técnico em uma peça?',
+    answer:
+      'A IA é assistiva, não substituta. Toda peça gerada passa por revisão do advogado responsável. O JusPilot acelera a produção, mas a responsabilidade técnica permanece com o profissional habilitado.',
+  },
+  {
+    question: 'Onde nossos dados ficam armazenados?',
+    answer:
+      'Em infraestrutura AWS na região São Paulo, com criptografia AES-256 em repouso e em trânsito, segregação por workspace e conformidade LGPD. Cada escritório tem ambiente isolado, sem treinamento cruzado de modelos.',
+  },
+  {
+    question: 'Conseguimos integrar com nossos sistemas atuais?',
+    answer:
+      'Sim. JusPilot oferece API REST, integrações nativas com Gmail e Google Drive, e roadmap de integrações com sistemas de acompanhamento processual. Avaliamos integrações específicas no diagnóstico inicial.',
+  },
+  {
+    question: 'Qual é o período mínimo de contrato?',
+    answer:
+      '12 meses. Após esse período, cancelamento a qualquer momento mediante aviso prévio de 30 dias.',
+  },
+  {
+    question: 'Como funciona o onboarding e treinamento da equipe?',
+    answer:
+      'Onboarding estruturado com Customer Success dedicado, treinamentos ao vivo e materiais de capacitação contínua. Cronograma detalhado na seção de Implantação.',
+  },
+  {
+    question: 'Os modelos de IA podem ser auditados?',
+    answer:
+      'Sim. Trilha de auditoria completa registra todas as interações, modelos utilizados, prompts e outputs. Disponível para consulta por administradores do escritório.',
+  },
+  {
+    question: 'Como é cobrado o uso de IA? Existe limite de tokens?',
+    answer:
+      'O plano inclui IA multimodelo sem restrição. Não há cobrança adicional por créditos ou tokens — uso ilimitado dentro de políticas razoáveis de fair use.',
+  },
+  {
+    question: 'E se quisermos cancelar?',
+    answer:
+      'Cancelamento sem multa após o período mínimo. Exportação completa dos dados garantida em formato aberto.',
+  },
+];
+
+function FAQItem({ item, index }: { item: typeof FAQ_ITEMS[number]; index: number }) {
+  const [open, setOpen] = useState(false);
+  const { ref, isVisible } = useReveal();
+
+  return (
+    <div
+      ref={ref}
+      className={`vt-reveal ${isVisible ? 'visible' : ''} border-b border-[var(--vt-paper)]/8`}
+      style={{ transitionDelay: `${index * 0.05}s` }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="group flex w-full items-center justify-between py-6 text-left"
+      >
+        <span className="pr-8 text-[15px] font-medium text-[var(--vt-paper)] transition-colors duration-300 group-hover:text-[var(--vt-brand)]">
+          {item.question}
+        </span>
+        <span
+          className={`shrink-0 text-[var(--vt-mute)] transition-transform duration-300 ${open ? 'rotate-45' : ''}`}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </span>
+      </button>
+      <div
+        className={`overflow-hidden transition-[max-height,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}`}
+      >
+        <div className="pb-6 text-[14px] leading-[1.7] text-[var(--vt-whisper)]">
+          {item.answer}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function FAQSection() {
+  const label = useReveal();
+  const title = useReveal();
+
+  return (
+    <section id="faq" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      <div
+        ref={label.ref}
+        className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
+      >
+        <span className="h-px w-6 bg-[var(--vt-brand)]" />
+        Perguntas frequentes
+      </div>
+      <div
+        ref={title.ref}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
+        style={{ transitionDelay: '0.1s' }}
+      >
+        Dúvidas comuns
+      </div>
+
+      <div className="border-t border-[var(--vt-paper)]/8">
+        {FAQ_ITEMS.map((item, i) => (
+          <FAQItem key={i} item={item} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}

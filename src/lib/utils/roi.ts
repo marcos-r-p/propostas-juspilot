@@ -1,4 +1,4 @@
-import type { PropostaFormData, ROICalculation, PrecoFaixa } from '@/types';
+import type { PropostaFormData, ROICalculation } from '@/types';
 
 const MATURIDADE_IA_REDUCAO: Record<string, number> = {
   nunca: 0.6,
@@ -13,21 +13,6 @@ const PERFIL_PERCENTUAL: Record<string, number> = {
   misto: 0.4,
 };
 
-function calcularMensalidadeMediaPonderada(faixas: PrecoFaixa[], meses: number = 12): number {
-  let totalValor = 0;
-  let totalMeses = 0;
-
-  for (const faixa of faixas) {
-    const inicio = faixa.de_mes;
-    const fim = faixa.ate_mes !== null ? Math.min(faixa.ate_mes, meses) : meses;
-    if (inicio > meses) break;
-    const mesesFaixa = fim - inicio + 1;
-    totalValor += mesesFaixa * faixa.valor;
-    totalMeses += mesesFaixa;
-  }
-
-  return totalMeses > 0 ? Math.round(totalValor / totalMeses) : 0;
-}
 
 export function calculateROI(formData: PropostaFormData): ROICalculation {
   const {
@@ -68,21 +53,23 @@ export function calculateROI(formData: PropostaFormData): ROICalculation {
 
   // Preços
   const precoSugerido = getPrecoSugerido(escritorio_qtd_advogados);
-  let mensalidadeBase: number;
+  let mensalidadeRecorrente: number;
 
   if (usar_preco_faixas && preco_faixas && preco_faixas.length > 0) {
-    mensalidadeBase = calcularMensalidadeMediaPonderada(preco_faixas);
+    // ROI uses the recurring (last tier) value, not the weighted average
+    const ultimaFaixa = preco_faixas[preco_faixas.length - 1];
+    mensalidadeRecorrente = ultimaFaixa.valor;
   } else if (usar_preco_sugerido) {
-    mensalidadeBase = precoSugerido.mensalidade;
+    mensalidadeRecorrente = precoSugerido.mensalidade;
   } else {
-    mensalidadeBase = preco_mensalidade;
+    mensalidadeRecorrente = preco_mensalidade;
   }
 
   const mensalidade_final = Math.round(
-    mensalidadeBase * (1 - preco_desconto / 100)
+    mensalidadeRecorrente * (1 - preco_desconto / 100)
   );
 
-  // ROI
+  // ROI — based on recurring monthly cost (not promotional tiers)
   const roi_percentual = Math.round(
     ((valor_gerado - mensalidade_final) / mensalidade_final) * 100
   );
