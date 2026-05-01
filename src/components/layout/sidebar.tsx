@@ -87,7 +87,7 @@ export function Sidebar({ profile }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className={cn('mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#D4663C]/10 font-medium text-[#D4663C]' : 'text-[#71717a] hover:bg-[#f4f4f5] hover:text-[#09090b]')}
+                className={cn('mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#D97757]/10 font-medium text-[#D97757]' : 'text-[#71717a] hover:bg-[#f4f4f5] hover:text-[#09090b]')}
               >
                 <span>{item.icon}</span>
                 {item.label}
