@@ -242,3 +242,12 @@ body {
 .mosaic-grid > * {
   background: var(--vt-ink);
 }
+
+/* Hero scroll indicator */
+@keyframes hero-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.hero-scroll-indicator {
+  animation: hero-bounce 2s ease-in-out infinite;
+}
