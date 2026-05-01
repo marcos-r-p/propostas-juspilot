@@ -138,3 +138,59 @@ SELECT id, 1, $${
   }
 }$$::jsonb, NULL
 FROM public.pricing_tables WHERE name = 'Padrão';
+
+-- 10. calculate_roi: nova assinatura aceitando data jsonb (fallback para tabela default)
+CREATE OR REPLACE FUNCTION public.calculate_roi(
+  qtd_advogados INTEGER,
+  valor_hora INTEGER,
+  perfil TEXT,
+  maturidade_ia TEXT,
+  mensalidade INTEGER,
+  pricing_data jsonb DEFAULT NULL
+)
+RETURNS TABLE (
+  horas_economizadas_total INTEGER,
+  horas_economizadas_por_adv INTEGER,
+  valor_gerado INTEGER,
+  roi_percentual INTEGER,
+  roi_multiplo DECIMAL(4,1),
+  custo_por_advogado DECIMAL(10,2)
+) AS $$
+DECLARE
+  effective_data jsonb;
+  horas_mes INTEGER;
+  percentual_atividades DECIMAL;
+  reducao DECIMAL;
+BEGIN
+  IF pricing_data IS NULL THEN
+    SELECT data INTO effective_data
+    FROM public.pricing_tables_current
+    WHERE is_default = true AND is_active = true
+    LIMIT 1;
+    IF effective_data IS NULL THEN
+      RAISE EXCEPTION 'No default pricing_table available';
+    END IF;
+  ELSE
+    effective_data := pricing_data;
+  END IF;
+
+  horas_mes := COALESCE((effective_data->'roi'->>'horas_mensais')::INTEGER, 176);
+  percentual_atividades := COALESCE(
+    (effective_data->'roi'->'atividades_ia_por_perfil'->>perfil)::DECIMAL,
+    0.4
+  );
+  reducao := COALESCE(
+    (effective_data->'roi'->'taxa_reducao_por_maturidade'->>maturidade_ia)::DECIMAL,
+    0.5
+  );
+
+  horas_economizadas_por_adv := ROUND(horas_mes * percentual_atividades * reducao);
+  horas_economizadas_total := horas_economizadas_por_adv * qtd_advogados;
+  valor_gerado := horas_economizadas_total * valor_hora;
+  roi_percentual := ROUND(((valor_gerado - mensalidade)::DECIMAL / mensalidade) * 100);
+  roi_multiplo := ROUND((valor_gerado::DECIMAL / mensalidade)::NUMERIC, 1);
+  custo_por_advogado := ROUND((mensalidade::DECIMAL / qtd_advogados)::NUMERIC, 2);
+
+  RETURN NEXT;
+END;
+$$ LANGUAGE plpgsql;
