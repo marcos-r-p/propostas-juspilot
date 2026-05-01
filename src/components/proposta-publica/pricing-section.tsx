@@ -2,7 +2,6 @@
 
 import type { Proposta, PrecoFaixa } from '@/types';
 import { formatCurrency } from '@/lib/utils/format';
-import { FEATURES_INCLUIDAS } from '@/lib/constants/precos';
 import { useReveal } from '@/hooks/use-reveal';
 
 interface PricingSectionProps {
@@ -158,20 +157,6 @@ export function PricingSection({ proposta }: PricingSectionProps) {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Feature checklist */}
-        <div className="grid gap-4 py-12 sm:grid-cols-2 sm:gap-x-10">
-          {FEATURES_INCLUIDAS.map((f) => (
-            <div key={f} className="flex items-center gap-3 border-b border-[var(--vt-paper)]/5 py-2 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
-              <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded border-[1.5px] border-[var(--vt-brand)]">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              {f}
-            </div>
-          ))}
         </div>
 
         {/* CTA row */}
