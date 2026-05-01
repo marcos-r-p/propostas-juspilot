@@ -95,7 +95,7 @@ export default async function PropostaPublicaPage({ params }: Props) {
 
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
-        <FAQSection />
+        <FAQSection proposta={proposta} />
 
         <PropostaFooter proposta={proposta} />
       </div>
