@@ -136,14 +136,15 @@ ALTER TABLE propostas
 ```jsonc
 {
   "faixas_porte": [
-    { "min": 1,  "max": 3,    "setup": 2000, "mensalidade": 1500 },
-    { "min": 4,  "max": 10,   "setup": 3500, "mensalidade": 3000 },
-    { "min": 11, "max": 20,   "setup": 5000, "mensalidade": 5000 },
-    { "min": 21, "max": null, "setup": 8000, "mensalidade": 8000,
-      "incremento_por_dezena_advogados": 1000 }
+    { "min": 1,  "max": 3,    "setup": 2000, "mensalidade": 1500, "usuarios":  5 },
+    { "min": 4,  "max": 10,   "setup": 3500, "mensalidade": 3000, "usuarios": 10 },
+    { "min": 11, "max": 20,   "setup": 5000, "mensalidade": 5000, "usuarios": 20 },
+    { "min": 21, "max": null, "setup": 8000, "mensalidade": 8000, "usuarios": null,
+      "incremento_por_dezena_advogados": 2000 }
   ],
   "roi": {
     "horas_mensais": 176,
+    "valor_hora_padrao": 250,
     "atividades_ia_por_perfil": {
       "boutique": 0.30,
       "misto":    0.40,
@@ -164,6 +165,8 @@ ALTER TABLE propostas
   }
 }
 ```
+
+> Valores acima reproduzem byte-a-byte os hardcoded em [`src/lib/utils/roi.ts:33`](../../../src/lib/utils/roi.ts#L33) (`HORAS_MES`, `VALOR_HORA_PADRAO`, `MATURIDADE_IA_REDUCAO`, `PERFIL_PERCENTUAL`) e [`src/lib/utils/roi.ts:94`](../../../src/lib/utils/roi.ts#L94) (`getPrecoSugerido`, incluindo `mensalidadeExtra = floor((qtd-20)/10) * 2000` → campo `incremento_por_dezena_advogados: 2000`).
 
 ### 5.3 Schema do JSONB `progressive_templates.faixas`
 
