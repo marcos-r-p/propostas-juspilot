@@ -2,10 +2,10 @@
 
 @theme inline {
   /* Color — brand */
-  --color-brand: #D4663C;
-  --color-brand-hover: #C05A33;
-  --color-brand-soft: #D4663C1A;
-  --color-brand-muted: #D4663C33;
+  --color-brand: #D97757;
+  --color-brand-hover: #C26641;
+  --color-brand-soft: #D977571A;
+  --color-brand-muted: #D9775733;
 
   /* Color — semantic */
   --color-ink: #0a0a0a;
@@ -188,8 +188,8 @@ body {
   --vt-mute: #71717a;
   --vt-whisper: #a1a1aa;
   --vt-paper: #fafafa;
-  --vt-brand: #D4663C;
-  --vt-brand-hover: #C05A33;
+  --vt-brand: #D97757;
+  --vt-brand-hover: #C26641;
   background: var(--vt-ink);
   color: var(--vt-paper);
 }
@@ -241,4 +241,13 @@ body {
 }
 .mosaic-grid > * {
   background: var(--vt-ink);
+}
+
+/* Hero scroll indicator */
+@keyframes hero-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.hero-scroll-indicator {
+  animation: hero-bounce 2s ease-in-out infinite;
 }

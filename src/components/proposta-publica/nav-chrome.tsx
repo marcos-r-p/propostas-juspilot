@@ -6,6 +6,7 @@ const SECTIONS = [
   { id: 'hero', label: 'Início' },
   { id: 'diagnostico', label: 'Diagnóstico' },
   { id: 'numeros', label: 'Números' },
+  { id: 'plataforma', label: 'Plataforma' },
   { id: 'investimento', label: 'Investimento' },
   { id: 'seguranca', label: 'Segurança' },
   { id: 'implantacao', label: 'Implantação' },

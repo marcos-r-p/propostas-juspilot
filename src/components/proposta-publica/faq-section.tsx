@@ -1,7 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import type { Proposta } from '@/types';
 import { useReveal } from '@/hooks/use-reveal';
+import { deriveProfile, type PropostaProfileId } from '@/lib/utils/proposta-profile';
+
+interface FAQSectionProps {
+  proposta: Proposta;
+}
+
+interface FAQItemData {
+  question: string;
+  answer: string;
+}
 
 const FAQ_ITEMS = [
   {
@@ -46,7 +57,44 @@ const FAQ_ITEMS = [
   },
 ];
 
-function FAQItem({ item, index }: { item: typeof FAQ_ITEMS[number]; index: number }) {
+const PROFILE_FAQ_ITEMS: Record<PropostaProfileId, FAQItemData[]> = {
+  boutique_publico: [
+    {
+      question: 'Como a IA mantém o padrão de qualidade do meu escritório?',
+      answer:
+        'Treinamos a base de conhecimento com peças, jurisprudência e padrões redacionais do próprio escritório, garantindo aderência ao seu estilo e tese.',
+    },
+  ],
+  boutique_empresarial: [
+    {
+      question: 'Como a IA mantém o padrão de qualidade do meu escritório?',
+      answer:
+        'Treinamos a base de conhecimento com peças, contratos e modelos do próprio escritório, garantindo aderência ao seu padrão.',
+    },
+  ],
+  boutique_criminal: [
+    {
+      question: 'Como garantem o sigilo profissional e o segredo de justiça?',
+      answer:
+        'Workspace dedicado, criptografia AES-256, logs auditáveis e DPA assinado garantem proteção integral. Conformidade com LGPD e OAB.',
+    },
+  ],
+  contencioso_massa: [
+    {
+      question: 'Qual o limite de processos simultâneos?',
+      answer:
+        'Não há limite de processos. A plataforma escala horizontalmente — todos os usuários incluídos podem operar em paralelo sem degradação.',
+    },
+    {
+      question: 'Como funciona a integração com sistemas internos do escritório?',
+      answer:
+        'API REST permite integração bidirecional com ERPs, CRMs e sistemas de gestão. Webhooks notificam eventos em tempo real.',
+    },
+  ],
+  misto: [],
+};
+
+function FAQItem({ item, index }: { item: FAQItemData; index: number }) {
   const [open, setOpen] = useState(false);
   const { ref, isVisible } = useReveal();
 
@@ -82,7 +130,9 @@ function FAQItem({ item, index }: { item: typeof FAQ_ITEMS[number]; index: numbe
   );
 }
 
-export function FAQSection() {
+export function FAQSection({ proposta }: FAQSectionProps) {
+  const profile = deriveProfile(proposta);
+  const items: FAQItemData[] = [...FAQ_ITEMS, ...PROFILE_FAQ_ITEMS[profile.id]];
   const label = useReveal();
   const title = useReveal();
 
@@ -104,7 +154,7 @@ export function FAQSection() {
       </div>
 
       <div className="border-t border-[var(--vt-paper)]/8">
-        {FAQ_ITEMS.map((item, i) => (
+        {items.map((item, i) => (
           <FAQItem key={i} item={item} index={i} />
         ))}
       </div>

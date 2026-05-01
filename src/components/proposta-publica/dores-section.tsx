@@ -2,22 +2,23 @@
 
 import { useState } from 'react';
 import type { Proposta } from '@/types';
-import { getDoresByIds } from '@/lib/constants/dores';
+import { getDoresByIds, getSuggestedDores } from '@/lib/constants/dores';
 import type { DorId } from '@/lib/constants/dores';
 import { useReveal } from '@/hooks/use-reveal';
+import { deriveProfile } from '@/lib/utils/proposta-profile';
 
 interface DoresSectionProps {
   proposta: Proposta;
 }
 
-function DorCard({ dor, index }: { dor: { id: string; label: string; description: string; solution: string; iconPath: string }; index: number }) {
+function DorCard({ dor, index, suggested }: { dor: { id: string; label: string; description: string; solution: string; iconPath: string }; index: number; suggested: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const { ref, isVisible } = useReveal();
 
   return (
     <div
       ref={ref}
-      className={`vt-reveal ${isVisible ? 'visible' : ''} group relative cursor-pointer bg-[var(--vt-ink)] p-10 transition-[background] duration-350 hover:bg-[var(--vt-ink-soft)]`}
+      className={`vt-reveal ${isVisible ? 'visible' : ''} group relative cursor-pointer bg-[var(--vt-ink)] p-10 transition-[background] duration-350 hover:bg-[var(--vt-ink-soft)] ${suggested ? 'border-l-2 border-[var(--vt-brand)]/40' : ''}`}
       style={{ transitionDelay: `${index * 0.08}s` }}
       onClick={() => setExpanded(!expanded)}
     >
@@ -58,7 +59,19 @@ function DorCard({ dor, index }: { dor: { id: string; label: string; description
 }
 
 export function DoresSection({ proposta }: DoresSectionProps) {
+  const profile = deriveProfile(proposta);
   const dores = getDoresByIds((proposta.escritorio_dores || []) as DorId[]);
+  const suggestedIds = new Set(
+    getSuggestedDores(proposta.escritorio_areas ?? [], proposta.escritorio_perfil).map((d) => d.id)
+  );
+  const sortedDores = [...dores].sort((a, b) => {
+    const aSuggested = suggestedIds.has(a.id as DorId);
+    const bSuggested = suggestedIds.has(b.id as DorId);
+    if (aSuggested && !bSuggested) return -1;
+    if (!aSuggested && bSuggested) return 1;
+    return 0;
+  });
+
   const label = useReveal();
   const title = useReveal();
 
@@ -78,15 +91,16 @@ export function DoresSection({ proposta }: DoresSectionProps) {
         className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
-        O que identificamos no seu escritório
+        {profile.diagnosticoTitle}
       </div>
 
       <div className="mosaic-grid grid-cols-1 md:grid-cols-2">
-        {dores.map((dor, i) => {
-          const isLastOdd = dores.length % 2 !== 0 && i === dores.length - 1;
+        {sortedDores.map((dor, i) => {
+          const isLastOdd = sortedDores.length % 2 !== 0 && i === sortedDores.length - 1;
+          const isSuggested = suggestedIds.has(dor.id as DorId);
           return (
             <div key={dor.id} className={isLastOdd ? 'md:col-span-2' : ''}>
-              <DorCard dor={dor} index={i} />
+              <DorCard dor={dor} index={i} suggested={isSuggested} />
             </div>
           );
         })}

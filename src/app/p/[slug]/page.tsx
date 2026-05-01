@@ -79,7 +79,10 @@ export default async function PropostaPublicaPage({ params }: Props) {
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
         <ROISection proposta={proposta} />
-        <FeaturesSection />
+
+        <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
+
+        <FeaturesSection proposta={proposta} />
 
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
@@ -91,11 +94,11 @@ export default async function PropostaPublicaPage({ params }: Props) {
 
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
-        <TimelineSection />
+        <TimelineSection proposta={proposta} />
 
         <div className="mx-auto max-w-[1100px] px-6 sm:px-12"><hr className="vitrine-divider" /></div>
 
-        <FAQSection />
+        <FAQSection proposta={proposta} />
 
         <PropostaFooter proposta={proposta} />
       </div>

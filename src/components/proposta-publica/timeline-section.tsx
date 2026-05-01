@@ -1,6 +1,12 @@
 'use client';
 
+import type { Proposta } from '@/types';
 import { useReveal } from '@/hooks/use-reveal';
+import { deriveProfile } from '@/lib/utils/proposta-profile';
+
+interface TimelineSectionProps {
+  proposta: Proposta;
+}
 
 const STEPS = [
   { number: '01', title: 'Onboarding técnico', period: 'Dia 1 — 15', description: 'Configuração da conta, importação de dados, integração com ferramentas existentes e treinamento inicial da equipe.' },
@@ -30,7 +36,8 @@ function TimelineStep({ step, index }: { step: typeof STEPS[number]; index: numb
   );
 }
 
-export function TimelineSection() {
+export function TimelineSection({ proposta }: TimelineSectionProps) {
+  const profile = deriveProfile(proposta);
   const label = useReveal();
   const title = useReveal();
 
@@ -48,7 +55,7 @@ export function TimelineSection() {
         className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
-        Implantação estruturada em 90 dias
+        {profile.timelineTitle}
       </div>
 
       <div className="mosaic-grid flex flex-col sm:flex-row">
