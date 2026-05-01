@@ -140,6 +140,7 @@ SELECT id, 1, $${
 FROM public.pricing_tables WHERE name = 'Padrão';
 
 -- 10. calculate_roi: nova assinatura aceitando data jsonb (fallback para tabela default)
+DROP FUNCTION IF EXISTS public.calculate_roi(INTEGER, INTEGER, TEXT, TEXT, INTEGER);
 CREATE OR REPLACE FUNCTION public.calculate_roi(
   qtd_advogados INTEGER,
   valor_hora INTEGER,
