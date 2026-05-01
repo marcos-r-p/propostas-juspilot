@@ -68,3 +68,45 @@ JOIN LATERAL (
 ALTER TABLE public.propostas
   ADD COLUMN IF NOT EXISTS pricing_table_id   uuid REFERENCES public.pricing_tables(id),
   ADD COLUMN IF NOT EXISTS pricing_version_id uuid REFERENCES public.pricing_table_versions(id);
+
+-- 7. Helper: checar admin (SECURITY DEFINER + search_path bloqueado)
+CREATE OR REPLACE FUNCTION public.is_admin() RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin'
+  );
+$$;
+
+-- 8. RLS
+ALTER TABLE public.pricing_tables          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.pricing_table_versions  ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.progressive_templates   ENABLE ROW LEVEL SECURITY;
+
+-- pricing_tables: SELECT authenticated, mutações apenas admin
+CREATE POLICY pricing_tables_select ON public.pricing_tables
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY pricing_tables_insert ON public.pricing_tables
+  FOR INSERT WITH CHECK (public.is_admin());
+CREATE POLICY pricing_tables_update ON public.pricing_tables
+  FOR UPDATE USING (public.is_admin()) WITH CHECK (public.is_admin());
+CREATE POLICY pricing_tables_delete ON public.pricing_tables
+  FOR DELETE USING (public.is_admin());
+
+-- pricing_table_versions: SELECT authenticated, INSERT admin, UPDATE/DELETE bloqueados
+CREATE POLICY pricing_versions_select ON public.pricing_table_versions
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY pricing_versions_insert ON public.pricing_table_versions
+  FOR INSERT WITH CHECK (public.is_admin());
+-- (sem policies UPDATE/DELETE: append-only)
+
+-- progressive_templates
+CREATE POLICY progressive_select ON public.progressive_templates
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY progressive_insert ON public.progressive_templates
+  FOR INSERT WITH CHECK (public.is_admin());
+CREATE POLICY progressive_update ON public.progressive_templates
+  FOR UPDATE USING (public.is_admin()) WITH CHECK (public.is_admin());
+CREATE POLICY progressive_delete ON public.progressive_templates
+  FOR DELETE USING (public.is_admin());
