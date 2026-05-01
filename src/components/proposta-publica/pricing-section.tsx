@@ -3,6 +3,7 @@
 import type { Proposta, PrecoFaixa } from '@/types';
 import { formatCurrency } from '@/lib/utils/format';
 import { useReveal } from '@/hooks/use-reveal';
+import { deriveProfile } from '@/lib/utils/proposta-profile';
 
 interface PricingSectionProps {
   proposta: Proposta;
@@ -72,6 +73,7 @@ function FaixasTimeline({ faixas, desconto }: { faixas: PrecoFaixa[]; desconto: 
 }
 
 export function PricingSection({ proposta }: PricingSectionProps) {
+  const profile = deriveProfile(proposta);
   const label = useReveal();
   const title = useReveal();
   const card = useReveal();
@@ -110,7 +112,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
         className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
-        Seu plano sob medida
+        {profile.pricingTitle}
       </div>
 
       <div
