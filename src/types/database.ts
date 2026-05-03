@@ -82,6 +82,7 @@ export interface Profile {
   nome: string;
   cargo?: string;
   avatar_url?: string;
+  role: 'user' | 'admin';
   created_at: string;
   updated_at: string;
 }
@@ -136,6 +137,10 @@ export interface Proposta {
   consultor_whatsapp?: string;
   consultor_email?: string;
   consultor_avatar_url?: string;
+
+  // Pricing audit
+  pricing_table_id?: string | null;
+  pricing_version_id?: string | null;
 
   // Meta
   validade_dias: number;
@@ -226,3 +231,15 @@ export interface ROICalculation {
   custo_por_advogado: number;
   mensalidade_final: number;
 }
+
+// Re-export pricing types
+export type {
+  PricingData,
+  PricingROI,
+  PricingLimites,
+  FaixaPorte,
+  PricingTable,
+  PricingTableCurrent,
+  PricingTableVersion,
+  ProgressiveTemplate,
+} from '@/lib/pricing/types';
