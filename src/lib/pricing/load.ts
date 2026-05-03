@@ -71,3 +71,60 @@ export async function loadVersionHistory(tableId: string) {
   if (error) throw new Error(error.message);
   return data ?? [];
 }
+
+/**
+ * Loaders alinhados ao plano (Task 11) — usados pelas próximas tasks
+ * (admin pages, wizard integration). Coexistem com os helpers acima até
+ * a Task 10 unificar os callers.
+ */
+export async function loadDefaultPricingTable(): Promise<PricingTableCurrent | null> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from('pricing_tables_current')
+    .select('*')
+    .eq('is_default', true)
+    .eq('is_active', true)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as PricingTableCurrent) ?? null;
+}
+
+export async function loadPricingTableById(id: string): Promise<PricingTableCurrent | null> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from('pricing_tables_current')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as PricingTableCurrent) ?? null;
+}
+
+export async function listActivePricingTables(): Promise<PricingTableCurrent[]> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from('pricing_tables_current')
+    .select('*')
+    .eq('is_active', true)
+    .order('is_default', { ascending: false })
+    .order('name');
+  if (error) throw error;
+  return (data ?? []) as PricingTableCurrent[];
+}
+
+export async function listVersions(tableId: string): Promise<Array<{
+  id: string;
+  version_number: number;
+  created_at: string;
+  created_by: string | null;
+  data: unknown;
+}>> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from('pricing_table_versions')
+    .select('id, version_number, created_at, created_by, data')
+    .eq('table_id', tableId)
+    .order('version_number', { ascending: false });
+  if (error) throw error;
+  return data ?? [];
+}
