@@ -13,3 +13,14 @@ export type {
   PropostaFormData,
   ROICalculation,
 } from './database';
+
+export type {
+  PricingData,
+  PricingROI,
+  PricingLimites,
+  FaixaPorte,
+  PricingTable,
+  PricingTableCurrent,
+  PricingTableVersion,
+  ProgressiveTemplate,
+} from '@/lib/pricing/types';

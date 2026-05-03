@@ -82,9 +82,9 @@ export interface Profile {
   nome: string;
   cargo?: string;
   avatar_url?: string;
-  role: 'user' | 'admin';
   created_at: string;
   updated_at: string;
+  role: 'user' | 'admin';
 }
 
 export interface Proposta {
@@ -138,10 +138,6 @@ export interface Proposta {
   consultor_email?: string;
   consultor_avatar_url?: string;
 
-  // Pricing audit
-  pricing_table_id?: string | null;
-  pricing_version_id?: string | null;
-
   // Meta
   validade_dias: number;
   data_expiracao?: string;
@@ -154,6 +150,9 @@ export interface Proposta {
 
   // Relations
   profile?: Profile;
+
+  pricing_table_id: string | null;
+  pricing_version_id: string | null;
 }
 
 export interface PropostaView {
@@ -231,15 +230,3 @@ export interface ROICalculation {
   custo_por_advogado: number;
   mensalidade_final: number;
 }
-
-// Re-export pricing types
-export type {
-  PricingData,
-  PricingROI,
-  PricingLimites,
-  FaixaPorte,
-  PricingTable,
-  PricingTableCurrent,
-  PricingTableVersion,
-  ProgressiveTemplate,
-} from '@/lib/pricing/types';
