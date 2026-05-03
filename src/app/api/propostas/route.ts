@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase/server';
 import { propostaSchema } from '@/lib/validations/proposta';
 import { generateSlug } from '@/lib/utils/slug';
 import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
+import { loadDefaultPricingData } from '@/lib/pricing/load';
 import type { PropostaFormData } from '@/types';
 
 export async function GET(request: NextRequest) {
@@ -46,8 +47,9 @@ export async function POST(request: NextRequest) {
 
   const formData = parsed.data as PropostaFormData;
   const slug = generateSlug(formData.escritorio_nome);
-  const roi = calculateROI(formData);
-  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados);
+  const { data: pricingData, table: pricingTable } = await loadDefaultPricingData();
+  const roi = calculateROI(formData, pricingData);
+  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
 
   const dataExpiracao = new Date();
   dataExpiracao.setDate(dataExpiracao.getDate() + 30);
@@ -92,6 +94,8 @@ export async function POST(request: NextRequest) {
     roi_custo_por_advogado: roi.custo_por_advogado,
     validade_dias: 30,
     data_expiracao: dataExpiracao.toISOString().split('T')[0],
+    pricing_table_id: pricingTable?.id ?? null,
+    pricing_version_id: pricingTable?.current_version_id ?? null,
   };
 
   const { data, error } = await supabase.from('propostas').insert(propostaData).select().single();

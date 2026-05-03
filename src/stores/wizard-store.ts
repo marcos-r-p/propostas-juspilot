@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { PropostaFormData, ROICalculation } from '@/types';
 import { calculateROI } from '@/lib/utils/roi';
+import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
 
 interface WizardState {
   formData: PropostaFormData;
@@ -48,19 +49,19 @@ export const useWizardStore = create<WizardState>()(
   persist(
     (set) => ({
       formData: initialFormData,
-      roi: calculateROI(initialFormData),
+      roi: calculateROI(initialFormData, DEFAULT_PRICING_DATA),
 
       updateField: (field, value) => {
         set((state) => {
           const newFormData = { ...state.formData, [field]: value };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
         });
       },
 
       updateFields: (fields) => {
         set((state) => {
           const newFormData = { ...state.formData, ...fields };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
         });
       },
 
@@ -71,12 +72,12 @@ export const useWizardStore = create<WizardState>()(
             ? currentArray.filter((item) => item !== value)
             : [...currentArray, value];
           const newFormData = { ...state.formData, [field]: newArray };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
         });
       },
 
       resetForm: () => {
-        set({ formData: initialFormData, roi: calculateROI(initialFormData) });
+        set({ formData: initialFormData, roi: calculateROI(initialFormData, DEFAULT_PRICING_DATA) });
       },
     }),
     {

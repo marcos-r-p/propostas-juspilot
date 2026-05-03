@@ -7,6 +7,7 @@ import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import { getPrecoSugerido } from '@/lib/utils/roi';
+import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
 import { formatCurrency } from '@/lib/utils/format';
 import type { PrecoFaixa } from '@/types';
 
@@ -19,7 +20,7 @@ function createDefaultFaixas(): PrecoFaixa[] {
 
 export function StepPrecos() {
   const { formData, roi, updateField, updateFields } = useWizardStore();
-  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados);
+  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, DEFAULT_PRICING_DATA);
   const faixas = formData.preco_faixas || [];
 
   const handleToggleFaixas = (enabled: boolean) => {
