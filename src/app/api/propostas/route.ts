@@ -3,7 +3,7 @@ import { createServerClient } from '@/lib/supabase/server';
 import { propostaSchema } from '@/lib/validations/proposta';
 import { generateSlug } from '@/lib/utils/slug';
 import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
-import { loadDefaultPricingData } from '@/lib/pricing/load';
+import { loadDefaultPricingData, loadPricingTableById } from '@/lib/pricing/load';
 import type { PropostaFormData } from '@/types';
 
 export async function GET(request: NextRequest) {
@@ -47,7 +47,29 @@ export async function POST(request: NextRequest) {
 
   const formData = parsed.data as PropostaFormData;
   const slug = generateSlug(formData.escritorio_nome);
-  const { data: pricingData, table: pricingTable } = await loadDefaultPricingData();
+
+  // Prefer the pricing table the user selected in the wizard; fallback to default.
+  const requestedTableId = parsed.data.pricing_table_id ?? null;
+  let pricingData;
+  let pricingTableId: string | null = null;
+  let pricingVersionId: string | null = null;
+
+  if (requestedTableId) {
+    const selected = await loadPricingTableById(requestedTableId);
+    if (selected) {
+      pricingData = selected.data;
+      pricingTableId = selected.id;
+      pricingVersionId = selected.current_version_id;
+    }
+  }
+
+  if (!pricingData) {
+    const { data: defaultData, table: defaultTable } = await loadDefaultPricingData();
+    pricingData = defaultData;
+    pricingTableId = defaultTable?.id ?? null;
+    pricingVersionId = defaultTable?.current_version_id ?? null;
+  }
+
   const roi = calculateROI(formData, pricingData);
   const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
 
@@ -94,8 +116,8 @@ export async function POST(request: NextRequest) {
     roi_custo_por_advogado: roi.custo_por_advogado,
     validade_dias: 30,
     data_expiracao: dataExpiracao.toISOString().split('T')[0],
-    pricing_table_id: pricingTable?.id ?? null,
-    pricing_version_id: pricingTable?.current_version_id ?? null,
+    pricing_table_id: pricingTableId,
+    pricing_version_id: pricingVersionId,
   };
 
   const { data, error } = await supabase.from('propostas').insert(propostaData).select().single();

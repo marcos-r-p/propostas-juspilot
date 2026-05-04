@@ -8,9 +8,14 @@ import { Select } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { UFS } from '@/lib/constants/ufs';
+import type { PricingTableCurrent } from '@/lib/pricing/types';
 
-export function StepEscritorio() {
-  const { formData, updateField } = useWizardStore();
+interface StepEscritorioProps {
+  tables?: PricingTableCurrent[];
+}
+
+export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
+  const { formData, updateField, pricingTableId, setPricingTable } = useWizardStore();
   const [logoLoading, setLogoLoading] = useState(false);
   const [logoError, setLogoError] = useState('');
 
@@ -45,6 +50,18 @@ export function StepEscritorio() {
     } finally {
       setLogoLoading(false);
     }
+  };
+
+  const handleChangeTable = (id: string) => {
+    const t = tables.find((x) => x.id === id);
+    if (!t) return;
+    if (formData.preco_desconto > 0 || formData.usar_preco_faixas) {
+      const ok = typeof window !== 'undefined'
+        ? window.confirm('Trocar tabela vai resetar os preços editados. Continuar?')
+        : true;
+      if (!ok) return;
+    }
+    setPricingTable({ id: t.id, versionId: t.current_version_id, data: t.data });
   };
 
   const handleManualUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,6 +104,23 @@ export function StepEscritorio() {
       <p className="mb-6 text-sm text-[#a1a1aa]">Informações básicas sobre o escritório do lead.</p>
 
       <div className="space-y-5">
+        {tables.length > 0 && (
+          <label className="block text-sm font-medium text-[#09090b]">
+            Tabela comercial
+            <select
+              className="mt-1.5 h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-sm text-[#09090b]"
+              value={pricingTableId ?? ''}
+              onChange={(e) => handleChangeTable(e.target.value)}
+            >
+              {tables.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}{t.is_default ? ' (default)' : ''}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+
         <Input
           id="escritorio_nome"
           label="Nome do escritorio"

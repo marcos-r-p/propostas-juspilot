@@ -50,6 +50,10 @@ export const propostaSchema = z.object({
     ate_mes: z.number().nullable(),
     valor: z.number().min(0),
   })).max(5).nullable().optional().default(null),
+
+  // Pricing snapshot references (optional in body — server falls back to default)
+  pricing_table_id: z.string().uuid().nullable().optional(),
+  pricing_version_id: z.string().uuid().nullable().optional(),
 });
 
 export type PropostaSchemaType = z.infer<typeof propostaSchema>;

@@ -7,7 +7,7 @@ import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import { getPrecoSugerido } from '@/lib/utils/roi';
-import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
+import { clampDesconto, getDescontoErrorMessage, validateMensalidade } from '@/lib/pricing/apply-limits';
 import { formatCurrency } from '@/lib/utils/format';
 import type { PrecoFaixa } from '@/types';
 
@@ -19,9 +19,12 @@ function createDefaultFaixas(): PrecoFaixa[] {
 }
 
 export function StepPrecos() {
-  const { formData, roi, updateField, updateFields } = useWizardStore();
-  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, DEFAULT_PRICING_DATA);
+  const { formData, roi, updateField, updateFields, pricingData } = useWizardStore();
+  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
   const faixas = formData.preco_faixas || [];
+
+  const descontoError = getDescontoErrorMessage(formData.preco_desconto, pricingData.limites);
+  const mensalidadeCheck = validateMensalidade(roi.mensalidade_final, pricingData.limites);
 
   const handleToggleFaixas = (enabled: boolean) => {
     if (enabled) {
@@ -210,11 +213,19 @@ export function StepPrecos() {
         <Slider
           label="Desconto"
           value={formData.preco_desconto}
-          onChange={(v) => updateField('preco_desconto', v)}
+          onChange={(v) =>
+            updateField('preco_desconto', clampDesconto(v, pricingData.limites))
+          }
           min={0}
-          max={30}
+          max={pricingData.limites.desconto_maximo_pct}
           suffix="%"
         />
+        {descontoError && (
+          <p className="mt-1 text-xs text-red-600">{descontoError}</p>
+        )}
+        {!mensalidadeCheck.ok && (
+          <p className="mt-1 text-xs text-red-600">{mensalidadeCheck.message}</p>
+        )}
       </div>
 
       <Card className="bg-[#f4f4f5] p-5">
