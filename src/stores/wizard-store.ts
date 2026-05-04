@@ -3,13 +3,18 @@ import { persist } from 'zustand/middleware';
 import type { PropostaFormData, ROICalculation } from '@/types';
 import { calculateROI } from '@/lib/utils/roi';
 import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
+import type { PricingData } from '@/lib/pricing/types';
 
 interface WizardState {
   formData: PropostaFormData;
   roi: ROICalculation;
+  pricingTableId: string | null;
+  pricingVersionId: string | null;
+  pricingData: PricingData;
   updateField: <K extends keyof PropostaFormData>(field: K, value: PropostaFormData[K]) => void;
   updateFields: (fields: Partial<PropostaFormData>) => void;
   toggleArrayField: <K extends keyof PropostaFormData>(field: K, value: string) => void;
+  setPricingTable: (table: { id: string; versionId: string; data: PricingData }) => void;
   resetForm: () => void;
 }
 
@@ -50,18 +55,21 @@ export const useWizardStore = create<WizardState>()(
     (set) => ({
       formData: initialFormData,
       roi: calculateROI(initialFormData, DEFAULT_PRICING_DATA),
+      pricingTableId: null,
+      pricingVersionId: null,
+      pricingData: DEFAULT_PRICING_DATA,
 
       updateField: (field, value) => {
         set((state) => {
           const newFormData = { ...state.formData, [field]: value };
-          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
         });
       },
 
       updateFields: (fields) => {
         set((state) => {
           const newFormData = { ...state.formData, ...fields };
-          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
         });
       },
 
@@ -72,12 +80,24 @@ export const useWizardStore = create<WizardState>()(
             ? currentArray.filter((item) => item !== value)
             : [...currentArray, value];
           const newFormData = { ...state.formData, [field]: newArray };
-          return { formData: newFormData, roi: calculateROI(newFormData, DEFAULT_PRICING_DATA) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
         });
       },
 
+      setPricingTable: (table) => {
+        set((state) => ({
+          pricingTableId: table.id,
+          pricingVersionId: table.versionId,
+          pricingData: table.data,
+          roi: calculateROI(state.formData, table.data),
+        }));
+      },
+
       resetForm: () => {
-        set({ formData: initialFormData, roi: calculateROI(initialFormData, DEFAULT_PRICING_DATA) });
+        set((state) => ({
+          formData: initialFormData,
+          roi: calculateROI(initialFormData, state.pricingData),
+        }));
       },
     }),
     {
