@@ -69,13 +69,13 @@ export const DORES: readonly Dor[] = [
   },
   {
     id: 'comunicacao_cliente',
-    label: 'Comunicação com cliente desorganizada',
-    highlight: 'CRM Jurídico',
+    label: 'Documentos do cliente espalhados em múltiplos canais',
+    highlight: 'Data Room',
     description:
-      'Gestão completa de clientes com timeline de interações e insights por IA.',
-    solution: 'Portal do cliente com acompanhamento em tempo real. Zero ligações desnecessárias.',
+      'E-mails, anexos, contratos e procurações dispersos entre pastas, drives e mensagens.',
+    solution: 'Data Room centralizado: todos os documentos do caso em um só lugar, com busca semântica e controle de acesso por workspace.',
     icon: '',
-    iconPath: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+    iconPath: 'M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z',
     segments: ['generico'],
   },
   {
@@ -126,13 +126,13 @@ export const DORES: readonly Dor[] = [
   },
   {
     id: 'atendimento_corporate',
-    label: 'Atendimento qualificado a clientes corporate',
-    highlight: 'Portal do Cliente',
+    label: 'Documentos sensíveis de clientes corporate',
+    highlight: 'Data Room + ICP-Brasil',
     description:
-      'Clientes em setores regulados demandam transparência, status atualizado e linguagem clara.',
-    solution: 'Portal do cliente com IA reduz contato reativo e diferencia o relacionamento institucional.',
+      'Clientes regulados exigem segregação rigorosa de documentos, validade jurídica plena e trilha auditável.',
+    solution: 'Data Room com workspace isolado por cliente, assinatura eletrônica ICP-Brasil e audit trail imutável via hash chain.',
     icon: '',
-    iconPath: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+    iconPath: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4',
     segments: ['boutique_publico', 'boutique_empresarial'],
   },
   {
@@ -169,6 +169,30 @@ export const DORES: readonly Dor[] = [
     icon: '',
     iconPath: 'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0',
     segments: ['boutique_empresarial', 'boutique_publico'],
+  },
+
+  // === DIFERENCIAIS DE PRODUTO ===
+  {
+    id: 'confianca_ia',
+    label: 'Receio de a IA inventar precedentes',
+    highlight: 'Citações Verificáveis',
+    description:
+      'Casos públicos de IA gerando jurisprudência inexistente trouxeram desconfiança ao uso da tecnologia.',
+    solution: 'Toda resposta da IA traz fonte rastreável — número do processo, tribunal, relator. Sem alucinação. Auditável.',
+    icon: '',
+    iconPath: 'M9 12l2 2 4-4 M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3 M3 12c1 0 3-1 3-3S4 6 3 6 0 7 0 9s2 3 3 3 M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3 M12 21c0-1-1-3-3-3s-3 2-3 3 1 3 3 3 3-2 3-3',
+    segments: ['generico', 'boutique_publico', 'boutique_empresarial', 'boutique_criminal'],
+  },
+  {
+    id: 'andamento_processual',
+    label: 'Movimentações dispersas em vários tribunais',
+    highlight: 'Integrações Jurídicas',
+    description:
+      'Cada tribunal com seu sistema. Atualizar manualmente andamentos consome horas e gera risco de perda de prazo.',
+    solution: 'Integrações nativas com CNJ, DataJud, OAB e tribunais estaduais. Movimentações sincronizadas automaticamente.',
+    icon: '',
+    iconPath: 'M3 12c0-4.97 4.03-9 9-9 4.97 0 9 4.03 9 9 0 4.97-4.03 9-9 9 M12 7v5l3 3 M3 12h6 M15 12h6',
+    segments: ['generico', 'contencioso_massa', 'trabalhista'],
   },
 
   // === CONTENCIOSO TRABALHISTA ===

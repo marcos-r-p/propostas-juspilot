@@ -74,7 +74,9 @@ export type DorId =
   | 'seguranca_conformidade'
   | 'due_diligence'
   | 'compliance_monitoramento'
-  | 'volume_reclamatorias';
+  | 'volume_reclamatorias'
+  | 'confianca_ia'
+  | 'andamento_processual';
 
 export interface Profile {
   id: string;
