@@ -18,17 +18,17 @@ const FAQ_ITEMS = [
   {
     question: 'E se a IA cometer um erro técnico em uma peça?',
     answer:
-      'A IA é assistiva, não substituta. Toda peça gerada passa por revisão do advogado responsável. O JusPilot acelera a produção, mas a responsabilidade técnica permanece com o profissional habilitado.',
+      'Toda resposta da IA traz fonte rastreável — número do processo, tribunal, relator. Você verifica antes de assinar. A IA é assistiva: acelera a produção, mas a responsabilidade técnica permanece com o profissional habilitado.',
   },
   {
     question: 'Onde nossos dados ficam armazenados?',
     answer:
-      'Em infraestrutura AWS na região São Paulo, com criptografia AES-256 em repouso e em trânsito, segregação por workspace e conformidade LGPD. Cada escritório tem ambiente isolado, sem treinamento cruzado de modelos.',
+      'Soberania nacional: infraestrutura AWS na região São Paulo, criptografia AES-256 em repouso e em trânsito, conformidade LGPD nativa. Cada escritório tem workspace isolado, e seus documentos não treinam modelos globais.',
   },
   {
     question: 'Conseguimos integrar com nossos sistemas atuais?',
     answer:
-      'Sim. JusPilot oferece API REST, integrações nativas com Gmail e Google Drive, e roadmap de integrações com sistemas de acompanhamento processual. Avaliamos integrações específicas no diagnóstico inicial.',
+      'Integrações jurídicas nativas com CNJ, DataJud, OAB, Receita Federal e Tribunais Estaduais. Para sistemas internos do escritório (ERP, CRM), oferecemos API REST. Integrações específicas avaliadas no diagnóstico inicial.',
   },
   {
     question: 'Qual é o período mínimo de contrato?',
@@ -41,14 +41,14 @@ const FAQ_ITEMS = [
       'Onboarding estruturado com Customer Success dedicado, treinamentos ao vivo e materiais de capacitação contínua. Cronograma detalhado na seção de Implantação.',
   },
   {
-    question: 'Os modelos de IA podem ser auditados?',
+    question: 'As ações da IA podem ser auditadas?',
     answer:
-      'Sim. Trilha de auditoria completa registra todas as interações, modelos utilizados, prompts e outputs. Disponível para consulta por administradores do escritório.',
+      'Sim. Audit trail imutável via hash chain registra todas as interações, prompts e outputs. Para documentos formais, oferecemos assinatura eletrônica ICP-Brasil com validade jurídica plena. Acesso completo para administradores do escritório.',
   },
   {
-    question: 'Como é cobrado o uso de IA? Existe limite de tokens?',
+    question: 'Como é cobrado o uso de IA? Existe limite?',
     answer:
-      'O plano inclui IA multimodelo sem restrição. Não há cobrança adicional por créditos ou tokens — uso ilimitado dentro de políticas razoáveis de fair use.',
+      'O plano inclui uso ilimitado de IA. Não há cobrança adicional por créditos ou tokens — apenas a mensalidade da faixa do seu porte, dentro de políticas razoáveis de fair use.',
   },
   {
     question: 'E se quisermos cancelar?',

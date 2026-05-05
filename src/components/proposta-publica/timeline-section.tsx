@@ -9,7 +9,7 @@ interface TimelineSectionProps {
 }
 
 const STEPS = [
-  { number: '01', title: 'Onboarding técnico', period: 'Dia 1 — 15', description: 'Configuração da conta, importação de dados, integração com ferramentas existentes e treinamento inicial da equipe.' },
+  { number: '01', title: 'Acesso e onboarding', period: 'Dia 1 — 15', description: 'Acesso à plataforma em horas. Importação de dados, integração com tribunais e ferramentas existentes, treinamento inicial da equipe.' },
   { number: '02', title: 'Calibração e treinamento', period: 'Dia 16 — 45', description: 'Ajuste fino dos agentes de IA com minutas históricas, validação por área de atuação e treinamento avançado.' },
   { number: '03', title: 'Adoção plena', period: 'Dia 46 — 90', description: 'Expansão progressiva por área de atuação, business review mensal com Customer Success dedicado.' },
 ];
@@ -52,11 +52,17 @@ export function TimelineSection({ proposta }: TimelineSectionProps) {
       </div>
       <div
         ref={title.ref}
-        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-14 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
+        className={`vt-reveal ${title.isVisible ? 'visible' : ''} mb-4 text-4xl font-extrabold leading-[1.12] text-[var(--vt-paper)]`}
         style={{ transitionDelay: '0.1s' }}
       >
         {profile.timelineTitle}
       </div>
+      <p
+        className="vt-reveal visible mb-14 max-w-[640px] text-base leading-[1.6] text-[var(--vt-whisper)]"
+        style={{ transitionDelay: '0.15s' }}
+      >
+        Acesso à plataforma em horas. As 3 fases abaixo estruturam a adoção completa pelo escritório com Customer Success dedicado.
+      </p>
 
       <div className="mosaic-grid flex flex-col sm:flex-row">
         {STEPS.map((step, i) => (
