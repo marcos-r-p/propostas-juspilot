@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { PropostaFormData, ROICalculation } from '@/types';
-import { calculateROI } from '@/lib/utils/roi';
+import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
 import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
 import type { PricingData } from '@/lib/pricing/types';
 
@@ -85,12 +85,28 @@ export const useWizardStore = create<WizardState>()(
       },
 
       setPricingTable: (table) => {
-        set((state) => ({
-          pricingTableId: table.id,
-          pricingVersionId: table.versionId,
-          pricingData: table.data,
-          roi: calculateROI(state.formData, table.data),
-        }));
+        set((state) => {
+          // Trocar a tabela reseta preços editados — usa preço sugerido da nova tabela
+          // para a quantidade atual de advogados.
+          const sugerido = getPrecoSugerido(state.formData.escritorio_qtd_advogados, table.data);
+          const newFormData: PropostaFormData = {
+            ...state.formData,
+            usar_preco_sugerido: true,
+            preco_setup: sugerido.setup,
+            preco_mensalidade: sugerido.mensalidade,
+            preco_usuarios_inclusos: sugerido.usuarios,
+            preco_desconto: 0,
+            usar_preco_faixas: false,
+            preco_faixas: null,
+          };
+          return {
+            pricingTableId: table.id,
+            pricingVersionId: table.versionId,
+            pricingData: table.data,
+            formData: newFormData,
+            roi: calculateROI(newFormData, table.data),
+          };
+        });
       },
 
       resetForm: () => {
