@@ -6,7 +6,6 @@ import { useWizardStore } from '@/stores/wizard-store';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
 import { UFS } from '@/lib/constants/ufs';
 import type { PricingTableCurrent } from '@/lib/pricing/types';
 
@@ -155,26 +154,51 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
         />
 
         <div>
-          <div className="mb-1.5 flex items-center justify-between">
-            <label className="text-sm font-medium text-[#09090b]">Valor da hora</label>
-            <Checkbox
-              checked={formData.escritorio_valor_hora_informado}
-              onChange={(v) => updateField('escritorio_valor_hora_informado', v)}
-              label="Informado pelo lead"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-[#a1a1aa]">R$</span>
-            <Input
-              id="escritorio_valor_hora"
-              type="number"
-              min={50}
-              max={2000}
-              value={formData.escritorio_valor_hora}
-              onChange={(e) => updateField('escritorio_valor_hora', Number(e.target.value))}
-              className="w-24"
-            />
-            <span className="text-xs text-[#a1a1aa]">/hora</span>
+          <label className="mb-1.5 block text-sm font-medium text-[#09090b]">Valor da hora</label>
+
+          <div className="space-y-2">
+            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#e4e4e7] p-3 hover:border-[#D97757]/40">
+              <input
+                type="radio"
+                name="valor_hora_origem"
+                checked={formData.escritorio_valor_hora_informado}
+                onChange={() => updateField('escritorio_valor_hora_informado', true)}
+                className="mt-1 accent-[#D97757]"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-[#09090b]">Informado pelo lead</div>
+                <div className="text-xs text-[#a1a1aa]">Use quando o cliente disse o valor que cobra por hora</div>
+                {formData.escritorio_valor_hora_informado && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-sm text-[#a1a1aa]">R$</span>
+                    <Input
+                      id="escritorio_valor_hora"
+                      type="number"
+                      min={50}
+                      max={2000}
+                      value={formData.escritorio_valor_hora}
+                      onChange={(e) => updateField('escritorio_valor_hora', Number(e.target.value))}
+                      className="w-24"
+                    />
+                    <span className="text-xs text-[#a1a1aa]">/hora</span>
+                  </div>
+                )}
+              </div>
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#e4e4e7] p-3 hover:border-[#D97757]/40">
+              <input
+                type="radio"
+                name="valor_hora_origem"
+                checked={!formData.escritorio_valor_hora_informado}
+                onChange={() => updateField('escritorio_valor_hora_informado', false)}
+                className="mt-1 accent-[#D97757]"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-[#09090b]">Estimativa de mercado</div>
+                <div className="text-xs text-[#a1a1aa]">Usaremos R$ 250/hora — média do mercado jurídico brasileiro</div>
+              </div>
+            </label>
           </div>
         </div>
 
