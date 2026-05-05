@@ -4,6 +4,7 @@ import { propostaSchema } from '@/lib/validations/proposta';
 import { generateSlug } from '@/lib/utils/slug';
 import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
 import { loadDefaultPricingData, loadPricingTableById } from '@/lib/pricing/load';
+import { validateMensalidade } from '@/lib/pricing/apply-limits';
 import type { PropostaFormData } from '@/types';
 
 export async function GET(request: NextRequest) {
@@ -70,8 +71,22 @@ export async function POST(request: NextRequest) {
     pricingVersionId = defaultTable?.current_version_id ?? null;
   }
 
+  // Cap de desconto: vem da tabela carregada, não hardcoded no schema Zod.
+  if (formData.preco_desconto > pricingData.limites.desconto_maximo_pct) {
+    return NextResponse.json(
+      { error: `Desconto máximo permitido: ${pricingData.limites.desconto_maximo_pct}%` },
+      { status: 400 },
+    );
+  }
+
   const roi = calculateROI(formData, pricingData);
   const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
+
+  // Piso de mensalidade: bloqueia submit se mensalidade final < piso da tabela.
+  const mensalidadeCheck = validateMensalidade(roi.mensalidade_final, pricingData.limites);
+  if (!mensalidadeCheck.ok) {
+    return NextResponse.json({ error: mensalidadeCheck.message }, { status: 400 });
+  }
 
   const dataExpiracao = new Date();
   dataExpiracao.setDate(dataExpiracao.getDate() + 30);

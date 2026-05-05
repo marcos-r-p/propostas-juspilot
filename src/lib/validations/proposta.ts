@@ -43,7 +43,9 @@ export const propostaSchema = z.object({
   preco_setup: z.number().min(0),
   preco_mensalidade: z.number().min(0),
   preco_usuarios_inclusos: z.number().min(1),
-  preco_desconto: z.number().min(0).max(30),
+  // Cap real vem de pricingData.limites.desconto_maximo_pct (validado no route handler).
+  // Aqui só garantimos o range absoluto válido de um percentual.
+  preco_desconto: z.number().min(0).max(100),
   usar_preco_faixas: z.boolean().optional().default(false),
   preco_faixas: z.array(z.object({
     de_mes: z.number().min(1),
