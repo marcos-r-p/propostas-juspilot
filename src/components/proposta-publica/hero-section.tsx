@@ -31,7 +31,15 @@ export function HeroSection({ proposta }: HeroSectionProps) {
   const { displayText } = useTyping(subtitleText, { enabled: subtitle.isVisible });
 
   return (
-    <section id="hero" className="mx-auto max-w-[1100px] px-6 pb-24 pt-20 sm:px-12 sm:pt-24">
+    <section id="hero" className="relative mx-auto max-w-[1100px] px-6 pb-24 pt-20 sm:px-12 sm:pt-24">
+      {/* Decorative brand illustration — desktop only */}
+      <img
+        src="/brand/illustrations/elemento-3-hexagons.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-12 top-16 hidden h-[320px] w-auto opacity-15 lg:block"
+      />
+
       <div
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-10 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}

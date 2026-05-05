@@ -42,7 +42,15 @@ export function TimelineSection({ proposta }: TimelineSectionProps) {
   const title = useReveal();
 
   return (
-    <section id="implantacao" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+    <section id="implantacao" className="relative mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      {/* Decorative papers — desktop only */}
+      <img
+        src="/brand/illustrations/elemento-4-papers.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-10 top-16 hidden h-[180px] w-auto opacity-10 lg:block"
+      />
+
       <div
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}
