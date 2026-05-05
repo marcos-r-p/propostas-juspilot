@@ -19,16 +19,3 @@ export function validateMensalidade(
   }
   return { ok: true };
 }
-
-export function getDescontoErrorMessage(
-  value: number,
-  limites: PricingLimites,
-): string | null {
-  if (value > limites.desconto_maximo_pct) {
-    return `Desconto máximo permitido: ${limites.desconto_maximo_pct}%`;
-  }
-  if (value < 0) {
-    return 'Desconto não pode ser negativo';
-  }
-  return null;
-}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clampDesconto, validateMensalidade, getDescontoErrorMessage } from './apply-limits';
+import { clampDesconto, validateMensalidade } from './apply-limits';
 
 const limites = { desconto_maximo_pct: 30, mensalidade_minima: 1000, validade_proposta_dias: 30, reajuste_anual_pct: 8 };
 
@@ -16,9 +16,4 @@ describe('validateMensalidade', () => {
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.message).toContain('1.000');
   });
-});
-
-describe('getDescontoErrorMessage', () => {
-  it('retorna null se válido', () => expect(getDescontoErrorMessage(20, limites)).toBeNull());
-  it('retorna mensagem se acima do limite', () => expect(getDescontoErrorMessage(50, limites)).toContain('30'));
 });

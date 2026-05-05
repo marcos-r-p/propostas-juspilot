@@ -7,7 +7,7 @@ import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import { getPrecoSugerido } from '@/lib/utils/roi';
-import { clampDesconto, getDescontoErrorMessage, validateMensalidade } from '@/lib/pricing/apply-limits';
+import { clampDesconto, validateMensalidade } from '@/lib/pricing/apply-limits';
 import { formatCurrency } from '@/lib/utils/format';
 import type { PrecoFaixa } from '@/types';
 
@@ -23,7 +23,6 @@ export function StepPrecos() {
   const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
   const faixas = formData.preco_faixas || [];
 
-  const descontoError = getDescontoErrorMessage(formData.preco_desconto, pricingData.limites);
   const mensalidadeCheck = validateMensalidade(roi.mensalidade_final, pricingData.limites);
 
   const handleToggleFaixas = (enabled: boolean) => {
@@ -220,9 +219,6 @@ export function StepPrecos() {
           max={pricingData.limites.desconto_maximo_pct}
           suffix="%"
         />
-        {descontoError && (
-          <p className="mt-1 text-xs text-red-600">{descontoError}</p>
-        )}
         {!mensalidadeCheck.ok && (
           <p className="mt-1 text-xs text-red-600">{mensalidadeCheck.message}</p>
         )}
