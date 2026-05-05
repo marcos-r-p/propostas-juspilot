@@ -29,17 +29,31 @@ const STEPS = [
   { id: 8, label: 'Preview', component: StepPreview },
 ];
 
+interface ConsultorProfile {
+  id: string;
+  email: string;
+  nome: string;
+  cargo?: string;
+  telefone?: string;
+  avatar_url?: string;
+}
+
 interface WizardContainerProps {
   tables?: PricingTableCurrent[];
   initialTable?: PricingTableCurrent | null;
+  consultorProfile?: ConsultorProfile | null;
 }
 
-export function WizardContainer({ tables = [], initialTable = null }: WizardContainerProps = {}) {
+export function WizardContainer({
+  tables = [],
+  initialTable = null,
+  consultorProfile = null,
+}: WizardContainerProps = {}) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { formData, roi, resetForm, setPricingTable, pricingTableId, pricingVersionId } = useWizardStore();
+  const { formData, roi, resetForm, setPricingTable, pricingTableId, pricingVersionId, updateFields } = useWizardStore();
 
   useEffect(() => {
     if (initialTable) {
@@ -50,6 +64,28 @@ export function WizardContainer({ tables = [], initialTable = null }: WizardCont
       });
     }
   }, [initialTable, setPricingTable]);
+
+  // Pre-fill consultor fields from logged-in user profile (only if empty)
+  useEffect(() => {
+    if (!consultorProfile) return;
+    const patch: Partial<typeof formData> = {};
+    if (!formData.consultor_nome && consultorProfile.nome) {
+      patch.consultor_nome = consultorProfile.nome;
+    }
+    if ((formData.consultor_cargo === '' || formData.consultor_cargo === 'Consultor Comercial') && consultorProfile.cargo) {
+      patch.consultor_cargo = consultorProfile.cargo;
+    }
+    if (!formData.consultor_email && consultorProfile.email) {
+      patch.consultor_email = consultorProfile.email;
+    }
+    if (!formData.consultor_whatsapp && consultorProfile.telefone) {
+      patch.consultor_whatsapp = consultorProfile.telefone;
+    }
+    if (Object.keys(patch).length > 0) {
+      updateFields(patch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consultorProfile]);
 
   const CurrentStepComponent = STEPS[currentStep - 1].component;
 

@@ -82,6 +82,7 @@ export interface Profile {
   nome: string;
   cargo?: string;
   avatar_url?: string;
+  telefone?: string;
   created_at: string;
   updated_at: string;
   role: 'user' | 'admin';
