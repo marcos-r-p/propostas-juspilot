@@ -174,10 +174,22 @@ export function PricingSection({ proposta }: PricingSectionProps) {
             <span className="absolute inset-0 z-0 translate-y-full bg-[var(--vt-brand-hover)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
           </a>
 
-          <a href="#" className="group relative pb-0.5 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]">
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window === 'undefined') return;
+              document.body.classList.add('printing');
+              // Aguarda re-render com classe .printing pra desfazer animações antes do diálogo
+              setTimeout(() => {
+                window.print();
+                setTimeout(() => document.body.classList.remove('printing'), 250);
+              }, 80);
+            }}
+            className="group relative pb-0.5 text-sm text-[var(--vt-whisper)] transition-colors duration-300 hover:text-[var(--vt-paper)]"
+          >
             Baixar proposta em PDF
             <span className="absolute bottom-0 left-0 h-px w-full bg-[var(--vt-graphite)] transition-[background] duration-300 group-hover:bg-[var(--vt-paper)]" />
-          </a>
+          </button>
 
           <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] text-[var(--vt-mute)] sm:ml-auto">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--vt-brand)]" />

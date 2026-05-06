@@ -251,3 +251,79 @@ body {
 .hero-scroll-indicator {
   animation: hero-bounce 2s ease-in-out infinite;
 }
+
+/* ========== Print styles ========== */
+/* Either via @media print or via body.printing class (forced before window.print()) */
+.printing .vt-reveal,
+@media print {
+  .vt-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  /* Light theme inversion for print (saves ink + readable on paper) */
+  .vitrine {
+    --vt-ink: #ffffff;
+    --vt-ink-soft: #fafafa;
+    --vt-graphite: #d4d4d8;
+    --vt-mute: #52525b;
+    --vt-whisper: #3f3f46;
+    --vt-paper: #09090b;
+    background: #ffffff !important;
+    color: #09090b !important;
+  }
+
+  /* Hide chrome and decorative noise */
+  .vitrine-grain,
+  .vitrine-progress,
+  .hero-scroll-indicator,
+  nav[class*="fixed"],
+  button[aria-label="Voltar ao topo"] {
+    display: none !important;
+  }
+
+  /* Reveal animations always visible */
+  .vt-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Decorative illustrations: very faint */
+  img[aria-hidden="true"] {
+    opacity: 0.05 !important;
+  }
+
+  /* Avoid splitting cards across pages */
+  section, article, .mosaic-grid > * {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Mosaic grid border lines visible on print */
+  .mosaic-grid {
+    background: #d4d4d8 !important;
+  }
+  .mosaic-grid > * {
+    background: #ffffff !important;
+  }
+
+  /* Hide hover-only effects */
+  .group:hover * {
+    transform: none !important;
+  }
+
+  /* Compact spacing for print */
+  section {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+
+  /* Brand bar keeps terracotta but lighter for print */
+  [class*="bg-[var(--vt-brand)]"] {
+    background-color: #D97757 !important;
+  }
+}
