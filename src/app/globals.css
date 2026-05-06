@@ -1,39 +1,48 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Color — brand */
+  /* Color — brand (alinhado com apresentacao-juspilot) */
   --color-brand: #D97757;
-  --color-brand-hover: #C26641;
+  --color-brand-hover: #b85e3e;
   --color-brand-soft: #D977571A;
   --color-brand-muted: #D9775733;
 
-  /* Color — semantic */
-  --color-ink: #0a0a0a;
-  --color-ink-soft: #18181b;
+  /* Color — neutrals (Notion-style warm palette) */
+  --color-ink: #101010;
+  --color-ink-soft: #1C1917;
+  --color-ink-2: #252220;
   --color-graphite: #3f3f46;
-  --color-mute: #71717a;
+  --color-mute: #7A7370;
   --color-whisper: #a1a1aa;
-  --color-rule: #e4e4e7;
+  --color-rule: #E3E0DD;
   --color-rule-soft: #f4f4f5;
-  --color-paper: #fafafa;
+  --color-sand: #F0EDEB;
+  --color-off-white: #FAFAF9;
+  --color-paper: #FAFAF9;
   --color-paper-pure: #ffffff;
-  --color-danger: #991b1b;
+  --color-danger: #c0392b;
+  --color-success: #2B9C98;
 
   /* Backward compat */
   --color-background: var(--color-paper);
   --color-foreground: var(--color-ink);
 
-  /* Typography */
-  --font-display: var(--font-geist-sans);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Typography (Inter + JetBrains Mono) */
+  --font-display: var(--font-inter);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 
   /* Radius */
   --radius-none: 0;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
   --radius-pill: 9999px;
+
+  /* Spacing fluido */
+  --space-section: clamp(3rem, 8vw, 6rem);
+  --space-gap: clamp(1rem, 2.5vw, 2rem);
+  --pad-x: clamp(1.25rem, 4vw, 2rem);
 
   /* Measure */
   --measure: 65ch;
