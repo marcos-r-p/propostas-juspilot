@@ -1,7 +1,7 @@
 // src/components/wizard/wizard-container.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWizardStore } from '@/stores/wizard-store';
 import { WizardSidebar } from './wizard-sidebar';
@@ -16,6 +16,7 @@ import { StepPrecos } from './step-precos';
 import { StepPreview } from './step-preview';
 import { toast } from '@/hooks/use-toast';
 import { propostaSchema } from '@/lib/validations/proposta';
+import type { PricingTableCurrent } from '@/lib/pricing/types';
 
 const STEPS = [
   { id: 1, label: 'Lead', component: StepLead },
@@ -28,12 +29,63 @@ const STEPS = [
   { id: 8, label: 'Preview', component: StepPreview },
 ];
 
-export function WizardContainer() {
+interface ConsultorProfile {
+  id: string;
+  email: string;
+  nome: string;
+  cargo?: string;
+  telefone?: string;
+  avatar_url?: string;
+}
+
+interface WizardContainerProps {
+  tables?: PricingTableCurrent[];
+  initialTable?: PricingTableCurrent | null;
+  consultorProfile?: ConsultorProfile | null;
+}
+
+export function WizardContainer({
+  tables = [],
+  initialTable = null,
+  consultorProfile = null,
+}: WizardContainerProps = {}) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { formData, roi, resetForm } = useWizardStore();
+  const { formData, roi, resetForm, setPricingTable, pricingTableId, pricingVersionId, updateFields } = useWizardStore();
+
+  useEffect(() => {
+    if (initialTable) {
+      setPricingTable({
+        id: initialTable.id,
+        versionId: initialTable.current_version_id,
+        data: initialTable.data,
+      });
+    }
+  }, [initialTable, setPricingTable]);
+
+  // Pre-fill consultor fields from logged-in user profile (only if empty)
+  useEffect(() => {
+    if (!consultorProfile) return;
+    const patch: Partial<typeof formData> = {};
+    if (!formData.consultor_nome && consultorProfile.nome) {
+      patch.consultor_nome = consultorProfile.nome;
+    }
+    if ((formData.consultor_cargo === '' || formData.consultor_cargo === 'Consultor Comercial') && consultorProfile.cargo) {
+      patch.consultor_cargo = consultorProfile.cargo;
+    }
+    if (!formData.consultor_email && consultorProfile.email) {
+      patch.consultor_email = consultorProfile.email;
+    }
+    if (!formData.consultor_whatsapp && consultorProfile.telefone) {
+      patch.consultor_whatsapp = consultorProfile.telefone;
+    }
+    if (Object.keys(patch).length > 0) {
+      updateFields(patch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consultorProfile]);
 
   const CurrentStepComponent = STEPS[currentStep - 1].component;
 
@@ -74,7 +126,11 @@ export function WizardContainer() {
       const res = await fetch('/api/propostas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          pricing_table_id: pricingTableId,
+          pricing_version_id: pricingVersionId,
+        }),
       });
 
       if (!res.ok) {
@@ -137,7 +193,11 @@ export function WizardContainer() {
       {/* Form content */}
       <div className="flex-1 px-4 py-4 md:px-10 md:py-8">
         <div className="max-w-[520px]">
-          <CurrentStepComponent />
+          {currentStep === 2 ? (
+            <StepEscritorio tables={tables} />
+          ) : (
+            <CurrentStepComponent />
+          )}
           <WizardNavigation
             currentStep={currentStep}
             totalSteps={STEPS.length}

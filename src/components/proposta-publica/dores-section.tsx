@@ -78,7 +78,15 @@ export function DoresSection({ proposta }: DoresSectionProps) {
   if (dores.length === 0) return null;
 
   return (
-    <section id="diagnostico" className="mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+    <section id="diagnostico" className="relative mx-auto max-w-[1100px] px-6 py-24 sm:px-12">
+      {/* Decorative clipboard — desktop only */}
+      <img
+        src="/brand/illustrations/elemento-1-clipboard.svg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-10 top-20 hidden h-[200px] w-auto opacity-10 lg:block"
+      />
+
       <div
         ref={label.ref}
         className={`vt-reveal ${label.isVisible ? 'visible' : ''} mb-3.5 flex items-center gap-4 text-[11px] uppercase tracking-[0.14em] text-[var(--vt-mute)]`}

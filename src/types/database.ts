@@ -84,8 +84,10 @@ export interface Profile {
   nome: string;
   cargo?: string;
   avatar_url?: string;
+  telefone?: string;
   created_at: string;
   updated_at: string;
+  role: 'user' | 'admin';
 }
 
 export interface Proposta {
@@ -151,6 +153,9 @@ export interface Proposta {
 
   // Relations
   profile?: Profile;
+
+  pricing_table_id: string | null;
+  pricing_version_id: string | null;
 }
 
 export interface PropostaView {

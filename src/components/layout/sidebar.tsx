@@ -11,6 +11,7 @@ import type { Profile } from '@/types';
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icon: '📊' },
   { href: '/nova', label: 'Nova Proposta', icon: '➕' },
+  { href: '/precificacao', label: 'Precificação', icon: '💰' },
   { href: '/configuracoes', label: 'Configurações', icon: '⚙️' },
 ];
 

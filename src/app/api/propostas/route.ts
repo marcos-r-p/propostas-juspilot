@@ -3,6 +3,8 @@ import { createServerClient } from '@/lib/supabase/server';
 import { propostaSchema } from '@/lib/validations/proposta';
 import { generateSlug } from '@/lib/utils/slug';
 import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
+import { loadDefaultPricingData, loadPricingTableById } from '@/lib/pricing/load';
+import { validateMensalidade } from '@/lib/pricing/apply-limits';
 import type { PropostaFormData } from '@/types';
 
 export async function GET(request: NextRequest) {
@@ -46,8 +48,45 @@ export async function POST(request: NextRequest) {
 
   const formData = parsed.data as PropostaFormData;
   const slug = generateSlug(formData.escritorio_nome);
-  const roi = calculateROI(formData);
-  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados);
+
+  // Prefer the pricing table the user selected in the wizard; fallback to default.
+  const requestedTableId = parsed.data.pricing_table_id ?? null;
+  let pricingData;
+  let pricingTableId: string | null = null;
+  let pricingVersionId: string | null = null;
+
+  if (requestedTableId) {
+    const selected = await loadPricingTableById(requestedTableId);
+    if (selected) {
+      pricingData = selected.data;
+      pricingTableId = selected.id;
+      pricingVersionId = selected.current_version_id;
+    }
+  }
+
+  if (!pricingData) {
+    const { data: defaultData, table: defaultTable } = await loadDefaultPricingData();
+    pricingData = defaultData;
+    pricingTableId = defaultTable?.id ?? null;
+    pricingVersionId = defaultTable?.current_version_id ?? null;
+  }
+
+  // Cap de desconto: vem da tabela carregada, não hardcoded no schema Zod.
+  if (formData.preco_desconto > pricingData.limites.desconto_maximo_pct) {
+    return NextResponse.json(
+      { error: `Desconto máximo permitido: ${pricingData.limites.desconto_maximo_pct}%` },
+      { status: 400 },
+    );
+  }
+
+  const roi = calculateROI(formData, pricingData);
+  const sugerido = getPrecoSugerido(formData.escritorio_qtd_advogados, pricingData);
+
+  // Piso de mensalidade: bloqueia submit se mensalidade final < piso da tabela.
+  const mensalidadeCheck = validateMensalidade(roi.mensalidade_final, pricingData.limites);
+  if (!mensalidadeCheck.ok) {
+    return NextResponse.json({ error: mensalidadeCheck.message }, { status: 400 });
+  }
 
   const dataExpiracao = new Date();
   dataExpiracao.setDate(dataExpiracao.getDate() + 30);
@@ -92,6 +131,8 @@ export async function POST(request: NextRequest) {
     roi_custo_por_advogado: roi.custo_por_advogado,
     validade_dias: 30,
     data_expiracao: dataExpiracao.toISOString().split('T')[0],
+    pricing_table_id: pricingTableId,
+    pricing_version_id: pricingVersionId,
   };
 
   const { data, error } = await supabase.from('propostas').insert(propostaData).select().single();

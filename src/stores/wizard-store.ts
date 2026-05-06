@@ -1,14 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { PropostaFormData, ROICalculation } from '@/types';
-import { calculateROI } from '@/lib/utils/roi';
+import { calculateROI, getPrecoSugerido } from '@/lib/utils/roi';
+import { DEFAULT_PRICING_DATA } from '@/lib/pricing/default-data';
+import type { PricingData } from '@/lib/pricing/types';
 
 interface WizardState {
   formData: PropostaFormData;
   roi: ROICalculation;
+  pricingTableId: string | null;
+  pricingVersionId: string | null;
+  pricingData: PricingData;
   updateField: <K extends keyof PropostaFormData>(field: K, value: PropostaFormData[K]) => void;
   updateFields: (fields: Partial<PropostaFormData>) => void;
   toggleArrayField: <K extends keyof PropostaFormData>(field: K, value: string) => void;
+  setPricingTable: (table: { id: string; versionId: string; data: PricingData }) => void;
   resetForm: () => void;
 }
 
@@ -48,19 +54,22 @@ export const useWizardStore = create<WizardState>()(
   persist(
     (set) => ({
       formData: initialFormData,
-      roi: calculateROI(initialFormData),
+      roi: calculateROI(initialFormData, DEFAULT_PRICING_DATA),
+      pricingTableId: null,
+      pricingVersionId: null,
+      pricingData: DEFAULT_PRICING_DATA,
 
       updateField: (field, value) => {
         set((state) => {
           const newFormData = { ...state.formData, [field]: value };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
         });
       },
 
       updateFields: (fields) => {
         set((state) => {
           const newFormData = { ...state.formData, ...fields };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
         });
       },
 
@@ -71,12 +80,40 @@ export const useWizardStore = create<WizardState>()(
             ? currentArray.filter((item) => item !== value)
             : [...currentArray, value];
           const newFormData = { ...state.formData, [field]: newArray };
-          return { formData: newFormData, roi: calculateROI(newFormData) };
+          return { formData: newFormData, roi: calculateROI(newFormData, state.pricingData) };
+        });
+      },
+
+      setPricingTable: (table) => {
+        set((state) => {
+          // Trocar a tabela reseta preços editados — usa preço sugerido da nova tabela
+          // para a quantidade atual de advogados.
+          const sugerido = getPrecoSugerido(state.formData.escritorio_qtd_advogados, table.data);
+          const newFormData: PropostaFormData = {
+            ...state.formData,
+            usar_preco_sugerido: true,
+            preco_setup: sugerido.setup,
+            preco_mensalidade: sugerido.mensalidade,
+            preco_usuarios_inclusos: sugerido.usuarios,
+            preco_desconto: 0,
+            usar_preco_faixas: false,
+            preco_faixas: null,
+          };
+          return {
+            pricingTableId: table.id,
+            pricingVersionId: table.versionId,
+            pricingData: table.data,
+            formData: newFormData,
+            roi: calculateROI(newFormData, table.data),
+          };
         });
       },
 
       resetForm: () => {
-        set({ formData: initialFormData, roi: calculateROI(initialFormData) });
+        set((state) => ({
+          formData: initialFormData,
+          roi: calculateROI(initialFormData, state.pricingData),
+        }));
       },
     }),
     {

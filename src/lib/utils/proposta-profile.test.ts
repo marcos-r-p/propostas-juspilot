@@ -27,6 +27,8 @@ const baseProposta = {
   visualizacoes: 0,
   created_at: '',
   updated_at: '',
+  pricing_table_id: null,
+  pricing_version_id: null,
 } as Proposta;
 
 describe('deriveProfile', () => {
