@@ -11,6 +11,21 @@ interface UseCounterOptions {
 export function useCounter(target: number, options: UseCounterOptions = {}) {
   const { duration = 1800, decimals = 0, enabled = false } = options;
   const [value, setValue] = useState(0);
+  const [printing, setPrinting] = useState(false);
+
+  // When the user invokes window.print(), browsers fire `beforeprint`.
+  // We jump the counter straight to its target value so the PDF shows
+  // final numbers instead of frozen partial animation.
+  useEffect(() => {
+    const onBefore = () => setPrinting(true);
+    const onAfter = () => setPrinting(false);
+    window.addEventListener('beforeprint', onBefore);
+    window.addEventListener('afterprint', onAfter);
+    return () => {
+      window.removeEventListener('beforeprint', onBefore);
+      window.removeEventListener('afterprint', onAfter);
+    };
+  }, []);
 
   useEffect(() => {
     if (!enabled || target === 0) return;
@@ -30,5 +45,5 @@ export function useCounter(target: number, options: UseCounterOptions = {}) {
     requestAnimationFrame(update);
   }, [target, duration, decimals, enabled]);
 
-  return value;
+  return printing ? target : value;
 }

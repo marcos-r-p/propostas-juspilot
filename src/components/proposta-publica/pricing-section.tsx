@@ -167,6 +167,7 @@ export function PricingSection({ proposta }: PricingSectionProps) {
             href={`https://wa.me/${whatsapp}?text=Olá! Vi a proposta do JusPilot para ${proposta.escritorio_nome} e gostaria de agendar uma conversa.`}
             target="_blank"
             rel="noopener noreferrer"
+            data-print-hide
             className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-xl bg-[var(--vt-brand)] px-8 py-4 text-sm font-bold tracking-[0.02em] text-white"
           >
             <span className="relative z-10 transition-colors duration-300">Agendar conversa</span>
@@ -176,10 +177,10 @@ export function PricingSection({ proposta }: PricingSectionProps) {
 
           <button
             type="button"
+            data-print-hide
             onClick={() => {
               if (typeof window === 'undefined') return;
               document.body.classList.add('printing');
-              // Aguarda re-render com classe .printing pra desfazer animações antes do diálogo
               setTimeout(() => {
                 window.print();
                 setTimeout(() => document.body.classList.remove('printing'), 250);

@@ -264,66 +264,70 @@ body {
 }
 
 @media print {
-  /* Light theme inversion for print (saves ink + readable on paper) */
-  .vitrine {
-    --vt-ink: #ffffff;
-    --vt-ink-soft: #fafafa;
-    --vt-graphite: #d4d4d8;
-    --vt-mute: #52525b;
-    --vt-whisper: #3f3f46;
-    --vt-paper: #09090b;
-    background: #ffffff !important;
-    color: #09090b !important;
+  /* Force browsers to print background colors and images (Chrome/Edge/Safari) */
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
-  /* Hide chrome and decorative noise */
-  .vitrine-grain,
+  /* Page setup: A4 portrait, minimal margins (vitrine bg goes edge-to-edge) */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    background: #141414 !important;
+  }
+
+  /* Vitrine theme preserved (dark, identical to site) */
+  .vitrine {
+    background: #141414 !important;
+    color: #fafafa !important;
+  }
+
+  /* Hide navigational chrome AND interactive elements that don't make sense in PDF */
   .vitrine-progress,
   .hero-scroll-indicator,
   nav[class*="fixed"],
-  button[aria-label="Voltar ao topo"] {
+  button[aria-label="Voltar ao topo"],
+  [data-print-hide] {
     display: none !important;
   }
 
-  /* Reveal animations always visible */
+  /* Reveal animations: render final state */
   .vt-reveal {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
 
-  /* Decorative illustrations: very faint */
-  img[aria-hidden="true"] {
-    opacity: 0.05 !important;
-  }
-
-  /* Avoid splitting cards across pages */
-  section, article, .mosaic-grid > * {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Mosaic grid border lines visible on print */
-  .mosaic-grid {
-    background: #d4d4d8 !important;
-  }
-  .mosaic-grid > * {
-    background: #ffffff !important;
-  }
-
-  /* Hide hover-only effects */
+  /* Hover-only effects desligados (não há mouse no PDF) */
   .group:hover * {
     transform: none !important;
   }
 
-  /* Compact spacing for print */
-  section {
-    padding-top: 24px !important;
-    padding-bottom: 24px !important;
+  /* Avoid splitting sections/cards between pages */
+  section,
+  article,
+  .mosaic-grid > * {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
-  /* Brand bar keeps terracotta but lighter for print */
-  [class*="bg-[var(--vt-brand)]"] {
-    background-color: #D97757 !important;
+  /* Compact spacing: 24px top/bottom para caber mais conteúdo por página */
+  section {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
   }
+
+}
+
+/* Hide print-only-trigger button and prevent ROI counter "0" snapshot during print
+   by forcing it to show final values when body.printing class is set. */
+body.printing .group:hover {
+  pointer-events: none;
 }

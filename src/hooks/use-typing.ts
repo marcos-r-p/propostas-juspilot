@@ -13,6 +13,19 @@ export function useTyping(text: string, options: UseTypingOptions = {}) {
   const { charDelay = 25, commaDelay = 80, periodDelay = 100, enabled = false } = options;
   const [displayText, setDisplayText] = useState('');
   const [isDone, setIsDone] = useState(false);
+  const [printing, setPrinting] = useState(false);
+
+  // Print event: jump straight to full text so PDF shows complete subtitle
+  useEffect(() => {
+    const onBefore = () => setPrinting(true);
+    const onAfter = () => setPrinting(false);
+    window.addEventListener('beforeprint', onBefore);
+    window.addEventListener('afterprint', onAfter);
+    return () => {
+      window.removeEventListener('beforeprint', onBefore);
+      window.removeEventListener('afterprint', onAfter);
+    };
+  }, []);
 
   useEffect(() => {
     if (!enabled || !text) return;
@@ -39,5 +52,8 @@ export function useTyping(text: string, options: UseTypingOptions = {}) {
     return () => clearTimeout(timeoutId);
   }, [text, charDelay, commaDelay, periodDelay, enabled]);
 
-  return { displayText, isDone };
+  return {
+    displayText: printing ? text : displayText,
+    isDone: printing ? true : isDone,
+  };
 }
