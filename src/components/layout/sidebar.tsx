@@ -26,17 +26,17 @@ export function Sidebar({ profile }: SidebarProps) {
   return (
     <>
       {/* Mobile header */}
-      <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-[#e4e4e7] bg-white px-4 py-3 md:hidden">
+      <div className="fixed left-0 right-0 top-0 z-40 flex items-center justify-between border-b border-[#E3E0DD] bg-white px-4 py-3 md:hidden">
         <div className="flex items-center gap-2.5">
           <JuspilotSymbol size={32} />
           <div>
-            <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
+            <div className="text-sm font-bold text-[#101010]">Juspilot</div>
             <div className="text-[10px] text-[#a1a1aa]">Propostas</div>
           </div>
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-[#e4e4e7] text-[#71717a]"
+          className="flex h-9 w-9 items-center justify-center rounded-md border border-[#E3E0DD] text-[#7A7370]"
         >
           {mobileOpen ? (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -57,16 +57,16 @@ export function Sidebar({ profile }: SidebarProps) {
 
       {/* Sidebar */}
       <aside className={cn(
-        'flex h-screen w-60 flex-col border-r border-[#e4e4e7] bg-white',
+        'flex h-screen w-60 flex-col border-r border-[#E3E0DD] bg-white',
         'fixed left-0 top-0 z-50 transition-transform duration-200 md:relative md:translate-x-0',
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
-        <div className="border-b border-[#e4e4e7] px-5 py-5">
+        <div className="border-b border-[#E3E0DD] px-5 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <JuspilotSymbol size={36} />
               <div>
-                <div className="text-sm font-bold text-[#09090b]">Juspilot</div>
+                <div className="text-sm font-bold text-[#101010]">Juspilot</div>
                 <div className="mt-0.5 text-[10px] text-[#a1a1aa]">Propostas</div>
               </div>
             </div>
@@ -88,7 +88,7 @@ export function Sidebar({ profile }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className={cn('mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#D97757]/10 font-medium text-[#D97757]' : 'text-[#71717a] hover:bg-[#f4f4f5] hover:text-[#09090b]')}
+                className={cn('mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors', isActive ? 'bg-[#D97757]/10 font-medium text-[#D97757]' : 'text-[#7A7370] hover:bg-[#F0EDEB] hover:text-[#101010]')}
               >
                 <span>{item.icon}</span>
                 {item.label}

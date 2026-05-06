@@ -15,10 +15,10 @@ export function Checkbox({ checked, onChange, label, description, className }: C
     <label className={cn('flex cursor-pointer items-start gap-3', className)}>
       <div
         className={cn(
-          'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border-[1.5px] transition-colors',
+          'mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-sm border transition-colors',
           checked
             ? 'border-brand bg-brand text-paper-pure'
-            : 'border-graphite bg-transparent'
+            : 'border-rule bg-paper-pure hover:border-mute'
         )}
         onClick={(e) => {
           e.preventDefault();
@@ -33,8 +33,8 @@ export function Checkbox({ checked, onChange, label, description, className }: C
       </div>
       {(label || description) && (
         <div>
-          {label && <div className="text-body font-medium text-ink">{label}</div>}
-          {description && <div className="text-body-sm text-whisper">{description}</div>}
+          {label && <div className="text-[14px] font-medium text-ink">{label}</div>}
+          {description && <div className="mt-0.5 text-[13px] text-mute">{description}</div>}
         </div>
       )}
     </label>

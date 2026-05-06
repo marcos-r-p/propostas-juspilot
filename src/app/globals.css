@@ -156,6 +156,36 @@
   letter-spacing: 0.08em;
 }
 
+/* ── Section pattern (Notion-style alternation) ───── */
+@utility sec-pad {
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
+}
+
+@utility sec-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+  margin-bottom: 0.75rem;
+}
+
+@utility sec-title {
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -1.2px;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+
+@utility sec-lead {
+  font-size: 1.05rem;
+  color: var(--color-mute);
+  line-height: 1.7;
+  max-width: 58ch;
+}
+
 /* Border utilities */
 @utility border-rule {
   border: 1px solid var(--color-rule);
