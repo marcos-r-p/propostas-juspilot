@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
@@ -72,6 +73,9 @@ export function PropostaActions({ proposta }: PropostaActionsProps) {
             </a>
           </>
         )}
+        <Link href={`/proposta/${proposta.id}/editar`}>
+          <Button variant="secondary">Editar</Button>
+        </Link>
         <Button variant="destructive" size="sm" onClick={() => setShowDelete(true)}>
           Excluir
         </Button>

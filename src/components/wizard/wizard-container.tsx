@@ -17,6 +17,7 @@ import { StepPreview } from './step-preview';
 import { toast } from '@/hooks/use-toast';
 import { propostaSchema } from '@/lib/validations/proposta';
 import type { PricingTableCurrent } from '@/lib/pricing/types';
+import type { Proposta } from '@/types';
 
 const STEPS = [
   { id: 1, label: 'Lead', component: StepLead },
@@ -42,18 +43,62 @@ interface WizardContainerProps {
   tables?: PricingTableCurrent[];
   initialTable?: PricingTableCurrent | null;
   consultorProfile?: ConsultorProfile | null;
+  /** Proposta existente para editar. Se passada, wizard entra em modo edit. */
+  editingProposta?: Proposta | null;
 }
 
 export function WizardContainer({
   tables = [],
   initialTable = null,
   consultorProfile = null,
+  editingProposta = null,
 }: WizardContainerProps = {}) {
   const router = useRouter();
+  const isEditing = !!editingProposta;
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { formData, roi, resetForm, setPricingTable, pricingTableId, pricingVersionId, updateFields } = useWizardStore();
+
+  // Pre-fill from existing proposta when editing
+  useEffect(() => {
+    if (!editingProposta) return;
+    resetForm();
+    updateFields({
+      lead_nome: editingProposta.lead_nome ?? '',
+      lead_email: editingProposta.lead_email ?? '',
+      lead_telefone: editingProposta.lead_telefone ?? '',
+      lead_cargo: editingProposta.lead_cargo ?? '',
+      escritorio_nome: editingProposta.escritorio_nome,
+      escritorio_cidade: editingProposta.escritorio_cidade,
+      escritorio_uf: editingProposta.escritorio_uf,
+      escritorio_qtd_advogados: editingProposta.escritorio_qtd_advogados,
+      escritorio_valor_hora: editingProposta.escritorio_valor_hora,
+      escritorio_valor_hora_informado: editingProposta.escritorio_valor_hora_informado,
+      escritorio_site_url: editingProposta.escritorio_site_url ?? '',
+      escritorio_logo_url: editingProposta.escritorio_logo_url ?? '',
+      escritorio_areas: editingProposta.escritorio_areas,
+      escritorio_perfil: editingProposta.escritorio_perfil,
+      escritorio_maturidade_processos: editingProposta.escritorio_maturidade_processos,
+      escritorio_maturidade_ia: editingProposta.escritorio_maturidade_ia,
+      escritorio_dores: editingProposta.escritorio_dores,
+      escritorio_contexto: editingProposta.escritorio_contexto ?? '',
+      consultor_nome: editingProposta.consultor_nome ?? '',
+      consultor_cargo: editingProposta.consultor_cargo ?? 'Consultor Comercial',
+      consultor_whatsapp: editingProposta.consultor_whatsapp ?? '',
+      consultor_email: editingProposta.consultor_email ?? '',
+      usar_preco_sugerido: false,
+      preco_setup: editingProposta.preco_setup,
+      preco_mensalidade: editingProposta.preco_mensalidade,
+      preco_usuarios_inclusos: editingProposta.preco_usuarios_inclusos,
+      preco_desconto: editingProposta.preco_desconto,
+      usar_preco_faixas: !!editingProposta.preco_faixas?.length,
+      preco_faixas: editingProposta.preco_faixas ?? null,
+    });
+    // Mark all steps complete (allow free navigation)
+    setCompletedSteps([1, 2, 3, 4, 5, 6, 7]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingProposta]);
 
   useEffect(() => {
     if (initialTable) {
@@ -123,28 +168,46 @@ export function WizardContainer({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/propostas', {
-        method: 'POST',
+      const url = isEditing
+        ? `/api/propostas/${editingProposta!.id}`
+        : '/api/propostas';
+      const method = isEditing ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           pricing_table_id: pricingTableId,
           pricing_version_id: pricingVersionId,
+          // Recalculated ROI fields (server can override)
+          roi_horas_economizadas_total: roi.horas_economizadas_total,
+          roi_horas_economizadas_por_adv: roi.horas_economizadas_por_adv,
+          roi_valor_gerado: roi.valor_gerado,
+          roi_percentual: roi.roi_percentual,
+          roi_multiplo: roi.roi_multiplo,
+          roi_custo_por_advogado: roi.custo_por_advogado,
+          preco_mensalidade_final: roi.mensalidade_final,
         }),
       });
 
       if (!res.ok) {
         const error = await res.json();
-        throw new Error(error.error || 'Erro ao criar proposta');
+        throw new Error(error.error || `Erro ao ${isEditing ? 'atualizar' : 'criar'} proposta`);
       }
 
       const proposta = await res.json();
-      toast({ title: 'Proposta criada!', description: 'Sua proposta foi salva com sucesso.' });
-      resetForm();
+      toast({
+        title: isEditing ? 'Proposta atualizada!' : 'Proposta criada!',
+        description: isEditing
+          ? 'As alterações já estão refletidas no link público.'
+          : 'Sua proposta foi salva com sucesso.',
+      });
+      if (!isEditing) resetForm();
       router.push(`/proposta/${proposta.id}`);
     } catch (error) {
       toast({
-        title: 'Erro ao criar proposta',
+        title: `Erro ao ${isEditing ? 'atualizar' : 'criar'} proposta`,
         description: error instanceof Error ? error.message : 'Tente novamente.',
         variant: 'destructive',
       });
