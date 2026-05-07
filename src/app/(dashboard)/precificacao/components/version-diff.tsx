@@ -3,13 +3,13 @@
 export function VersionDiff({ before, after }: { before: unknown; after: unknown }) {
   const diff = computeDiff(before, after, '');
   if (diff.length === 0) {
-    return <div className="text-sm text-[#71717a]">Sem alterações.</div>;
+    return <div className="text-sm text-[#7A7370]">Sem alterações.</div>;
   }
   return (
     <div className="space-y-1 font-mono text-xs">
       {diff.map((d, i) => (
-        <div key={i} className="grid grid-cols-[1fr_1fr_2fr] gap-2 border-b border-[#e4e4e7] py-1">
-          <code className="text-[#71717a]">{d.path}</code>
+        <div key={i} className="grid grid-cols-[1fr_1fr_2fr] gap-2 border-b border-[#E3E0DD] py-1">
+          <code className="text-[#7A7370]">{d.path}</code>
           <code className="text-red-600">- {JSON.stringify(d.before)}</code>
           <code className="text-green-700">+ {JSON.stringify(d.after)}</code>
         </div>

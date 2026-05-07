@@ -53,10 +53,10 @@ export function ProgressiveTemplateList({
   return (
     <div className="space-y-3">
       {templates.map((t) => (
-        <div key={t.id} className="flex items-center justify-between rounded-md border border-[#e4e4e7] p-3">
+        <div key={t.id} className="flex items-center justify-between rounded-md border border-[#E3E0DD] p-3">
           <div className="text-sm">
-            <div className="font-medium text-[#09090b]">{t.name}</div>
-            <div className="text-xs text-[#71717a]">
+            <div className="font-medium text-[#101010]">{t.name}</div>
+            <div className="text-xs text-[#7A7370]">
               {t.faixas.map((f, i) => (
                 <span key={i}>{i > 0 && ' → '}meses {f.mes_inicio}{f.mes_fim ? `–${f.mes_fim}` : '+'}: R$ {f.valor}</span>
               ))}

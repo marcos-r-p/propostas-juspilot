@@ -52,7 +52,7 @@ export function RoiTab({ table, isAdmin }: { table: PricingTableCurrent; isAdmin
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <div className="space-y-6">
         <Card>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Parâmetros</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Parâmetros</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             <label className="text-sm">Horas/mês
               <Input type="number" value={roi.horas_mensais} disabled={!isAdmin}
@@ -66,7 +66,7 @@ export function RoiTab({ table, isAdmin }: { table: PricingTableCurrent; isAdmin
         </Card>
 
         <Card>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">% atividades IA por perfil (0–1)</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">% atividades IA por perfil (0–1)</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-3">
             {(['boutique', 'misto', 'massa'] as const).map((p) => (
               <label key={p} className="text-sm capitalize">{p}
@@ -82,7 +82,7 @@ export function RoiTab({ table, isAdmin }: { table: PricingTableCurrent; isAdmin
         </Card>
 
         <Card>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Taxa de redução por maturidade IA (0–1)</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Taxa de redução por maturidade IA (0–1)</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-4">
             {(['nunca', 'iniciante', 'intermediario', 'avancado'] as const).map((m) => (
               <label key={m} className="text-sm capitalize">{m}
@@ -103,18 +103,18 @@ export function RoiTab({ table, isAdmin }: { table: PricingTableCurrent; isAdmin
       </div>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Simulação ao vivo</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Simulação ao vivo</h3>
         <div className="mt-3 space-y-2 text-sm">
           <label>Advogados: <Input type="number" value={simAdv} onChange={(e) => setSimAdv(Number(e.target.value))} /></label>
           <label>Valor-hora: <Input type="number" value={simHora} onChange={(e) => setSimHora(Number(e.target.value))} /></label>
           <label>Perfil:
-            <select className="h-9 w-full rounded-md border border-[#e4e4e7] px-2"
+            <select className="h-9 w-full rounded-md border border-[#E3E0DD] px-2"
               value={simPerfil} onChange={(e) => setSimPerfil(e.target.value as typeof simPerfil)}>
               <option value="boutique">Boutique</option><option value="misto">Misto</option><option value="massa">Massa</option>
             </select>
           </label>
           <label>Maturidade:
-            <select className="h-9 w-full rounded-md border border-[#e4e4e7] px-2"
+            <select className="h-9 w-full rounded-md border border-[#E3E0DD] px-2"
               value={simMaturidade} onChange={(e) => setSimMaturidade(e.target.value as typeof simMaturidade)}>
               <option value="nunca">Nunca</option><option value="iniciante">Iniciante</option>
               <option value="intermediario">Intermediário</option><option value="avancado">Avançado</option>

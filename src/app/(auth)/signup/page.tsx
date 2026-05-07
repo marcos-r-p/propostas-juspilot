@@ -18,9 +18,9 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="rounded-xl border border-[#e4e4e7] bg-white p-8">
-      <h2 className="text-center text-lg font-semibold text-[#09090b]">Criar sua conta</h2>
-      <p className="mt-1 text-center text-sm text-[#a1a1aa]">Preencha os dados abaixo</p>
+    <div className="rounded-xl border border-[#E3E0DD] bg-white p-8">
+      <h2 className="text-center text-lg font-semibold text-[#101010]">Criar sua conta</h2>
+      <p className="mt-1 text-center text-sm text-[#7A7370]">Preencha os dados abaixo</p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <Input id="nome" label="Nome" type="text" placeholder="Seu nome completo" value={nome} onChange={(e) => setNome(e.target.value)} required />
@@ -29,9 +29,9 @@ export default function SignUpPage() {
         <Button type="submit" className="w-full" loading={loading}>Criar conta</Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[#71717a]">
+      <p className="mt-6 text-center text-sm text-[#7A7370]">
         Já tem uma conta?{' '}
-        <Link href="/login" className="text-[#09090b] underline underline-offset-2 hover:text-[#3b82f6]">Entrar</Link>
+        <Link href="/login" className="text-[#101010] underline underline-offset-2 hover:text-[#3b82f6]">Entrar</Link>
       </p>
     </div>
   );

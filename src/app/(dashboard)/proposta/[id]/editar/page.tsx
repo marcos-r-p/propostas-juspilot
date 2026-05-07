@@ -56,14 +56,14 @@ export default async function EditarPropostaPage({ params }: Props) {
         <div className={`mx-4 mb-4 rounded-md border p-3 text-sm md:mx-10 ${
           wasViewed
             ? 'border-amber-300 bg-amber-50 text-amber-900'
-            : 'border-[#D97757]/30 bg-[#D97757]/5 text-[#71717a]'
+            : 'border-[#D97757]/30 bg-[#D97757]/5 text-[#7A7370]'
         }`}>
           <div className="flex items-start gap-2">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 9v4M12 17h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
             </svg>
             <div>
-              <strong className="block font-medium text-[#09090b]">
+              <strong className="block font-medium text-[#101010]">
                 Editando proposta {wasViewed ? 'já visualizada pelo cliente' : 'publicada'}
               </strong>
               <span>

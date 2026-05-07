@@ -36,7 +36,7 @@ export function LimitesTab({
   return (
     <div className="space-y-6">
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Limites comerciais</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Limites comerciais</h3>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           <label className="text-sm">Desconto máximo (%)
             <Input type="number" min="0" max="100" value={limites.desconto_maximo_pct} disabled={!isAdmin}
@@ -63,8 +63,8 @@ export function LimitesTab({
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Templates de faixas progressivas</h3>
-        <p className="mt-1 text-xs text-[#71717a]">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Templates de faixas progressivas</h3>
+        <p className="mt-1 text-xs text-[#7A7370]">
           Templates ficam disponíveis no wizard de proposta como atalhos de progressão (ex.: &quot;3+9 meses&quot;).
         </p>
         <div className="mt-4"><ProgressiveTemplateList templates={templates} isAdmin={isAdmin} /></div>

@@ -43,7 +43,7 @@ export function NovaTabelaDialog({
           <Input placeholder="Descrição (opcional)" value={description} onChange={(e) => setDescription(e.target.value)} />
           <label className="block text-sm">
             Copiar valores de:
-            <select className="mt-1 h-9 w-full rounded-md border border-[#e4e4e7] px-2"
+            <select className="mt-1 h-9 w-full rounded-md border border-[#E3E0DD] px-2"
               value={copyFrom} onChange={(e) => setCopyFrom(e.target.value)}>
               {sourceTables.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>

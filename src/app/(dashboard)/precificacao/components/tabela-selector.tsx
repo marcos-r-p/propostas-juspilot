@@ -23,7 +23,7 @@ export function TabelaSelector({
       <select
         value={value ?? ''}
         onChange={(e) => onChange(e.target.value)}
-        className="h-9 rounded-md border border-[#e4e4e7] bg-white px-3 text-sm"
+        className="h-9 rounded-md border border-[#E3E0DD] bg-white px-3 text-sm"
       >
         {tables.map((t) => (
           <option key={t.id} value={t.id}>
@@ -32,7 +32,7 @@ export function TabelaSelector({
         ))}
       </select>
       {selected && (
-        <span className="text-xs text-[#71717a]">
+        <span className="text-xs text-[#7A7370]">
           v{selected.version_number} · {new Date(selected.version_created_at).toLocaleDateString('pt-BR')}
         </span>
       )}

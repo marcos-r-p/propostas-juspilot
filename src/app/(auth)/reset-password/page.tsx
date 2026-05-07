@@ -30,9 +30,9 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="rounded-xl border border-[#e4e4e7] bg-white p-8">
-      <h2 className="text-center text-lg font-semibold text-[#09090b]">Redefinir senha</h2>
-      <p className="mt-1 text-center text-sm text-[#a1a1aa]">Digite sua nova senha abaixo.</p>
+    <div className="rounded-xl border border-[#E3E0DD] bg-white p-8">
+      <h2 className="text-center text-lg font-semibold text-[#101010]">Redefinir senha</h2>
+      <p className="mt-1 text-center text-sm text-[#7A7370]">Digite sua nova senha abaixo.</p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <Input id="password" label="Nova senha" type="password" placeholder="Mínimo 6 caracteres" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />

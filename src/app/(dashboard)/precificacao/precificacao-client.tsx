@@ -25,12 +25,12 @@ export function PrecificacaoClient({ isAdmin, tables, initialSelectedId, initial
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-[#09090b]">Precificação</h1>
+        <h1 className="text-xl font-semibold text-[#101010]">Precificação</h1>
         <TabelaSelector tables={tables} value={selectedId} onChange={setSelectedId} isAdmin={isAdmin} />
       </div>
 
       {!selected ? (
-        <div className="text-sm text-[#71717a]">Nenhuma tabela ativa. {isAdmin && 'Crie uma para começar.'}</div>
+        <div className="text-sm text-[#7A7370]">Nenhuma tabela ativa. {isAdmin && 'Crie uma para começar.'}</div>
       ) : (
         <Tabs defaultValue="modelo">
           <TabsList className="mb-6">

@@ -17,9 +17,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="rounded-xl border border-[#e4e4e7] bg-white p-8">
-      <h2 className="text-center text-lg font-semibold text-[#09090b]">Entrar na sua conta</h2>
-      <p className="mt-1 text-center text-sm text-[#a1a1aa]">Acesso restrito ao time comercial</p>
+    <div className="rounded-xl border border-[#E3E0DD] bg-white p-8">
+      <h2 className="text-center text-lg font-semibold text-[#101010]">Entrar na sua conta</h2>
+      <p className="mt-1 text-center text-sm text-[#7A7370]">Acesso restrito ao time comercial</p>
 
       <Button variant="secondary" className="mt-6 w-full" onClick={signInWithGoogle}>
         <svg width="18" height="18" viewBox="0 0 18 18">
@@ -32,23 +32,23 @@ export default function LoginPage() {
       </Button>
 
       <div className="my-6 flex items-center gap-3">
-        <div className="h-px flex-1 bg-[#e4e4e7]" />
-        <span className="text-xs uppercase tracking-wide text-[#a1a1aa]">ou</span>
-        <div className="h-px flex-1 bg-[#e4e4e7]" />
+        <div className="h-px flex-1 bg-[#E3E0DD]" />
+        <span className="text-xs uppercase tracking-wide text-[#7A7370]">ou</span>
+        <div className="h-px flex-1 bg-[#E3E0DD]" />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input id="email" label="Email" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <Input id="password" label="Senha" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <div className="text-right">
-          <Link href="/forgot-password" className="text-xs text-[#71717a] underline underline-offset-2 hover:text-[#09090b]">Esqueci minha senha</Link>
+          <Link href="/forgot-password" className="text-xs text-[#7A7370] underline underline-offset-2 hover:text-[#101010]">Esqueci minha senha</Link>
         </div>
         <Button type="submit" className="w-full" loading={loading}>Entrar</Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[#71717a]">
+      <p className="mt-6 text-center text-sm text-[#7A7370]">
         Não tem conta?{' '}
-        <Link href="/signup" className="text-[#09090b] underline underline-offset-2 hover:text-[#3b82f6]">Criar conta</Link>
+        <Link href="/signup" className="text-[#101010] underline underline-offset-2 hover:text-[#3b82f6]">Criar conta</Link>
       </p>
     </div>
   );

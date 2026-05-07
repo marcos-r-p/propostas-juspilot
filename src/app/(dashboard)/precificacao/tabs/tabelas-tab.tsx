@@ -46,10 +46,10 @@ export function TabelasTab({ table, isAdmin }: { table: PricingTableCurrent; isA
     <div className="space-y-6">
       <Card>
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Identificação</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Identificação</h3>
           <div className="flex items-center gap-2">
             {table.is_default && <span className="rounded-md border border-[#D97757]/40 bg-[#D97757]/10 px-2 py-0.5 text-xs font-medium text-[#D97757]">Default</span>}
-            {!table.is_active && <span className="rounded-md border border-[#e4e4e7] bg-[#fafafa] px-2 py-0.5 text-xs font-medium text-[#71717a]">Inativa</span>}
+            {!table.is_active && <span className="rounded-md border border-[#E3E0DD] bg-[#fafafa] px-2 py-0.5 text-xs font-medium text-[#7A7370]">Inativa</span>}
           </div>
         </div>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
@@ -73,8 +73,8 @@ export function TabelasTab({ table, isAdmin }: { table: PricingTableCurrent; isA
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#71717a]">Faixas de porte</h3>
-        <p className="mt-1 text-xs text-[#71717a]">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7A7370]">Faixas de porte</h3>
+        <p className="mt-1 text-xs text-[#7A7370]">
           Faixas devem ser contínuas e a última deve ter max=∞. Use o campo &quot;+10 adv.&quot; na última para setar o incremento progressivo.
         </p>
         <div className="mt-3"><FaixasPorteEditor faixas={faixas} onChange={setFaixas} disabled={!isAdmin} /></div>

@@ -26,12 +26,12 @@ export function FaixasPorteEditor({
   return (
     <div className="space-y-2">
       <table className="w-full text-sm">
-        <thead className="text-left text-xs uppercase tracking-wide text-[#71717a]">
+        <thead className="text-left text-xs uppercase tracking-wide text-[#7A7370]">
           <tr><th className="py-2">Min</th><th>Max</th><th>Setup</th><th>Mensalidade</th><th>Usuários</th><th>+10 adv.</th><th></th></tr>
         </thead>
         <tbody>
           {faixas.map((f, i) => (
-            <tr key={i} className="border-t border-[#e4e4e7]">
+            <tr key={i} className="border-t border-[#E3E0DD]">
               <td className="py-2 pr-2"><Input type="number" value={f.min} disabled={disabled}
                 onChange={(e) => update(i, { min: Number(e.target.value) })} /></td>
               <td className="pr-2"><Input type="number" value={f.max ?? ''} placeholder="∞" disabled={disabled}
