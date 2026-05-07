@@ -22,7 +22,7 @@ export function StepDores() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Dores e Desafios</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Dores e Desafios</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Quais problemas o escritório enfrenta hoje?</p>
 
       {suggested.length > 0 && (
@@ -49,10 +49,10 @@ export function StepDores() {
                 className={cn(
                   'flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors',
                   isSelected
-                    ? 'border-[#09090b] bg-[#f4f4f5]'
+                    ? 'border-[#101010] bg-[#F0EDEB]'
                     : isSuggested
                       ? 'border-[#D97757]/30 bg-[#D97757]/5 hover:border-[#D97757]/50'
-                      : 'border-[#e4e4e7] hover:border-[#d4d4d8]'
+                      : 'border-[#E3E0DD] hover:border-[#E3E0DD]'
                 )}
               >
                 <div className="mt-0.5 text-[var(--vt-mute,#a1a1aa)]">
@@ -61,9 +61,9 @@ export function StepDores() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-[#09090b]">{dor.label}</div>
+                  <div className="text-sm font-medium text-[#101010]">{dor.label}</div>
                   <div className="mt-0.5 text-xs text-[#a1a1aa]">
-                    Solução: <span className="font-medium text-[#71717a]">{dor.highlight}</span>
+                    Solução: <span className="font-medium text-[#7A7370]">{dor.highlight}</span>
                   </div>
                 </div>
               </button>
@@ -73,7 +73,7 @@ export function StepDores() {
       </div>
 
       <div className="mt-6">
-        <label className="mb-1.5 block text-sm font-medium text-[#09090b]">
+        <label className="mb-1.5 block text-sm font-medium text-[#101010]">
           Contexto adicional (opcional)
         </label>
         <textarea
@@ -81,7 +81,7 @@ export function StepDores() {
           onChange={(e) => updateField('escritorio_contexto', e.target.value)}
           placeholder="Detalhes relevantes sobre o escritório..."
           rows={3}
-          className="w-full rounded-md border border-[#d4d4d8] bg-white px-3 py-2 text-sm text-[#09090b] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-2 focus:ring-[#09090b] focus:ring-offset-1"
+          className="w-full rounded-md border border-[#E3E0DD] bg-white px-3 py-2 text-sm text-[#101010] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-2 focus:ring-[#101010] focus:ring-offset-1"
         />
       </div>
     </div>

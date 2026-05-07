@@ -99,15 +99,15 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Dados do Escritório</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Dados do Escritório</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Informações básicas sobre o escritório do lead.</p>
 
       <div className="space-y-5">
         {tables.length > 0 && (
-          <label className="block text-sm font-medium text-[#09090b]">
+          <label className="block text-sm font-medium text-[#101010]">
             Tabela comercial
             <select
-              className="mt-1.5 h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-sm text-[#09090b]"
+              className="mt-1.5 h-9 w-full rounded-md border border-[#E3E0DD] bg-white px-2 text-sm text-[#101010]"
               value={pricingTableId ?? ''}
               onChange={(e) => handleChangeTable(e.target.value)}
             >
@@ -154,10 +154,10 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
         />
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-[#09090b]">Valor da hora</label>
+          <label className="mb-1.5 block text-sm font-medium text-[#101010]">Valor da hora</label>
 
           <div className="space-y-2">
-            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#e4e4e7] p-3 hover:border-[#D97757]/40">
+            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#E3E0DD] p-3 hover:border-[#D97757]/40">
               <input
                 type="radio"
                 name="valor_hora_origem"
@@ -166,7 +166,7 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
                 className="mt-1 accent-[#D97757]"
               />
               <div className="flex-1">
-                <div className="text-sm font-medium text-[#09090b]">Informado pelo lead</div>
+                <div className="text-sm font-medium text-[#101010]">Informado pelo lead</div>
                 <div className="text-xs text-[#a1a1aa]">Use quando o cliente disse o valor que cobra por hora</div>
                 {formData.escritorio_valor_hora_informado && (
                   <div className="mt-2 flex items-center gap-2">
@@ -186,7 +186,7 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
               </div>
             </label>
 
-            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#e4e4e7] p-3 hover:border-[#D97757]/40">
+            <label className="flex cursor-pointer items-start gap-2 rounded-md border border-[#E3E0DD] p-3 hover:border-[#D97757]/40">
               <input
                 type="radio"
                 name="valor_hora_origem"
@@ -195,7 +195,7 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
                 className="mt-1 accent-[#D97757]"
               />
               <div className="flex-1">
-                <div className="text-sm font-medium text-[#09090b]">Estimativa de mercado</div>
+                <div className="text-sm font-medium text-[#101010]">Estimativa de mercado</div>
                 <div className="text-xs text-[#a1a1aa]">Usaremos R$ 250/hora — média do mercado jurídico brasileiro</div>
               </div>
             </label>
@@ -226,7 +226,7 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
           {logoError && (
             <div className="mt-2">
               <p className="text-sm text-[#ef4444]">{logoError}</p>
-              <label className="mt-1 inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-[#09090b] hover:underline">
+              <label className="mt-1 inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-[#101010] hover:underline">
                 Fazer upload manual
                 <input
                   type="file"
@@ -240,7 +240,7 @@ export function StepEscritorio({ tables = [] }: StepEscritorioProps = {}) {
 
           {formData.escritorio_logo_url && !logoLoading && (
             <div className="mt-3 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-[#e4e4e7] bg-white p-1">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-[#E3E0DD] bg-white p-1">
                 <img
                   src={formData.escritorio_logo_url}
                   alt="Logo do escritório"

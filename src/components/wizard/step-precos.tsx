@@ -81,7 +81,7 @@ export function StepPrecos() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Precificação</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Precificação</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Configure os valores da proposta.</p>
 
       <div className="mb-6">
@@ -145,11 +145,11 @@ export function StepPrecos() {
       {/* Faixas editor */}
       {formData.usar_preco_faixas && faixas.length > 0 && (
         <div className="mb-6 space-y-3">
-          <label className="block text-sm font-medium text-[#09090b]">Faixas de preço</label>
+          <label className="block text-sm font-medium text-[#101010]">Faixas de preço</label>
           {faixas.map((faixa, index) => {
             const isLast = index === faixas.length - 1;
             return (
-              <div key={index} className="flex items-center gap-2 rounded-lg border border-[#e4e4e7] p-3">
+              <div key={index} className="flex items-center gap-2 rounded-lg border border-[#E3E0DD] p-3">
                 <div className="flex-1">
                   <div className="mb-1 text-xs text-[#a1a1aa]">
                     Mês {faixa.de_mes} {isLast ? 'em diante' : `até ${faixa.ate_mes}`}
@@ -168,7 +168,7 @@ export function StepPrecos() {
                           const lastFaixa = normalized[normalized.length - 1];
                           updateFields({ preco_faixas: normalized, preco_mensalidade: lastFaixa.valor });
                         }}
-                        className="w-16 rounded border border-[#e4e4e7] px-2 py-1 text-sm"
+                        className="w-16 rounded border border-[#E3E0DD] px-2 py-1 text-sm"
                         placeholder="Até mês"
                       />
                     )}
@@ -178,7 +178,7 @@ export function StepPrecos() {
                       min={0}
                       value={faixa.valor}
                       onChange={(e) => updateFaixa(index, 'valor', Number(e.target.value))}
-                      className="w-24 rounded border border-[#e4e4e7] px-2 py-1 text-sm"
+                      className="w-24 rounded border border-[#E3E0DD] px-2 py-1 text-sm"
                     />
                   </div>
                 </div>
@@ -200,7 +200,7 @@ export function StepPrecos() {
             <button
               type="button"
               onClick={addFaixa}
-              className="w-full rounded-lg border border-dashed border-[#d4d4d8] px-3 py-2 text-sm text-[#a1a1aa] hover:border-[#09090b] hover:text-[#09090b] transition-colors"
+              className="w-full rounded-lg border border-dashed border-[#E3E0DD] px-3 py-2 text-sm text-[#a1a1aa] hover:border-[#101010] hover:text-[#101010] transition-colors"
             >
               + Adicionar faixa
             </button>
@@ -224,34 +224,34 @@ export function StepPrecos() {
         )}
       </div>
 
-      <Card className="bg-[#f4f4f5] p-5">
+      <Card className="bg-[#F0EDEB] p-5">
         <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">
           Resumo da proposta
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div className="text-xs text-[#a1a1aa]">Mensalidade final</div>
-            <div className="text-lg font-bold text-[#09090b]">{formatCurrency(roi.mensalidade_final)}/mes</div>
+            <div className="text-lg font-bold text-[#101010]">{formatCurrency(roi.mensalidade_final)}/mes</div>
           </div>
           <div>
             <div className="text-xs text-[#a1a1aa]">ROI estimado</div>
-            <div className="text-lg font-bold text-[#09090b]">{roi.roi_multiplo}x</div>
+            <div className="text-lg font-bold text-[#101010]">{roi.roi_multiplo}x</div>
           </div>
           <div>
             <div className="text-xs text-[#a1a1aa]">Horas economizadas</div>
-            <div className="text-lg font-bold text-[#09090b]">{roi.horas_economizadas_total}h/mes</div>
+            <div className="text-lg font-bold text-[#101010]">{roi.horas_economizadas_total}h/mes</div>
           </div>
           <div>
             <div className="text-xs text-[#a1a1aa]">Valor gerado</div>
-            <div className="text-lg font-bold text-[#09090b]">{formatCurrency(roi.valor_gerado)}/mes</div>
+            <div className="text-lg font-bold text-[#101010]">{formatCurrency(roi.valor_gerado)}/mes</div>
           </div>
           <div>
             <div className="text-xs text-[#a1a1aa]">Custo por advogado</div>
-            <div className="text-lg font-bold text-[#09090b]">{formatCurrency(roi.custo_por_advogado)}/mes</div>
+            <div className="text-lg font-bold text-[#101010]">{formatCurrency(roi.custo_por_advogado)}/mes</div>
           </div>
           <div>
             <div className="text-xs text-[#a1a1aa]">ROI percentual</div>
-            <div className="text-lg font-bold text-[#09090b]">{roi.roi_percentual}%</div>
+            <div className="text-lg font-bold text-[#101010]">{roi.roi_percentual}%</div>
           </div>
         </div>
       </Card>

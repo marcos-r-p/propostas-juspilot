@@ -13,26 +13,26 @@ export function StepPreview() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Revisar Proposta</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Revisar Proposta</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Confira os dados antes de publicar.</p>
 
       <div className="space-y-4">
         <Card>
           <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Lead</div>
           <div className="mt-2 text-sm">
-            <div className="font-medium text-[#09090b]">{formData.lead_nome}</div>
-            <div className="text-[#71717a]">{formData.lead_email} &middot; {formData.lead_telefone}</div>
+            <div className="font-medium text-[#101010]">{formData.lead_nome}</div>
+            <div className="text-[#7A7370]">{formData.lead_email} &middot; {formData.lead_telefone}</div>
           </div>
         </Card>
 
         <Card>
           <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Escritório</div>
           <div className="mt-2 text-sm">
-            <div className="font-medium text-[#09090b]">{formData.escritorio_nome}</div>
-            <div className="text-[#71717a]">
+            <div className="font-medium text-[#101010]">{formData.escritorio_nome}</div>
+            <div className="text-[#7A7370]">
               {formData.escritorio_cidade}&mdash;{formData.escritorio_uf} &middot; {formData.escritorio_qtd_advogados} advogados
             </div>
-            <div className="mt-1 text-[#71717a]">
+            <div className="mt-1 text-[#7A7370]">
               Perfil: {formData.escritorio_perfil} &middot; IA: {formData.escritorio_maturidade_ia}
             </div>
           </div>
@@ -43,7 +43,7 @@ export function StepPreview() {
             <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Dores selecionadas</div>
             <div className="mt-2 space-y-1">
               {dores.map((d) => (
-                <div key={d.id} className="text-sm text-[#71717a]">
+                <div key={d.id} className="text-sm text-[#7A7370]">
                   {d.icon} {d.label}
                 </div>
               ))}
@@ -51,24 +51,24 @@ export function StepPreview() {
           </Card>
         )}
 
-        <Card className="bg-[#f4f4f5]">
+        <Card className="bg-[#F0EDEB]">
           <div className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">Valores</div>
           <div className="mt-2 grid grid-cols-2 gap-3 text-sm">
             <div>
               <span className="text-[#a1a1aa]">Mensalidade:</span>{' '}
-              <span className="font-semibold text-[#09090b]">{formatCurrency(roi.mensalidade_final)}</span>
+              <span className="font-semibold text-[#101010]">{formatCurrency(roi.mensalidade_final)}</span>
             </div>
             <div>
               <span className="text-[#a1a1aa]">ROI:</span>{' '}
-              <span className="font-semibold text-[#09090b]">{roi.roi_multiplo}x</span>
+              <span className="font-semibold text-[#101010]">{roi.roi_multiplo}x</span>
             </div>
             <div>
               <span className="text-[#a1a1aa]">Economia:</span>{' '}
-              <span className="font-semibold text-[#09090b]">{roi.horas_economizadas_total}h/mes</span>
+              <span className="font-semibold text-[#101010]">{roi.horas_economizadas_total}h/mes</span>
             </div>
             <div>
               <span className="text-[#a1a1aa]">Valor gerado:</span>{' '}
-              <span className="font-semibold text-[#09090b]">{formatCurrency(roi.valor_gerado)}/mes</span>
+              <span className="font-semibold text-[#101010]">{formatCurrency(roi.valor_gerado)}/mes</span>
             </div>
           </div>
         </Card>

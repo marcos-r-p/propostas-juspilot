@@ -9,7 +9,7 @@ export function StepLead() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Dados do Lead</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Dados do Lead</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Informacoes do contato no escritorio.</p>
 
       <div className="space-y-5">

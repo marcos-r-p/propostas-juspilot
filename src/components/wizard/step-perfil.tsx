@@ -30,18 +30,18 @@ export function StepPerfil() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Perfil do Escritório</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Perfil do Escritório</h2>
       <p className="mb-6 text-sm text-[#a1a1aa]">Áreas de atuação e tipo de operação.</p>
 
       <div className="mb-8">
-        <label className="mb-3 block text-sm font-medium text-[#09090b]">Áreas de atuação</label>
+        <label className="mb-3 block text-sm font-medium text-[#101010]">Áreas de atuação</label>
         <div className="space-y-1">
           {AREAS_ATUACAO_GROUPED.map((group) => {
             const isExpanded = expandedGroups.has(group.group);
             const selectedCount = getGroupSelectedCount(group);
 
             return (
-              <div key={group.group} className="rounded-lg border border-[#e4e4e7] overflow-hidden">
+              <div key={group.group} className="rounded-lg border border-[#E3E0DD] overflow-hidden">
                 <button
                   type="button"
                   onClick={() => toggleGroup(group.group)}
@@ -57,10 +57,10 @@ export function StepPerfil() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
-                    <span className="text-sm font-medium text-[#09090b]">{group.group}</span>
+                    <span className="text-sm font-medium text-[#101010]">{group.group}</span>
                   </div>
                   {selectedCount > 0 && (
-                    <span className="rounded-full bg-[#09090b] px-2 py-0.5 text-[10px] font-medium text-white">
+                    <span className="rounded-full bg-[#101010] px-2 py-0.5 text-[10px] font-medium text-white">
                       {selectedCount}
                     </span>
                   )}
@@ -84,7 +84,7 @@ export function StepPerfil() {
       </div>
 
       <div>
-        <label className="mb-3 block text-sm font-medium text-[#09090b]">Perfil do escritorio</label>
+        <label className="mb-3 block text-sm font-medium text-[#101010]">Perfil do escritorio</label>
         <div className="space-y-2">
           {PERFIS_ESCRITORIO.map((perfil) => (
             <button
@@ -93,11 +93,11 @@ export function StepPerfil() {
               className={cn(
                 'w-full rounded-lg border p-3 text-left transition-colors',
                 formData.escritorio_perfil === perfil.value
-                  ? 'border-[#09090b] bg-[#f4f4f5]'
-                  : 'border-[#e4e4e7] hover:border-[#d4d4d8]'
+                  ? 'border-[#101010] bg-[#F0EDEB]'
+                  : 'border-[#E3E0DD] hover:border-[#E3E0DD]'
               )}
             >
-              <div className="text-sm font-medium text-[#09090b]">{perfil.label}</div>
+              <div className="text-sm font-medium text-[#101010]">{perfil.label}</div>
               <div className="mt-0.5 text-xs text-[#a1a1aa]">{perfil.description}</div>
             </button>
           ))}

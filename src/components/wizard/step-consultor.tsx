@@ -9,12 +9,12 @@ export function StepConsultor() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-[#09090b]">Consultor Responsável</h2>
+      <h2 className="text-lg font-semibold text-[#101010]">Consultor Responsável</h2>
       <p className="mb-2 text-sm text-[#a1a1aa]">
         Dados do consultor JusPilot que aparecerão na proposta.
       </p>
       {hasPrefilled && (
-        <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-[#D97757]/30 bg-[#D97757]/5 px-3 py-1.5 text-xs text-[#71717a]">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-[#D97757]/30 bg-[#D97757]/5 px-3 py-1.5 text-xs text-[#7A7370]">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
           </svg>

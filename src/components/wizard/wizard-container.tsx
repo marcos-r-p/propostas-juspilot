@@ -219,21 +219,21 @@ export function WizardContainer({
   return (
     <div className="flex min-h-[calc(100vh-48px)] flex-col md:flex-row">
       {/* Mobile step indicator */}
-      <div className="flex items-center gap-1 border-b border-[#e4e4e7] bg-white px-4 py-3 md:hidden">
+      <div className="flex items-center gap-1 border-b border-[#E3E0DD] bg-white px-4 py-3 md:hidden">
         {STEPS.map((step) => (
           <div key={step.id} className="flex flex-1 flex-col items-center">
             <div
               className={`h-1.5 w-full rounded-full transition-colors ${
                 completedSteps.includes(step.id)
-                  ? 'bg-[#09090b]'
+                  ? 'bg-[#101010]'
                   : currentStep === step.id
-                    ? 'bg-[#09090b]'
-                    : 'bg-[#e4e4e7]'
+                    ? 'bg-[#101010]'
+                    : 'bg-[#E3E0DD]'
               }`}
             />
           </div>
         ))}
-        <span className="ml-2 shrink-0 text-xs font-medium text-[#71717a]">
+        <span className="ml-2 shrink-0 text-xs font-medium text-[#7A7370]">
           {currentStep}/{STEPS.length}
         </span>
       </div>
@@ -241,7 +241,7 @@ export function WizardContainer({
         <span className="text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">
           Etapa {currentStep}:
         </span>{' '}
-        <span className="text-xs font-medium text-[#09090b]">{STEPS[currentStep - 1].label}</span>
+        <span className="text-xs font-medium text-[#101010]">{STEPS[currentStep - 1].label}</span>
       </div>
 
       {/* Desktop sidebar */}

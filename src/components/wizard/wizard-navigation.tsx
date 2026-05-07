@@ -23,7 +23,7 @@ export function WizardNavigation({
   const isLastStep = currentStep === totalSteps;
 
   return (
-    <div className="mt-8 flex items-center justify-between border-t border-[#e4e4e7] pt-5">
+    <div className="mt-8 flex items-center justify-between border-t border-[#E3E0DD] pt-5">
       {currentStep > 1 ? (
         <Button variant="secondary" onClick={onBack}>
           ← Voltar

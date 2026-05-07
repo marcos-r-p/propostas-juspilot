@@ -40,7 +40,7 @@ export function WizardSidebar({ currentStep, completedSteps, onStepClick }: Wiza
   }
 
   return (
-    <div className="w-[220px] border-r border-[#e4e4e7] bg-white py-6">
+    <div className="w-[220px] border-r border-[#E3E0DD] bg-white py-6">
       <div className="mb-4 px-5 text-xs font-semibold uppercase tracking-wide text-[#a1a1aa]">
         Etapas
       </div>
@@ -58,25 +58,25 @@ export function WizardSidebar({ currentStep, completedSteps, onStepClick }: Wiza
             disabled={!accessible}
             className={cn(
               'flex w-full items-center gap-3 px-5 py-2 text-left transition-colors',
-              isActive && 'border-r-2 border-[#09090b] bg-[#f4f4f5]',
+              isActive && 'border-r-2 border-[#101010] bg-[#F0EDEB]',
               !accessible && 'opacity-40 cursor-not-allowed',
-              accessible && !isActive && 'hover:bg-[#f4f4f5]'
+              accessible && !isActive && 'hover:bg-[#F0EDEB]'
             )}
           >
             <div
               className={cn(
                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs',
-                isCompleted && 'bg-[#09090b] text-white',
-                isActive && !isCompleted && 'bg-[#09090b] text-white font-semibold',
-                !isActive && !isCompleted && accessible && 'border-[1.5px] border-[#d4d4d8] text-[#a1a1aa]',
-                !accessible && 'border-[1.5px] border-[#e4e4e7] text-[#d4d4d8]'
+                isCompleted && 'bg-[#101010] text-white',
+                isActive && !isCompleted && 'bg-[#101010] text-white font-semibold',
+                !isActive && !isCompleted && accessible && 'border-[1.5px] border-[#E3E0DD] text-[#a1a1aa]',
+                !accessible && 'border-[1.5px] border-[#E3E0DD] text-[#E3E0DD]'
               )}
             >
               {isCompleted ? '\u2713' : step.id}
             </div>
 
             <div className="min-w-0">
-              <div className={cn('text-sm', isActive ? 'font-medium text-[#09090b]' : 'text-[#71717a]')}>
+              <div className={cn('text-sm', isActive ? 'font-medium text-[#101010]' : 'text-[#7A7370]')}>
                 {step.label}
               </div>
               {summary ? (
