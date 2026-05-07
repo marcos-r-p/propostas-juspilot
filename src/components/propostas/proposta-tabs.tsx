@@ -52,9 +52,9 @@ export function PropostaTabs({ counts }: PropostaTabsProps) {
             key={tab.value}
             onClick={() => handleTabClick(tab.value)}
             className={cn(
-              'whitespace-nowrap border-b-2 pb-3 text-body transition-colors',
+              'whitespace-nowrap border-b-2 pb-3 text-[14px] transition-colors',
               isActive
-                ? 'border-ink font-semibold text-ink'
+                ? 'border-brand font-semibold text-ink'
                 : 'border-transparent text-mute hover:text-ink'
             )}
           >
@@ -62,9 +62,9 @@ export function PropostaTabs({ counts }: PropostaTabsProps) {
             {tab.count > 0 && (
               <span
                 className={cn(
-                  'ml-1.5 inline-flex items-center px-1.5 py-px text-caption',
+                  'ml-1.5 inline-flex items-center rounded-sm px-1.5 py-0.5 text-[11px] font-semibold',
                   isActive
-                    ? 'bg-ink text-paper'
+                    ? 'bg-brand-soft text-brand'
                     : 'bg-rule-soft text-mute'
                 )}
               >
