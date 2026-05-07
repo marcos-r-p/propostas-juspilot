@@ -219,12 +219,12 @@ body {
   animation: slide-in-from-bottom-2 0.2s ease-out;
 }
 
-/* ========== Vitrine surface (dark pages) ========== */
+/* ========== Vitrine surface (dark pages, Notion warm ink) ========== */
 .vitrine {
-  --vt-ink: #141414;
-  --vt-ink-soft: #1C1C1C;
+  --vt-ink: #1C1917;
+  --vt-ink-soft: #252220;
   --vt-graphite: #3f3f46;
-  --vt-mute: #71717a;
+  --vt-mute: #7A7370;
   --vt-whisper: #a1a1aa;
   --vt-paper: #fafafa;
   --vt-brand: #D97757;
